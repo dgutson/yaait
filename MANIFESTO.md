@@ -30,8 +30,10 @@ Nobody experiences this as "technical debt." They experience it in this order:
 - **Technical bankruptcy.** Servicing costs more than the team can produce. Nothing is left
   but rewrite or abandon, and a rewrite of code nobody understood is a guess.
 
-The honeymoon ends without a signal. Experienced developers on large codebases have been
-measured at **19% slower** with these tools while estimating they were 20% faster.
+None of this is visible from inside. Experienced developers on large codebases, measured at
+**19% slower** with these tools, estimated afterwards that they had been 20% faster.
+Self-assessment of AI-assisted productivity does not merely have error bars — it has the wrong
+sign, which is why the schedule above runs to completion without anyone raising an alarm.
 
 These are business costs, and the need underneath them is **the ability to keep changing the
 product at a predictable cost.** Elegance is not a goal here. The goal is that **the tenth
@@ -44,7 +46,7 @@ was ruinous: buy design up front, commit to it. Agile answered the inversion —
 design speculative: stop buying design, let structure emerge. Both were rational responses to
 their own cost structures.
 
-Both denominators have collapsed. A specification takes minutes. An architecture can be
+Both of those costs have now collapsed. A specification takes minutes. An architecture can be
 regenerated on demand. **Only understanding is still expensive**, and it is the one input that
 cannot be generated.
 
@@ -67,11 +69,17 @@ formatted, commented, tested against its own misunderstanding, and indistinguish
 right work by inspection. Looking at it is no longer enough.
 
 So the gate is on the person: not "do you understand this?" but a question with a checkable
-answer that exists in the artifact. That is why yaait is six gates and not a linter.
+answer that exists in the artifact.
+
+There are six, one for each artifact that can be wrong: **spec** — what to build; **design** —
+how it is structured; **tech** — what it is built on; **code** — each increment, including the
+code you are about to modify; **stest** — whether it does what the spec said; **debt** — what
+the accepted compromises have cost so far. Each produces a file, and each ends by asking the
+human something they can only answer if they understood what was produced.
 
 ## Values
 
-We value the things on the right. We refuse to let them stand in for the things on the left.
+We value the things on the left. We refuse to let the things on the right stand in for them.
 
 - **Defensible artifacts** over *delivered* artifacts
 - **Demonstrated understanding** over *claimed* familiarity
@@ -89,8 +97,10 @@ about a decision you did not personally make. Silence is the only unacceptable a
 
 **3. Undefended is allowed. Undefended and unrecorded is not.** Ship what you do not
 understand when the deadline is real — in writing, naming exactly what is undefended. A
-method that pretends every approval was informed is lying; one that logs the gap tells you
-where the next fire will start.
+method that pretends every approval was informed is lying. But the log is not an archive:
+code that goes undefended across several increments is promoted to structural debt carrying a
+named repayment cost, because a record nobody reads is cheaper than the work it stands in for,
+and anything cheaper than the work replaces it.
 
 **4. Ignorance is a state, not a verdict.** The engineer who does not know is one conversation
 from the engineer who does. The engineer who *pretends* to know is unreachable. So asking is
@@ -147,6 +157,11 @@ Nothing else is accountability. Everything else is attribution.
 **Not free.** It costs you this week and pays back by the tenth change. It will make some
 things slower on purpose, and the parts it slows down are the parts where being fast was never
 the point. If there will be no tenth change, do not pay.
+
+**Not measured.** Every number here is about the problem. None is about the method, because
+yaait has not yet been run at scale. A method whose seventh principle is *say what you did not
+do* has to declare that first, and what it costs per increment is the first thing to measure
+rather than the first thing to claim.
 
 **Not for everything.** Throwaway scripts, spikes, notebooks, code with a known deletion date
 — use none of this. A method that claims to apply everywhere is selling something.

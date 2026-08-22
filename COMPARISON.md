@@ -11,8 +11,8 @@ Code accepted without being understood is the fastest technical-debt generator e
 and it compounds: each unread change makes the next one harder to read, so the next one is
 likelier to go unread too. Stopping that is what yaait is for. Why no existing method stops
 it is a matter of arithmetic. Waterfall optimized for a world where rework was ruinous;
-Agile optimized for a world where design was speculative; both denominators have collapsed,
-because design, code, and rework are all now cheap. The only expensive input left is human
+Agile optimized for a world where design was speculative; both of those costs have now
+collapsed, because design, code, and rework are all cheap. The only expensive input left is human
 understanding — which cannot be generated, only built. So yaait is what you get when you
 take waterfall's **gates**, drop
 waterfall's **commitments**, keep Agile's **iteration**, drop Agile's **assumption that
