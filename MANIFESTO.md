@@ -1,6 +1,11 @@
 # The yaait Manifesto
 
-**Yet Another AI Thing.** Yes — another one. Here is the claim that is not in the others:
+**Yet Another AI Thing.** Yes — another one.
+
+This one is written for the developer who is about to be told to go faster, and who needs a
+reason that survives the conversation. Hand it to whoever is asking, afterwards.
+
+Here is the claim that is not in the others:
 
 > **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
 
@@ -8,17 +13,24 @@ Code accepted without being understood is the fastest debt generator ever built,
 compounds. Every change nobody read makes the surrounding code harder to read, so the next
 change is likelier to go unread too. That is a feedback loop, not a backlog.
 
-The counts are in. Across 623 million commits: duplication **+81%**, error-masking **+47%**,
-refactoring **−70%**. Borrowing accelerated an order of magnitude while servicing collapsed
-by seventy percent — the industry now duplicates more code than it refactors *inside the same
-commit*. The trade press calls the output slop. The accounting term is unpayable debt.
+This is measured, not asserted. Across hundreds of millions of commits, borrowing has
+accelerated by an order of magnitude while servicing has collapsed: duplication up,
+refactoring down, error-masking up. The industry now duplicates more code than it refactors
+*inside the same commit*. The trade press calls the output slop. The accounting term is
+unpayable debt. [COMPARISON.md](COMPARISON.md) has the numbers and the sources.
 
-## What the bill looks like
+## The schedule
 
 Nobody experiences this as "technical debt." They experience it in this order:
 
+- **The honeymoon, and it is real.** The first weeks are genuinely faster. That is the trap
+  rather than the exception: you are rewarded immediately for accepting code you did not
+  read, so the habit is established long before the cost shows up. Nobody adopts a practice
+  that hurts on day one — the reward is what spreads it.
 - **Deceleration.** Each change takes longer than the last. The debt is not in a corner you
-  can route around — you carry the bag of rocks on every change you make.
+  can route around; you carry the bag of rocks on every change you make. A credit card at
+  least tells you the rate. This does not, so nobody can work out whether the borrowing was
+  a good trade — which makes unpriced debt worse than priced debt, not better.
 - **Defects reaching customers.** The same problem, landing outside the building: whoever
   accepted the change could not know what it would break, so they did not know they had.
 - **Estimates stop meaning anything.** First they double. Then nobody can say when anything
@@ -26,9 +38,14 @@ Nobody experiences this as "technical debt." They experience it in this order:
 - **Technical bankruptcy.** Servicing costs more than the team can produce. Nothing is left
   but rewrite or abandon, and a rewrite of code nobody understood is a guess.
 
-This is not a complaint about code quality. It is a line item in what the company earns and
-spends. Elegance is not a goal here. The goal is that **the tenth change costs roughly what
-the first one did.**
+The dangerous part is how the honeymoon ends: quietly. Experienced developers working on
+large codebases have been measured at **19% slower** with these tools while believing they
+were 20% faster. The speedup reverses and nobody feels it reverse.
+
+This is not a complaint about code quality. It is a line item in what the business earns and
+spends, and the need underneath it is plain: **the ability to keep changing the product at a
+predictable cost.** Elegance is not a goal here. The goal is that **the tenth change costs
+roughly what the first one did.**
 
 ## Why now
 
@@ -36,14 +53,17 @@ Every methodology is arithmetic. Waterfall answered a world where design was che
 was ruinous: buy design up front, commit to it. Agile answered the inversion — rework cheap,
 design speculative: stop buying design, let structure emerge. Neither was ideology.
 
-Both denominators have now collapsed. Design is cheap. Code is cheap. Rework is cheap.
-**Only understanding is still expensive**, and it is the one input that cannot be generated.
+Both denominators have now collapsed. A specification takes minutes. An architecture can be
+regenerated on demand. A rewrite is an afternoon. **Only understanding is still expensive**,
+and it is the one input that cannot be generated.
 
 What broke is a sentence nobody wrote down: **writing code used to be how you came to
 understand it.** Authorship implied comprehension by construction — you could not type a line
 without having thought it. Emergent design, "the code is the documentation" and collective
-ownership by osmosis all leaned on that, and none of them said so. The link is severed; those
-practices still run, still pass their ceremonies, and no longer do the thing they were for.
+ownership by osmosis all leaned on that, and none of them ever said so, which is exactly why
+nobody defended it. The link is now severed. Code exists in production that no human ever
+understood — not when it was written, not since — while every one of those practices still
+runs and still passes its ceremony.
 
 ## The mechanism
 
@@ -52,10 +72,12 @@ that fails when comprehension is absent.
 
 Not a gate on the artifact. The artifact looks fine — that is the entire problem. Wrong work
 used to *look* wrong: incomplete, uncompiled, visibly a draft. Wrong work now arrives
-finished, formatted, commented, and tested against its own misunderstanding.
+finished, formatted, commented, tested against its own misunderstanding, and indistinguishable
+from right work by inspection. Every gate in yaait exists because looking at it is no longer
+enough.
 
-So the gate is on the person: a question about this code that you can only answer if you
-understand it. That is why yaait is six gates and not a linter.
+So the gate is on the person: not "do you understand this?" but a question with a checkable
+answer that exists in the artifact. That is why yaait is six gates and not a linter.
 
 ## Values
 
@@ -69,29 +91,58 @@ We value the things on the right. We refuse to let them stand in for the things 
 
 ## Principles
 
-**1. Nothing ships that nobody understands.** Working software is the *evidence*, not the
-deliverable. Software that works for reasons nobody can state was not delivered — it was
-borrowed.
+**1. Understanding is the deliverable; working software is only the evidence.** Software that
+works for reasons nobody can state was not delivered — it was borrowed.
 
-**2. Undefended is allowed. Undefended and unrecorded is not.** Ship what you do not
-understand when the deadline is real — in writing, naming exactly what is undefended.
+**2. Defending is not reciting.** It means answering a question you were not prepared for,
+about a decision you did not personally make. Silence is the only unacceptable answer.
 
-**3. Ignorance is a state, not a verdict.** So the machine must arm you, not only challenge
-you. A challenge you cannot answer is not a review; it is an oracle.
+**3. Undefended is allowed. Undefended and unrecorded is not.** Ship what you do not
+understand when the deadline is real — in writing, naming exactly what is undefended. A
+method that pretends every approval was informed is lying; one that logs the gap tells you
+where the next fire will start.
 
-**4. The machine argues back only when it can name the failure mode, who it hurts and what it
-costs.** Otherwise it agrees in one sentence. Contrarianism on command is sycophancy with the
-sign flipped.
+**4. Ignorance is a state, not a verdict.** The engineer who does not know is one conversation
+from the engineer who does. The engineer who *pretends* to know is unreachable. So asking is
+free here, and admitting you do not know a term is never remembered against you.
 
-**5. Nothing is decided in a conversation.** What was decided, rejected, approved without
-being understood, and *not done* goes on disk, or it did not happen.
+**5. The machine's job is to arm you, not only to challenge you.** It teaches the concept it
+just used, on demand, without being asked twice and without making you feel small for needing
+it. A challenge you cannot answer is not a review; it is an oracle.
 
-**6. Simplicity is a declared number, not an aspiration.** Every abstraction past it is
-justified by a second concrete thing that needs it — or by a dated debt it contains, and
-nothing else.
+**6. The machine argues back only when it can name the failure mode, who it hurts and what it
+costs.** Otherwise it agrees in one sentence and moves on. An assistant that agrees with you
+is an expensive way to be wrong in private — and contrarianism on command is sycophancy with
+the sign flipped.
 
-**7. The multiplier acts on judgment.** Applied to zero it returns zero, at volume. An
-organization that stops making seniors is eating its seed corn.
+**7. Nothing is decided in a conversation.** Conversations evaporate. What was decided, what
+was rejected, what was approved without being understood, and what was *not done* all go on
+disk, or they did not happen. An honest boundary around the work is part of the work.
+
+**8. The document never outranks the world.** Rework is cheap now, so an artifact contradicted
+by reality gets fixed rather than defended. Nor does the code silently win, which is how
+design documents become lies.
+
+**9. Simplicity is a declared number, not an aspiration.** "Keep it simple" is advice nobody
+has ever been held to. Every abstraction past the number is justified by naming a second
+concrete thing that needs it — because an LLM will hand you nine classes for a three-class
+problem and make every one of them sound necessary.
+
+**10. Debt is allowed. Hidden debt is not, and smeared debt is not.** Put the deliberate
+shortcut behind a boundary — one function, one class, one module — so repayment has a known
+edge. A litter box works because the mess has an edge, not because the cat improved. Debt
+smeared across forty call sites has no edge, so its repayment cost is unbounded, which is a
+longer way of saying it will never be repaid. This is the one abstraction that needs no second
+variant: its justification is a dated intention to replace the first.
+
+**11. The multiplier acts on judgment.** A knowledgeable engineer with an LLM beats one
+without. An unknowledgeable engineer with an LLM beats nobody — expensively, and at volume.
+
+**12. The machine does not replace the junior. It is how the junior becomes a senior.** An
+organization that stops hiring juniors because a model produces their output stops producing
+seniors, and seniors are the only people who can judge whether the model's output is any good.
+That is eating the seed corn on a five-year clock — which makes teaching the highest-return
+use of the tool rather than a courtesy extended to beginners.
 
 ## The accountability clause
 
@@ -103,11 +154,12 @@ Nothing else is accountability. Everything else is attribution.
 
 ## What yaait is not
 
-**Not free.** It costs this week and pays back by the tenth change. No tenth change, no
-reason to pay.
+**Not free.** It costs you this week and pays back by the tenth change. It will make some
+things slower on purpose, and the parts it slows down are the parts where being fast was never
+the point. If there will be no tenth change, do not pay.
 
-**Not for everything.** Throwaway scripts, spikes, notebooks, code with a deletion date — use
-none of it. A method that claims to apply everywhere is selling something.
+**Not for everything.** Throwaway scripts, spikes, notebooks, code with a known deletion date
+— use none of this. A method that claims to apply everywhere is selling something.
 
 **Not a way to avoid learning.** Its central mechanism is a question you cannot bluff.
 

@@ -19,8 +19,9 @@ does — or a record saying you could not.
 ## The short version
 
 **The problem:** code is accepted faster than anyone can understand it, and every unread
-change makes the next one harder to read. Across 623 million commits, borrowing accelerated
-an order of magnitude while servicing fell 70%.
+change makes the next one harder to read. Measured across hundreds of millions of commits,
+borrowing has accelerated an order of magnitude while servicing has collapsed — the numbers
+and sources are in [COMPARISON.md](COMPARISON.md).
 
 **Why no existing method catches it:** design used to be expensive, so Waterfall bought it
 up front and committed to it. Then
