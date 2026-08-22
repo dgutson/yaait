@@ -4,13 +4,17 @@
 
 ## The claim
 
+Everybody has already noticed: an LLM is the ultimate technical-debt reactor. This document
+does not argue that point. It proposes what to do about it.
+
 **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
 
-Accept without understanding and you add slop on top of slop. It compounds: every change
-nobody read makes the surrounding code harder to read, so the next change is likelier to go
-unread too. Borrowing accelerates while servicing stops.
+Accept without understanding and you add slop on top of slop. Every change nobody read makes
+the surrounding code harder to read, so the next change is likelier to go unread too. That is
+the chain reaction, and nothing in current practice damps it: borrowing accelerates while
+servicing stops.
 
-Nobody experiences that as technical debt. They experience it in this order:
+The bill arrives in this order:
 
 - **The honeymoon.** The first weeks are faster, which is what installs the habit.
 - **Deceleration.** Each change costs more than the last.
@@ -57,6 +61,10 @@ We value the things on the left. We refuse to let the things on the right stand 
 The human whose name is on the commit must be able to defend it under questioning.
 
 Or the record must say they could not.
+
+How the code was generated changes nothing about this. It is the same accountability the
+author carries into peer review — yaait does not replace that review, it makes the person
+arriving at it able to answer.
 
 Nothing else is accountability. Everything else is attribution.
 

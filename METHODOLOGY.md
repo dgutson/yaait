@@ -26,6 +26,11 @@ understood what was produced.
 `spec` → `design` → `tech` → `code`, once per increment, then `stest`, then `debt`. Re-enterable
 at any point, because the reconcile rule (§4) can send you back to any earlier artifact.
 
+yaait governs one relationship: the one between the human and the machine that generated the
+code. It stops where normal engineering practice takes over. Peer review, CI, QA and release
+are unchanged by it and are not replaced by it — what changes is that the person arriving at
+review can answer for what they are presenting, however it was produced.
+
 `design` is recommended by `spec` against stated criteria. `tech` is invocable at any point.
 `stest` becomes answerable once the last increment from `DESIGN.md` is complete. `debt` is
 triggered from `code` and `stest`, and is also invocable directly for the questions managers
