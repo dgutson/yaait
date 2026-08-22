@@ -1,80 +1,70 @@
 # The yaait Manifesto
 
-**Yet Another AI Thing.** Yes — another one.
-
-This one is written for the developer who is about to be told to go faster, and who needs a
-reason that survives the conversation. Hand it to whoever is asking, afterwards.
-
-Here is the claim that is not in the others:
+*Yet Another AI Thing.*
 
 > **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
+>
+> **Accept without understanding and you add slop on top of slop, until the codebase carries
+> a debt load no team can repay.**
 
-Code accepted without being understood is the fastest debt generator ever built, and it
-compounds. Every change nobody read makes the surrounding code harder to read, so the next
-change is likelier to go unread too. That is a feedback loop, not a backlog.
-
-This is measured, not asserted. Across hundreds of millions of commits, borrowing has
-accelerated by an order of magnitude while servicing has collapsed: duplication up,
-refactoring down, error-masking up. The industry now duplicates more code than it refactors
-*inside the same commit*. The trade press calls the output slop. The accounting term is
-unpayable debt. [COMPARISON.md](COMPARISON.md) has the numbers and the sources.
+Slop compounds. Every change nobody read makes the surrounding code harder to read, so the
+next change is likelier to go unread too. Borrowing accelerates by an order of magnitude while
+servicing collapses: across hundreds of millions of commits, duplication is up, refactoring is
+down, error-masking is up, and the industry now duplicates more code than it refactors inside
+the same commit. [COMPARISON.md](COMPARISON.md) has the numbers and the sources.
 
 ## The schedule
 
 Nobody experiences this as "technical debt." They experience it in this order:
 
-- **The honeymoon, and it is real.** The first weeks are genuinely faster. That is the trap
-  rather than the exception: you are rewarded immediately for accepting code you did not
-  read, so the habit is established long before the cost shows up. Nobody adopts a practice
-  that hurts on day one — the reward is what spreads it.
+- **The honeymoon.** The first weeks are faster. You are rewarded immediately for accepting
+  code you did not read, so the habit sets before the cost appears, and a practice that pays
+  on day one spreads without anyone deciding to adopt it.
 - **Deceleration.** Each change takes longer than the last. The debt is not in a corner you
-  can route around; you carry the bag of rocks on every change you make. A credit card at
-  least tells you the rate. This does not, so nobody can work out whether the borrowing was
-  a good trade — which makes unpriced debt worse than priced debt, not better.
-- **Defects reaching customers.** The same problem, landing outside the building: whoever
+  can route around; you carry it on every change you make. A credit card tells you its rate.
+  This does not, so nobody can work out whether the borrowing was a good trade.
+- **Defects reaching customers.** The same failure, landing outside the building: whoever
   accepted the change could not know what it would break, so they did not know they had.
 - **Estimates stop meaning anything.** First they double. Then nobody can say when anything
   will be done — the point management notices, usually as "the team got worse."
 - **Technical bankruptcy.** Servicing costs more than the team can produce. Nothing is left
   but rewrite or abandon, and a rewrite of code nobody understood is a guess.
 
-The dangerous part is how the honeymoon ends: quietly. Experienced developers working on
-large codebases have been measured at **19% slower** with these tools while believing they
-were 20% faster. The speedup reverses and nobody feels it reverse.
+The honeymoon ends without a signal. Experienced developers on large codebases have been
+measured at **19% slower** with these tools while estimating they were 20% faster.
 
-This is not a complaint about code quality. It is a line item in what the business earns and
-spends, and the need underneath it is plain: **the ability to keep changing the product at a
-predictable cost.** Elegance is not a goal here. The goal is that **the tenth change costs
-roughly what the first one did.**
+These are business costs, and the need underneath them is **the ability to keep changing the
+product at a predictable cost.** Elegance is not a goal here. The goal is that **the tenth
+change costs roughly what the first one did.**
 
 ## Why now
 
 Every methodology is arithmetic. Waterfall answered a world where design was cheap and rework
 was ruinous: buy design up front, commit to it. Agile answered the inversion — rework cheap,
-design speculative: stop buying design, let structure emerge. Neither was ideology.
+design speculative: stop buying design, let structure emerge. Both were rational responses to
+their own cost structures.
 
-Both denominators have now collapsed. A specification takes minutes. An architecture can be
-regenerated on demand. A rewrite is an afternoon. **Only understanding is still expensive**,
-and it is the one input that cannot be generated.
+Both denominators have collapsed. A specification takes minutes. An architecture can be
+regenerated on demand. **Only understanding is still expensive**, and it is the one input that
+cannot be generated.
 
 What broke is a sentence nobody wrote down: **writing code used to be how you came to
 understand it.** Authorship implied comprehension by construction — you could not type a line
 without having thought it. Emergent design, "the code is the documentation" and collective
-ownership by osmosis all leaned on that, and none of them ever said so, which is exactly why
-nobody defended it. The link is now severed. Code exists in production that no human ever
-understood — not when it was written, not since — while every one of those practices still
-runs and still passes its ceremony.
+ownership by osmosis all leaned on that without stating it, so nobody defended it. The link is
+now severed. Code exists in production that no human ever understood — not when it was
+written, not since — and every one of those practices still runs and still passes its
+ceremony.
 
 ## The mechanism
 
 If the cause is code accepted without comprehension, the only thing that stops it is a gate
 that fails when comprehension is absent.
 
-Not a gate on the artifact. The artifact looks fine — that is the entire problem. Wrong work
-used to *look* wrong: incomplete, uncompiled, visibly a draft. Wrong work now arrives
-finished, formatted, commented, tested against its own misunderstanding, and indistinguishable
-from right work by inspection. Every gate in yaait exists because looking at it is no longer
-enough.
+Not a gate on the artifact. The artifact looks fine — that is the problem. Wrong work used to
+look wrong: incomplete, uncompiled, visibly a draft. Wrong work now arrives finished,
+formatted, commented, tested against its own misunderstanding, and indistinguishable from
+right work by inspection. Looking at it is no longer enough.
 
 So the gate is on the person: not "do you understand this?" but a question with a checkable
 answer that exists in the artifact. That is why yaait is six gates and not a linter.
@@ -131,9 +121,9 @@ problem and make every one of them sound necessary.
 **10. Debt is allowed. Hidden debt is not, and smeared debt is not.** Put the deliberate
 shortcut behind a boundary — one function, one class, one module — so repayment has a known
 edge. A litter box works because the mess has an edge, not because the cat improved. Debt
-smeared across forty call sites has no edge, so its repayment cost is unbounded, which is a
-longer way of saying it will never be repaid. This is the one abstraction that needs no second
-variant: its justification is a dated intention to replace the first.
+smeared across forty call sites has no edge, so its repayment cost is unbounded and it will
+never be repaid. This is the one abstraction that needs no second variant: its justification
+is a dated intention to replace the first.
 
 **11. The multiplier acts on judgment.** A knowledgeable engineer with an LLM beats one
 without. An unknowledgeable engineer with an LLM beats nobody — expensively, and at volume.
@@ -141,8 +131,8 @@ without. An unknowledgeable engineer with an LLM beats nobody — expensively, a
 **12. The machine does not replace the junior. It is how the junior becomes a senior.** An
 organization that stops hiring juniors because a model produces their output stops producing
 seniors, and seniors are the only people who can judge whether the model's output is any good.
-That is eating the seed corn on a five-year clock — which makes teaching the highest-return
-use of the tool rather than a courtesy extended to beginners.
+That is eating the seed corn on a five-year clock, which makes teaching the highest-return use
+of the tool.
 
 ## The accountability clause
 
