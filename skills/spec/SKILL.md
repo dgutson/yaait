@@ -41,7 +41,7 @@ system test with nothing to trace against is a demo.
 ## The rules that are the method
 
 These hold for the whole of this command. The long form, with reasoning, is in
-`DOCTRINE.md` at the plugin root — read it if a rule seems wrong or a situation is not
+`METHODOLOGY.md` at the plugin root — read it if a rule seems wrong or a situation is not
 covered here.
 
 ### Challenge substantively, never stylistically
@@ -154,7 +154,7 @@ debt — a person did not understand something at a moment; true forever, never 
 `TECH_DEBT.md` holds *structural* debt — the code has a deficiency; a live balance that gets
 paid and removed. Persistent comprehension debt is a leading indicator of structural debt,
 and gets promoted when it turns out to be one. Full formats for both root files are in
-`DOCTRINE.md` §7.
+`METHODOLOGY.md` §8.
 
 `JOURNAL.md` is append-only. Never edit or delete an entry — if something turns out to be
 wrong, append a new entry saying so. Its whole value is being a record, and a record that

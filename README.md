@@ -14,7 +14,7 @@ does — or a record saying you could not.
 - **[MANIFESTO.md](MANIFESTO.md)** — what yaait claims, in one page.
 - **[COMPARISON.md](COMPARISON.md)** — how it differs from Waterfall, Agile, Scrum and
   spec-driven development, and the evidence for the claims.
-- **[DOCTRINE.md](DOCTRINE.md)** — the two mechanisms that make it work, in full.
+- **[METHODOLOGY.md](METHODOLOGY.md)** — the six gates, and the rules that govern them.
 
 ## The short version
 

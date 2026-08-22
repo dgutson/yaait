@@ -1,15 +1,46 @@
-# yaait doctrine
+# The yaait methodology
 
-The six commands are where the work happens. This file is the work. Every skill carries a
-compact copy of the operative rules inline; this is the long form, with the reasoning, for
-when a rule seems wrong or a situation is not covered.
+Six gates and the rules that govern them. Every skill carries a compact copy of the operative
+rules inline; this is the long form, with the reasoning, for when a rule seems wrong or a
+situation is not covered.
 
-Read [MANIFESTO.md](MANIFESTO.md) for why any of this exists and
-[COMPARISON.md](COMPARISON.md) for the evidence.
+[MANIFESTO.md](MANIFESTO.md) is the position this serves. [COMPARISON.md](COMPARISON.md) is
+the argument and the evidence.
 
 ---
 
-## 1. The discussion protocol
+## 1. The six gates, in order
+
+Each gate produces a file and ends by asking the human a question they can only answer if they
+understood what was produced.
+
+| Gate | The question it settles | What it produces |
+|---|---|---|
+| `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md` |
+| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md` |
+| `tech` | What is it built on, and what is the exit cost of each choice? | `.yaait/TECH.md` |
+| `code` | Does this increment work, and can you defend the code it changes? | source and tests |
+| `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested |
+| `debt` | What have the accepted compromises actually cost? | an analysis of `TECH_DEBT.md` |
+
+`spec` → `design` → `tech` → `code`, once per increment, then `stest`, then `debt`. Re-enterable
+at any point, because the reconcile rule (§4) can send you back to any earlier artifact.
+
+`design` is recommended by `spec` against stated criteria. `tech` is invocable at any point.
+`stest` becomes answerable once the last increment from `DESIGN.md` is complete. `debt` is
+triggered from `code` and `stest`, and is also invocable directly for the questions managers
+ask. Nothing here is mandatory except honesty about which gates were skipped.
+
+### This has not been measured
+
+Every number in `COMPARISON.md` is about the problem. None is about the method: yaait has not
+been run at scale, so its cost per increment is unknown. A method that requires you to say what
+you did not do has to declare that before anything else. What it costs is the first thing to
+measure, not the first thing to claim.
+
+---
+
+## 2. The discussion protocol
 
 ### The trap this is written to avoid
 
@@ -80,7 +111,7 @@ actually wrote.
 
 ---
 
-## 2. The defense
+## 3. The defense
 
 ### What it is
 
@@ -207,7 +238,7 @@ the actionable thing, and stop.
 
 ---
 
-## 3. The reconcile rule
+## 4. The reconcile rule
 
 **When reality contradicts an upstream artifact, stop and reconcile before continuing.**
 
@@ -236,7 +267,7 @@ resort, not a shortcut.
 
 ---
 
-## 4. The litter box — containing debt you choose
+## 5. The litter box — containing debt you choose
 
 Shipping a known compromise is legitimate and frequently correct. Two conditions turn it from
 a loss into a managed debt, and this section is the second one.
@@ -271,7 +302,7 @@ in `TECH_DEBT.md`. That is a named event in the sense §4 requires. The abstract
 justified, and it expires when the debt is paid — at which point, if the boundary now has one
 implementation and no outstanding debt behind it, §4 applies again and the boundary should go.
 
-## 5. The research obligation
+## 6. The research obligation
 
 Some decisions cannot be settled by argument. Which algorithm is faster on this data, whether
 this library handles this load, whether this file format survives the size you expect — those
@@ -312,7 +343,7 @@ Every `EXPERIMENTS.md` result is therefore labelled **`measured`** or **`predict
 `predicted` verdict is not an experiment; it is a hypothesis that has not been run yet, and
 saying so is the whole point of the label.
 
-## 6. The three kinds of TTB
+## 7. The three kinds of TTB
 
 A TTB is one of three things, and several commands behave differently depending on which.
 Establish it in `yaait:spec` and record it at the top of `SPEC.md`.
@@ -330,7 +361,7 @@ The distinction is not bureaucracy. It is the difference between yaait being a g
 methodology — which would make it useless for most working software — and one that bites on
 the code you already have.
 
-## 7. The artifacts
+## 8. The artifacts
 
 Method artifacts live in `.yaait/`. Two artifacts live in the **project root** instead,
 because they are things a team reads on their own account rather than machinery of the method
@@ -478,7 +509,7 @@ is what makes the record honest enough to be useful six months later.
 
 ---
 
-## 8. Constraints are not decisions
+## 9. Constraints are not decisions
 
 Throughout, keep these apart:
 

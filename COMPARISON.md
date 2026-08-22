@@ -36,6 +36,38 @@ a method that will not name its own is not being honest with you.
 
 ---
 
+## What the failure costs
+
+The manifesto states this progression in five lines. Here is the argument behind it.
+
+**The honeymoon is the mechanism, not an exception to it.** The first weeks with a competent
+generator are faster. That is what installs the habit: you are rewarded immediately for
+accepting code you did not read, and a practice that pays on day one spreads without anyone
+deciding to adopt it. Nothing that hurts from the start propagates this quickly.
+
+**Deceleration is not experienced as debt.** Each change costs more than the last, and the cost
+is not confined to a corner you can route around — you pay it on every change that touches the
+same code, which is the only kind of change that ever happens, because the code that matters is
+the code people keep touching. A credit card at least discloses its rate. This does not, so
+nobody can work out whether the borrowing was a good trade, which makes unpriced debt harder to
+manage than priced debt rather than easier.
+
+**Defects reach customers through the same mechanism, not a second one.** Whoever accepted the
+change could not know what it would break, so they did not know they had broken it. The
+comprehension failure and the field defect are one event observed at two different times.
+
+**Estimates then stop meaning anything.** First they double; then nobody can say when anything
+will be done. That is the point management notices, and it is noticed as "the team got worse"
+rather than as a debt balance.
+
+**The terminal state is technical bankruptcy**: servicing costs more than the team can produce,
+and the only remaining moves are rewrite or abandon. A rewrite of code nobody understood is a
+guess.
+
+**None of it is visible from inside** — see *The perception gap* under The evidence, below.
+
+---
+
 ## vs. Waterfall
 
 ### First, the correction
@@ -263,7 +295,9 @@ over a million lines. With AI tools they were **19% slower**. Afterwards they es
 they had been **20% faster**. They expected 24% before starting, and revised *down* only
 to 20% after living through the slowdown.
 
-The number is not the point. The *direction of the error* is the point: the practitioners
+The sample is small and its authors cautioned against generalizing from it, so treat the
+magnitude as indicative rather than settled. The number is not the point. The *direction of the
+error* is the point: the practitioners
 closest to the work, with the most experience, could not perceive a 19% regression from the
 inside. Self-assessment of AI-assisted productivity is not merely noisy — it has the wrong
 sign. Every methodology that relies on developers noticing when things are going badly
