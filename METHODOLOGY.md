@@ -11,17 +11,30 @@ the argument and the evidence.
 
 ## 1. The six gates, in order
 
-Each gate produces a file and ends by asking the human a question they can only answer if they
-understood what was produced.
+Each gate produces something durable and ends by asking the human a question they can only
+answer if they understood what was produced.
 
-| Gate | The question it settles | What it produces |
+| Gate | The question it settles | What it writes |
 |---|---|---|
-| `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md` |
-| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md` |
+| `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md`, and a rules block appended to the project's `CLAUDE.md` |
+| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a class diagram and a sequence diagram, plus a state diagram whenever anything has a lifecycle |
 | `tech` | What is it built on, and what is the exit cost of each choice? | `.yaait/TECH.md` |
-| `code` | Does this increment work, and can you defend the code it changes? | source and tests |
-| `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested |
-| `debt` | What have the accepted compromises actually cost? | an analysis of `TECH_DEBT.md` |
+| `code` | Does this increment work, and can you defend the code it changes? | source and tests; a `TECH_DEBT.md` receipt or a new item when the increment meets or takes on debt; a `ROADMAP.md` item when a feature is harder because of debt already there |
+| `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested and **who observed what** |
+| `debt` | What have the accepted compromises actually cost? | an analysis; a `ROADMAP.md` item when debt has recurred enough to be a product problem |
+
+**Every gate appends to `.yaait/JOURNAL.md`** — `DECISION`, `APPROVAL`, `DEBT` and `CHALLENGE`
+entries. That append-only record, rather than any single document, is what a session actually
+leaves behind, and `stest`'s verdict lands there too.
+
+Two writes land outside `.yaait/`. `spec` appends a rules block to the project's `CLAUDE.md`,
+creating the file if absent, so later sessions honour the reconcile rule even when no yaait
+command is invoked — and it must say so out loud, because a file that shapes every future
+session should never be a silent side effect. `code`, `stest` and `debt` all write
+`TECH_DEBT.md` at the project root.
+
+`spec`, `design` and `tech` also write `EXPERIMENTS.md` whenever a decision was settled by
+measurement rather than by argument (§6).
 
 `spec` → `design` → `tech` → `code`, once per increment, then `stest`, then `debt`. Re-enterable
 at any point, because the reconcile rule (§4) can send you back to any earlier artifact.

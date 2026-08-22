@@ -296,6 +296,14 @@ directions are legitimate: sometimes the code must conform, sometimes `DESIGN.md
 and gets rewritten. What is never legitimate is building the thing that works and leaving
 the design describing the thing that does not.
 
+**The diagrams are part of the document.** When you rewrite `DESIGN.md`, update its mermaid
+class, sequence and state diagrams to match. A diagram that no longer describes the code is a
+contradiction, not a cosmetic lag, and it is the one most likely to be skipped: editing a
+sentence is cheap and redrawing a diagram is work. It is also the most damaging kind of drift,
+because a diagram is the most authoritative-looking artifact in `.yaait/` and the first thing
+a new reader trusts. If a transition disappeared from the state machine, delete it from the
+state diagram in the same edit.
+
 Watch specifically for **sedimentary interface** here, because increment-by-increment work
 is what produces it: if this increment's natural move is to add one more optional parameter
 or one more special case to an existing signature, stop. No single addition is unreasonable;
