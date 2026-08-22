@@ -1,0 +1,15 @@
+{
+  "name": "yaait-marketplace",
+  "description": "Marketplace hosting the yaait plugin.",
+  "owner": {
+    "name": "Daniel Gutson",
+    "url": "https://github.com/dgutson"
+  },
+  "plugins": [
+    {
+      "name": "yaait",
+      "source": ".",
+      "description": "Yet Another AI Thing — a development methodology for building software with an LLM where you stay accountable: the LLM argues with you, teaches you enough to argue back, and every artifact must be defended or logged as undefended."
+    }
+  ]
+}

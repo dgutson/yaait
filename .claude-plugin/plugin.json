@@ -1,0 +1,22 @@
+{
+  "name": "yaait",
+  "description": "A discussion-centric development methodology in five commands \u2014 spec, design, tech, code, stest \u2014 where the LLM challenges you instead of agreeing, teaches you what you need to challenge it back, and refuses to let an artifact pass until you can defend it or the record says you couldn't.",
+  "version": "0.2.1",
+  "author": {
+    "name": "Daniel Gutson"
+  },
+  "homepage": "https://github.com/dgutson/yaait",
+  "repository": "https://github.com/dgutson/yaait",
+  "license": "MIT",
+  "keywords": [
+    "methodology",
+    "accountability",
+    "design",
+    "review",
+    "antipatterns",
+    "technical-debt",
+    "spec",
+    "discussion",
+    "sycophancy"
+  ]
+}
