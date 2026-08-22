@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-008
+Next ID: R-011
 
 ---
 
@@ -34,7 +34,7 @@ Next ID: R-008
 - **Outcome:** `review.md` §5 is replaced by settled criteria, the PROVISIONAL banner is
   removed, and any consequent change to `design/references/smells.md` or to `design`'s
   budget rule is made in the same pass.
-- **Blocked-by:** —
+- **Blocked-by:** R-008
 - **Enables:** R-002
 
 ### R-002 — Dogfood yaait on a real TTB and record where it was skipped
@@ -79,7 +79,8 @@ Next ID: R-008
   conceptually with the existing `sherlock` skill, which is forensic device investigation, so
   consider `:survey` or `:audit`. Must decide how it scopes (whole repo is too much for one
   pass), how it avoids producing 200 unactionable items, and how it marks findings as
-  `Deliberate? No` and `containment: spread` honestly.
+  `Deliberate? No` and `containment: spread` honestly. Likely shares an input with the code
+  map recommended in `METHODOLOGY.md` §7 — check before building a second code reader.
 - **Why:** `TECH_DEBT.md` currently only fills up as someone happens to touch code, so
   adopting yaait on an existing codebase starts from an empty debt file that implies there is
   no debt. That is the opposite of true and it is the most misleading possible starting state.
@@ -103,6 +104,58 @@ Next ID: R-008
   invisible without an explicit check even though the data is already in `JOURNAL.md`.
 - **Outcome:** Repeated teaching of one concept is surfaced as a signal, with a suggestion
   that it be learned properly outside the flow.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-008 — A `/yaait:guideline` command and CODING_GUIDELINE.md
+
+- **Category:** Commands
+- **What:** A command that surveys the existing code and whatever `CLAUDE.md` already says,
+  then surveys the **user**, and writes `CODING_GUIDELINE.md`. It settles house style: the
+  rows of `skills/code/references/aposd-vs-clean-code.md` where both stances survive both
+  filters — contemporary practice *and* generated code — plus baseline items that need
+  deciding once (duplication and DRY; information leakage, e.g. a helper used by exactly one
+  class belonging inside it). Like `yaait:code`, it asks rather than decides, and leaves an
+  explanation space when the user does not know. The methodology rule requiring a settled
+  guideline before the first `yaait:code` lands **in this same pass**, so no doctrine rule
+  points at a command that does not exist.
+- **Why:** both authors in the Clean Code debate are assertive where the honest answer is "it
+  depends", and neither accounts for a senior's judgement or for project context. yaait
+  should not resolve that by replacing two doctrines with a third: the person accountable for
+  the codebase is the person who should pick, and yaait already has the machinery for asking
+  and teaching. This is also what makes `yaait:code` usable in a codebase whose team already
+  follows a house style — R-001's Q5.
+- **Guard:** only rows where **both** stances survive the generated-code filter defer to the
+  guideline. Rows where one side clearly loses — One Thing as a review test, method ordering
+  as a defense, interface comments, deep versus shallow — stay settled in `review.md`.
+  Without that line the guideline becomes a dump for everything `review.md` declined to
+  answer, which relocates the vagueness instead of removing it and asks the user to decide at
+  the moment they are least equipped.
+- **Outcome:** the command exists, `CODING_GUIDELINE.md` has a documented format, and the
+  methodology requires one before the first increment. Note this makes yaait **seven**
+  commands, so the same pass updates `plugin.json`, `marketplace.json`, `CLAUDE.md`,
+  `METHODOLOGY.md` §1's title and `README.md`.
+- **Blocked-by:** —
+- **Enables:** R-001
+
+### R-009 — Apply REVIEW.md's findings to MANIFESTO.md
+
+- **Category:** Doctrine
+- **What:** `REVIEW.md` records 11 findings against `MANIFESTO.md` — five HARD, where both
+  propositions cannot hold — plus a ranked table of places the document oversells. None of it
+  has been applied. Work Part A first, then Part B; Part C lists the suspicions that did not
+  survive checking and needs no action.
+- **Why:** the manifesto is the document `README.md` advertises as "what yaait claims, in one
+  page", so it is the version that gets linked and quoted alone. Its own audit found that the
+  accountability clause's escape hatch is unreachable (A1), that Principle 8 is false as
+  written (A2) and that Principle 4 is violated by construction (A3). A front door that
+  contradicts itself is worse than a plain one.
+- **Outcome:** every Part A finding is either applied or answered in writing, and the two
+  changes the audit names as cheapest-and-highest-value are done: restore the one-line "not
+  measured" declaration lost in commit `e35654f`, and add a fourth defense outcome —
+  *attempted and wrong* → `DEBT`, not `APPROVAL`. Consequent edits reach `METHODOLOGY.md`
+  §3, the shared rules block in all six skills, and `COMPARISON.md`'s "defended vs.
+  undefended" line.
 - **Blocked-by:** —
 - **Enables:** —
 
@@ -136,4 +189,21 @@ Next ID: R-008
   A methodology nobody invokes is not a methodology.
 - **Outcome:** Descriptions replaced by measured ones, with the before/after scores recorded.
 - **Blocked-by:** R-002
+- **Enables:** —
+
+### R-010 — A refactoring-patterns reference file
+
+- **Category:** Doctrine
+- **What:** The catalogue behind `METHODOLOGY.md` §7's rule that refactors are expressed as
+  named refactorings, and behind `yaait:design` Step 4c. Same shape and altitude as
+  `design/references/smells.md`: each entry names the refactoring, what shape it applies to,
+  and — the part that carries the weight — the **behaviour-preservation contract** it
+  guarantees, so that naming one is a claim the tests can check.
+- **Why:** the rule ships without it, because the catalogue is common knowledge and the rule
+  is actionable on its own. But "prefer a named refactoring" with no pinned vocabulary drifts
+  into invented names, and an invented name carries no contract, which is exactly the
+  property the rule exists to buy.
+- **Outcome:** a reference file both `design` and `code` can read on demand. Must **not**
+  settle how far to extract — that belongs to R-008's guideline.
+- **Blocked-by:** —
 - **Enables:** —
