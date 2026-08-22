@@ -9,10 +9,12 @@ does not argue that point. It proposes what to do about it.
 
 **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
 
-Accept without understanding and you add slop on top of slop. Every change nobody read makes
-the surrounding code harder to read, so the next change is likelier to go unread too. That is
-the chain reaction, and nothing in current practice damps it: borrowing accelerates while
-servicing stops.
+Accept without understanding and you add slop on top of slop. Nobody can say what a change to
+that code will break, so it breaks in front of customers; nobody can restructure it safely, so
+it resists every change after this one. That is the debt. And it compounds: each unread change
+makes the surrounding code harder to read, so the next one is likelier to go unread too.
+Nothing in current practice damps that reaction — borrowing accelerates while servicing
+stops.
 
 The bill arrives in this order:
 
@@ -22,8 +24,23 @@ The bill arrives in this order:
 - **Estimates die.** First they double, then they stop meaning anything.
 - **Bankruptcy.** Servicing costs more than the team can produce. Rewrite or abandon.
 
-None of this is about code quality. What is at stake is the business: the price of every
-change you have not made yet, and the defects that reach your customers while you make them.
+None of this is about code quality. For the business, what is at stake is the price of every
+change you have not made yet and the defects that reach customers while you make them. For
+you, it is whether you are the judgment the machine multiplies or the output it replaces.
+
+## Why a human at all
+
+Automated development loops are here to stay, and nothing here argues against them. The
+question is whether such a loop can close on itself.
+
+It cannot, because the objective is not in the codebase. What the customer needs, what
+"correct" means for this business, which trade-off is acceptable this quarter — none of that
+is recoverable from the code, so a loop reasoning only from the code can be entirely
+consistent and entirely wrong. A generator checked by another generator inherits the
+misunderstanding, because both are missing the same thing.
+
+The human is not there to type; that race is over. They are there to hold the objective, and
+to be the person who accepted the cost.
 
 ## What we value
 
@@ -39,7 +56,9 @@ We value the things on the left. We refuse to let the things on the right stand 
 
 1. **The reason is business, not craft.** Elegance is not a goal here. Debt matters because
    the system costs more to change every month and fails more often in front of the customer.
-2. **Understanding is the deliverable.** Working software is the evidence.
+2. **Understanding is how the debt is prevented.** Code nobody understood cannot be changed
+   safely, so every future change pays for the comprehension nobody did. Working software
+   nobody can account for is not delivery, it is borrowing.
 3. **Defending is not reciting.** It is answering a question you were not prepared for.
 4. **Undefended is allowed. Undefended and unrecorded is not.**
 5. **Ignorance is a state, not a verdict.** Not knowing is one conversation from knowing.
