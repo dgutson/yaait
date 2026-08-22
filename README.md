@@ -18,14 +18,14 @@ does — or a record saying you could not.
 
 ## The short version
 
-**The problem:** code is accepted faster than anyone can understand it, and every unread
-change makes the next one harder to read. Measured across hundreds of millions of commits,
-borrowing has accelerated an order of magnitude while servicing has collapsed — the numbers
-and sources are in [COMPARISON.md](COMPARISON.md).
+**The problem:** an unattended LLM is a technical-debt reactor. Code is accepted faster than
+anyone can understand it, and every unread change makes the next one harder to read. Measured
+across hundreds of millions of commits, borrowing has accelerated an order of magnitude while
+servicing has collapsed — the numbers and sources are in [COMPARISON.md](COMPARISON.md).
 
-**Why no existing method catches it:** design used to be expensive, so Waterfall bought it
-up front and committed to it. Then
-rework got cheap, so Agile stopped buying design and let structure emerge. Now design, code
+**Why no existing method catches it:** design used to be expensive, so Waterfall bought it up
+front and committed to it. Then rework got cheap, so Agile stopped buying design and let
+structure emerge. Now design, code
 *and* rework are all cheap — and **only understanding is still expensive.** yaait is built
 around the one scarce input.
 
@@ -95,7 +95,8 @@ better than any cost estimate does.
 decisions. Logging what you did not understand — and the arguments the LLM lost — is what
 makes the record honest enough to be useful in six months.
 
-`/yaait:spec` also installs a short doctrine block in your project's `CLAUDE.md`, so later
+`/yaait:spec` also installs a short block of yaait's operating rules in your project's
+`CLAUDE.md`, so later
 sessions honour the reconcile rule and know not to let `SPEC.md` rot even when no yaait
 command is invoked.
 
@@ -147,8 +148,10 @@ Use it for code that will be maintained, extended, or blamed.
 
 ## Status
 
-Early. `skills/code/references/review.md` is explicitly **provisional** pending a discussion
-of Clean Code — see `ROADMAP.md`.
+Early, and **unmeasured**: every number in `COMPARISON.md` is about the problem, none about
+the method. yaait has not been run at scale, so its cost per increment is unknown — see
+[METHODOLOGY.md](METHODOLOGY.md) §1. `skills/code/references/review.md` is explicitly
+**provisional** pending a discussion of Clean Code — see `ROADMAP.md`.
 
 ## License
 

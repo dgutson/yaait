@@ -371,7 +371,7 @@ current: the superseded async pattern, the deprecated config format, the packagi
 the ecosystem moved off, the class-based API where the library now recommends functions.
 
 *Tell:* you are confident and did not check. State the confidence type — this is exactly
-the case the doctrine's confidence labelling exists for.
+the case the confidence labelling in `METHODOLOGY.md` §2 exists for.
 
 ### Sedimentary interface
 The failure mode of increment-by-increment work, which is how `yaait:code` operates, so

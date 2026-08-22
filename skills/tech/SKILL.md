@@ -235,7 +235,7 @@ For every dependency you are about to name:
    interface is now functions.
 4. **Note the deprecations** that affect the way you were about to use it.
 
-Then **label what you did**, per the doctrine's confidence rule, using exactly these words
+Then **label what you did**, per the confidence rule in `METHODOLOGY.md` §2, using exactly these words
 so the user can scan for the weak ones:
 
 - `verified` — I checked the current documentation or registry in this session.

@@ -367,7 +367,7 @@ outcome; claiming to have reviewed without saying what you looked for is not.
 
 ## Step 6 — Run the defense
 
-3–5 snippets from this increment. Select by the doctrine's criteria, and remember the third
+3–5 snippets from this increment. Select by the criteria in `METHODOLOGY.md` §3, and remember the third
 one is the important one: pick the code that **looks fine**. Anything visibly hairy already
 attracts scrutiny.
 

@@ -120,7 +120,7 @@ Next ID: R-008
   whole method runs on. If this test fails, the discussion protocol is theater and every
   command inherits it. It is the highest-value test in the repo and it is not covered by any
   structural check.
-- **Outcome:** A recorded pass, or a revision to the doctrine block in all five skills.
+- **Outcome:** A recorded pass, or a revision to the shared rules block in all six skills.
 - **Blocked-by:** R-002
 - **Enables:** —
 

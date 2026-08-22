@@ -7,8 +7,8 @@ This is the argument.
 
 ## The one-paragraph version
 
-Code accepted without being understood is the fastest technical-debt generator ever built,
-and it compounds: each unread change makes the next one harder to read, so the next one is
+An unattended LLM is a technical-debt reactor. Code accepted without being understood
+compounds: each unread change makes the surrounding code harder to read, so the next one is
 likelier to go unread too. Stopping that is what yaait is for. Why no existing method stops
 it is a matter of arithmetic. Waterfall optimized for a world where rework was ruinous;
 Agile optimized for a world where design was speculative; both of those costs have now
