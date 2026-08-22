@@ -4,8 +4,8 @@
 
 ## The claim
 
-Everybody has already noticed: an LLM is the ultimate technical-debt reactor. This document
-does not argue that point. It proposes what to do about it.
+An unattended LLM is a technical-debt reactor. The argument for that is in
+[COMPARISON.md](COMPARISON.md); this document is about what to do instead.
 
 **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
 
@@ -42,17 +42,7 @@ misunderstanding, because both are missing the same thing.
 The human is not there to type; that race is over. They are there to hold the objective, and
 to be the person who accepted the cost.
 
-## What we value
-
-We value the things on the left. We refuse to let the things on the right stand in for them.
-
-- **Defensible artifacts** over *delivered* artifacts
-- **Demonstrated understanding** over *claimed* familiarity
-- **Recorded disagreement** over *smooth* agreement
-- **Cheap gates** over *committed* plans
-- **Named assumptions** over *plausible* completeness
-
-## What we hold
+## Principles
 
 1. **The reason is business, not craft.** Elegance is not a goal here. Debt matters because
    the system costs more to change every month and fails more often in front of the customer.
