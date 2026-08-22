@@ -41,7 +41,7 @@ explaining what an already-installed older copy would get wrong (see commit `0fe
 **Three doctrine layers at the root, each with a distinct job.** Do not blur them:
 
 - `MANIFESTO.md` — the position. Claims and principles, no procedure.
-- `METHODOLOGY.md` — the long-form rules, numbered `§1`–`§9`. This is the single source of
+- `METHODOLOGY.md` — the long-form rules, numbered `§1`–`§10`. This is the single source of
   truth; every skill carries a compacted copy of the parts it needs and cites this file for
   the reasoning.
 - `COMPARISON.md` — the argument and the evidence, including every number yaait quotes.

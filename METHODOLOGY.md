@@ -379,6 +379,67 @@ The distinction is not bureaucracy. It is the difference between yaait being a g
 methodology — which would make it useless for most working software — and one that bites on
 the code you already have.
 
+### Fix and Feature need a map before they need a spec
+
+A New TTB starts from nothing, so the only thing to understand is what you are about to
+write. Fix and Feature start from code somebody else wrote, and the spec is only as good as
+your account of what is already there.
+
+Before eliciting requirements for a Fix or Feature, consider generating a **code map** with a
+program-understanding tool — `graphify`, `codebase-memory`, `serena`, `greptile`,
+`sourcegraph`, or anything else that emits a structural account of a codebase. This is
+optional and the method does not depend on it. What it must produce is a map that can be
+**regenerated on demand** and that **carries the date it was generated**.
+
+Kept next to `CLAUDE.md` or `AGENTS.md`, that map is the durable form of what *Clean Code*
+calls shared team memory. Clean Code's version was a claim about people — a tight-knit team
+that collectively holds the system in mind — and it does not survive turnover, or six months.
+A generated, dated, regenerable artifact does; and when the team is one person and a model,
+it is the only version of that memory available.
+
+The date is the rule, not decoration. An undated map is the failure §4 names: it misleads
+with authority, and a drifted map is worse than no map because the reader who trusts it stops
+looking. Regenerate it rather than editing it, and do not trust it past its date.
+
+### Impact analysis is a design product
+
+For a Fix or Feature, what else the change reaches is a design question, and the answer is a
+section of `DESIGN.md` that `yaait:code` ingests like any other design output. It is not a
+step inside `yaait:code`: by the time the change is being written, the answer can no longer
+alter the approach, which is the only thing it was for.
+
+A design phase is not always warranted — `yaait:spec` applies criteria for that. For a
+single-module Fix that reaches nothing outside the module it lives in, the module *is* the
+blast radius and the comprehension gate already covers it. What triggers a design phase on
+maintenance work is the change reaching outside its module.
+
+Without it, "what does this do today" is unanswerable, so the defense degrades into a
+formality — which is precisely the state that lets "I do not understand this, I will add a
+flag" through the gate.
+
+### Refactors are expressed as named refactorings
+
+`yaait:design` already selects design patterns and explains them. Refactoring gets the same
+treatment, split across two gates:
+
+- **`yaait:design`** names the refactorings that get from the current shape to the target
+  shape, and tells the user what each one does — asking, and teaching where the user does not
+  know, on the same terms as any other design decision.
+- **`yaait:code`** applies them one at a time, saying which refactoring each step is. Its
+  review asks whether the diff is a recognisable named refactoring or an ad-hoc rewrite.
+
+This is not a requirement to follow the catalogue by the book. Prefer a named refactoring
+where one fits, name it, and say plainly when you are deliberately not using one. A balanced
+application is the point; coverage of the vocabulary is not.
+
+The reason it is worth a rule: a named refactoring carries a behaviour-preservation contract
+and an ad-hoc rewrite carries none. An unnamed rewrite mixes structural and behavioural
+change in one diff, and afterwards nobody can say which of the two broke the test — or that
+behaviour changed at all.
+
+How far to extract is not settled here, and must not be. That is the open agenda in
+`skills/code/references/review.md` §5.
+
 ## 8. The artifacts
 
 Method artifacts live in `.yaait/`. Two artifacts live in the **project root** instead,
@@ -541,3 +602,21 @@ for saying when one is doing real damage — but not for having chosen them.
 Conflating the two inflates the record with things nobody can defend because nobody decided
 them, and it hides the handful of choices that actually matter inside a wall of
 inevitabilities.
+
+## 10. One change at a time
+
+One TTB, one branch, one change in flight. Branch or die.
+
+The artifacts in `.yaait/` carry no identifiers — there is one `SPEC.md`, not `SPEC-014.md`.
+That is what the branch buys. A branch holds exactly one TTB, so the spec never has to say
+which TTB it is the spec for, and nothing has to be namespaced to keep two of them apart.
+
+Two specs coexisting in one branch make the reconcile rule (§4) undecidable. That rule turns
+on the document disagreeing with the world, and with two documents in scope there is no fact
+of the matter about which one the code answers to — any disagreement can be resolved by
+pointing at the other spec, so nothing is ever reconciled and both documents drift.
+
+Finish the TTB or abandon it before starting another. Abandoning is a legitimate outcome and
+costs only the branch. A second TTB started on top of an unfinished one costs the record: from
+that point no `JOURNAL.md` entry can be attributed to one of them, which is the one thing the
+journal exists to make possible.

@@ -143,6 +143,11 @@ team reads them on their own account, rather than being machinery of the method:
     └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, challenges
 ```
 
+**One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
+one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
+starting another. Two specs in one branch make the reconcile rule undecidable, and from that
+point no `JOURNAL.md` entry can be attributed to either of them. `METHODOLOGY.md` §10.
+
 **Two kinds of debt, and they do not overlap.** A `JOURNAL.md` `DEBT` entry is *comprehension*
 debt — a person did not understand something at a moment; true forever, never resolved.
 `TECH_DEBT.md` holds *structural* debt — the code has a deficiency; a live balance that gets
@@ -267,6 +272,13 @@ entirely of them.
 You are unusually good at producing that change, convincingly, at speed. So the gate goes
 before the edit, not after.
 
+**Start from the impact analysis** if `DESIGN.md` has one — for a Fix or Feature it does, and
+it already names what this change touches, what depends on it and what the behaviour there is
+today. Ask about those boundaries rather than rediscovering them, and if the recorded
+behaviour disagrees with the code, that is the reconcile rule firing, not a detail to patch
+around. If there is no impact analysis and the increment reaches outside its own module, say
+so — the design phase was skipped on a judgement that has now turned out to be wrong.
+
 How to run it, keeping it cheap:
 
 - Ask about the **specific** thing you are about to change, not the whole file. One question
@@ -321,6 +333,16 @@ Two things to write down as you go, because they are the input to Step 6:
 
 - Every place you made a judgment call the design did not dictate.
 - Every place you were tempted to abstract and did not, or did.
+
+**Name the refactoring you are applying.** If `DESIGN.md` named refactorings for this
+increment, apply them one at a time and say which one each step is — Extract Function, Move
+Method, Inline Function, and the rest. Where you are deliberately not using a named
+refactoring, say that too.
+
+The point is not vocabulary. A named refactoring carries a behaviour-preservation contract, so
+naming it is a claim the tests can check; an ad-hoc rewrite mixes structural and behavioural
+change in one diff and afterwards nobody can say which of the two broke the test. Do not
+combine a refactoring with a behaviour change in the same step.
 
 ### If this increment takes on debt, box it
 

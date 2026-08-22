@@ -149,6 +149,11 @@ team reads them on their own account, rather than being machinery of the method:
     └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, challenges
 ```
 
+**One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
+one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
+starting another. Two specs in one branch make the reconcile rule undecidable, and from that
+point no `JOURNAL.md` entry can be attributed to either of them. `METHODOLOGY.md` §10.
+
 **Two kinds of debt, and they do not overlap.** A `JOURNAL.md` `DEBT` entry is *comprehension*
 debt — a person did not understand something at a moment; true forever, never resolved.
 `TECH_DEBT.md` holds *structural* debt — the code has a deficiency; a live balance that gets
@@ -232,6 +237,24 @@ For a **fix**, two extra questions belong here and nowhere else: *what is the ob
 behaviour* (not the suspected cause — those get confused constantly, and a spec built on a
 suspected cause will faithfully fix the wrong thing), and *what should happen instead*. The
 acceptance criterion for a fix is a test that fails today.
+
+## Step 1b — For a Fix or Feature, offer a code map
+
+Skip this for a **New** TTB. For a Fix or Feature, ask whether the user wrote this code and
+whether they still hold it in mind. If either answer is no, offer to generate a **code map**
+with a program-understanding tool before eliciting requirements — `graphify`,
+`codebase-memory`, `serena`, `greptile`, `sourcegraph`, or whatever the project already uses.
+
+This is optional and the command proceeds without it. What matters is that the map can be
+**regenerated on demand** and **carries its generation date**: an undated map misleads with
+authority, and a drifted one is worse than none. Kept beside `CLAUDE.md` or `AGENTS.md`, it is
+the durable form of shared team memory — `METHODOLOGY.md` §7.
+
+Record in `SPEC.md` whether a map was used and the date it was generated.
+
+Without this, a maintenance spec is written against a guess about what the code does today,
+and every requirement inherits the guess — including the acceptance criteria, which is where
+it gets expensive.
 
 ## Step 2 — Tag every requirement
 
@@ -361,6 +384,7 @@ never written loses the entire conversation.
 
 Format: 1
 Kind: new | fix | feature
+Code map: none | <tool>, generated YYYY-MM-DD
 Next ID: S-007
 
 ## What this is
@@ -463,7 +487,9 @@ vibes, and say which criterion fired:
 - a state machine, or anything where "what state is it in" is a real question;
 - concurrency, async, or shared mutable state;
 - a persisted format or a wire protocol — anything with a compatibility future;
-- more than one plausible decomposition, where picking wrong is expensive to undo.
+- more than one plausible decomposition, where picking wrong is expensive to undo;
+- the TTB is a **Fix** or **Feature** whose change reaches outside the module it lives in
+  — the impact analysis is the design work, and it belongs in `DESIGN.md`.
 
 **Recommend against `yaait:design`** for a single-module TTB with no persistence and an
 obvious decomposition. Say so plainly. Recommending a design phase for a 200-line script is

@@ -147,6 +147,11 @@ team reads them on their own account, rather than being machinery of the method:
     └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, challenges
 ```
 
+**One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
+one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
+starting another. Two specs in one branch make the reconcile rule undecidable, and from that
+point no `JOURNAL.md` entry can be attributed to either of them. `METHODOLOGY.md` §10.
+
 **Two kinds of debt, and they do not overlap.** A `JOURNAL.md` `DEBT` entry is *comprehension*
 debt — a person did not understand something at a moment; true forever, never resolved.
 `TECH_DEBT.md` holds *structural* debt — the code has a deficiency; a live balance that gets

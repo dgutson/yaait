@@ -151,6 +151,11 @@ team reads them on their own account, rather than being machinery of the method:
     └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, challenges
 ```
 
+**One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
+one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
+starting another. Two specs in one branch make the reconcile rule undecidable, and from that
+point no `JOURNAL.md` entry can be attributed to either of them. `METHODOLOGY.md` §10.
+
 **Two kinds of debt, and they do not overlap.** A `JOURNAL.md` `DEBT` entry is *comprehension*
 debt — a person did not understand something at a moment; true forever, never resolved.
 `TECH_DEBT.md` holds *structural* debt — the code has a deficiency; a live balance that gets
@@ -222,6 +227,30 @@ something the user can hold you to.
 Set the budget from the spec, not from what feels professional. Count the requirements,
 count the genuinely distinct responsibilities, and be suspicious of any number larger than
 that count.
+
+## Step 1a — For a Fix or Feature: the impact analysis
+
+Skip for a **New** TTB. For a Fix or Feature the first design product is not the components —
+it is the answer to *what does this change reach*. It belongs in `DESIGN.md` and `yaait:code`
+ingests it. It is not a step inside `yaait:code`: by the time the change is being written, the
+answer can no longer alter the approach, which is the only thing it was for.
+
+State, for the change this TTB proposes:
+
+- **What it touches** — the modules, files and functions that change.
+- **What depends on those** — callers, subclasses, tests, persisted formats, anything reading
+  the same data. Search for them; do not recall them.
+- **What the current behaviour is** at each of those boundaries, one line each. This is what
+  makes the comprehension gate answerable on code the user did not write.
+- **What is out of reach** — what this change provably cannot affect, and why. Naming the
+  boundary is what makes the analysis reviewable instead of a list.
+
+If the code map recorded in `SPEC.md` is absent or past its date, say so here rather than
+proceeding on a guess.
+
+Without this, "what does this do today" has no recorded answer, so the defense in Step 8
+degrades into a formality — which is the state in which "I do not understand this, I will add
+a flag" passes the gate.
 
 ## Step 2 — Components and responsibilities
 
@@ -336,6 +365,29 @@ intention to replace the first**, recorded in `TECH_DEBT.md` — which is a name
 sense Step 4 requires. When the debt is paid, the exemption expires: if the boundary then has
 one implementation and nothing behind it, Step 4 applies again and it should go.
 
+## Step 4c — Refactorings: name them here
+
+When the TTB changes the shape of code that already exists, name the refactorings that get
+from the current shape to the target shape — Extract Function, Move Method, Replace
+Conditional with Polymorphism, Introduce Parameter Object, Inline Function, and the rest of
+the catalogue. `yaait:code` applies them one at a time and says which one it is applying.
+
+Tell the user what each named refactoring does, and teach it where they do not know it, on the
+same terms as any other design decision. That is the point of naming one rather than
+describing a diff.
+
+This is not a requirement to follow the catalogue by the book. Prefer a named refactoring
+where one fits, name it, and say plainly when you are deliberately not using one. A balanced
+application is the point; coverage of the vocabulary is not.
+
+The reason it is worth stating: a named refactoring carries a behaviour-preservation contract
+and an ad-hoc rewrite carries none. An unnamed rewrite mixes structural and behavioural change
+in one diff, and afterwards nobody can say which of the two broke the test — or that behaviour
+changed at all.
+
+How far to extract is not settled here, and must not be. That is the open agenda in
+`skills/code/references/review.md` §5.
+
 ## Step 5 — Diagrams
 
 Use **mermaid**, not PlantUML: it renders natively in GitHub, in Claude Code artifacts and
@@ -435,6 +487,18 @@ sequenceDiagram
 | Decision | Choice | Complexity at our N | N is | Settled by |
 |---|---|---|---|---|
 | <the choice> | <what> | O(1) lookup | ~400 | X-001 (measured) |
+
+## Impact analysis  <!-- fix / feature only -->
+
+| Touched | Depends on it | Behaviour today | Out of reach |
+|---|---|---|---|
+| <file:function> | <callers, tests, formats> | <one line> | <what this cannot affect> |
+
+## Refactorings applied
+
+| Refactoring | Applied to | Why this one |
+|---|---|---|
+| Extract Function | <file:function> | <what it buys> |
 
 ## Deliberately not abstracted
 
