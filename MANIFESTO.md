@@ -22,8 +22,8 @@ The bill arrives in this order:
 - **Estimates die.** First they double, then they stop meaning anything.
 - **Bankruptcy.** Servicing costs more than the team can produce. Rewrite or abandon.
 
-None of this is about code quality. What is at stake is the ability to keep changing the
-product at a predictable cost.
+None of this is about code quality. What is at stake is the business: the price of every
+change you have not made yet, and the defects that reach your customers while you make them.
 
 ## What we value
 
@@ -37,23 +37,25 @@ We value the things on the left. We refuse to let the things on the right stand 
 
 ## What we hold
 
-1. **Understanding is the deliverable.** Working software is the evidence.
-2. **Defending is not reciting.** It is answering a question you were not prepared for.
-3. **Undefended is allowed. Undefended and unrecorded is not.**
-4. **Ignorance is a state, not a verdict.** Not knowing is one conversation from knowing.
+1. **The reason is business, not craft.** Elegance is not a goal here. Debt matters because
+   the system costs more to change every month and fails more often in front of the customer.
+2. **Understanding is the deliverable.** Working software is the evidence.
+3. **Defending is not reciting.** It is answering a question you were not prepared for.
+4. **Undefended is allowed. Undefended and unrecorded is not.**
+5. **Ignorance is a state, not a verdict.** Not knowing is one conversation from knowing.
    Pretending is not.
-5. **The machine arms you as well as challenges you.** A challenge you cannot answer is not a
+6. **The machine arms you as well as challenges you.** A challenge you cannot answer is not a
    review.
-6. **The machine argues back only when it can name the failure mode, who it hurts and what it
+7. **The machine argues back only when it can name the failure mode, who it hurts and what it
    costs.**
-7. **Nothing is decided in a conversation.** Including what you decided not to do.
-8. **The document never outranks the world.** Nor does the code, silently.
-9. **Simplicity is a declared number.** Every abstraction past it names the second concrete
-   thing that needs it.
-10. **Debt is allowed. Hidden debt is not, and smeared debt is not.** Contain it behind a
+8. **Nothing is decided in a conversation.** Including what you decided not to do.
+9. **The document never outranks the world.** Nor does the code, silently.
+10. **Simplicity is a declared number.** Every abstraction past it names the second concrete
+    thing that needs it.
+11. **Debt is allowed. Hidden debt is not, and smeared debt is not.** Contain it behind a
     boundary or it will never be repaid.
-11. **The multiplier acts on judgment.** Applied to zero it returns zero.
-12. **The machine does not replace the junior. It is how the junior becomes a senior.**
+12. **The multiplier acts on judgment.** Applied to zero it returns zero.
+13. **The machine does not replace the junior. It is how the junior becomes a senior.**
     Seniors are the only people who can judge whether the machine's output is any good.
 
 ## The accountability clause

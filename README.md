@@ -129,7 +129,8 @@ must be **chosen**, **written down**, and **contained**:
 > improved. Debt smeared across forty call sites has no edge, so its repayment cost is
 > unbounded, which is a longer way of saying it will never be repaid.
 
-None of this is a craft argument. The cost never presents as "bad code." It presents as
+None of this is a craft argument, it is a business one. The cost never presents as "bad
+code." It presents as
 deceleration, then as defects reaching customers because nobody knew what the change would
 break, then as estimates that mean nothing — and at the end as technical bankruptcy, where
 servicing costs more than the team can produce and the only moves left are rewrite or
