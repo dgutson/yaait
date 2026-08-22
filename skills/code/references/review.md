@@ -176,6 +176,10 @@ small increment.
 say explicitly when a judgment falls into one of the gaps below rather than inventing a
 resolution.
 
+The two authors' positions on all of this are recorded, argued and dated in
+`aposd-vs-clean-code.md` alongside this file. That file is **evidence for the discussion, not
+criteria** — read it when working R-001; do not treat its recommendations as settled rules.
+
 yaait has not taken a position on *Clean Code*, and it cannot borrow one, because several of
 that book's prescriptions **conflict with decisions yaait has already made.** These are not
 matters of taste; they are contradictions that would make the review criteria incoherent.
