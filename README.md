@@ -74,17 +74,19 @@ In your project, not in this plugin:
 
 ```
 <project root>/
-├── TECH_DEBT.md      outstanding structural debt, with dated evidence of what it has cost
-├── EXPERIMENTS.md    decisions settled by measurement, labelled `measured` or `predicted`
+├── TECH_DEBT.md          outstanding structural debt, with dated evidence of what it has cost
+├── EXPERIMENTS.md        decisions settled by measurement, labelled `measured` or `predicted`
+├── DESIGN_GUIDELINE.md   optional: standing structural decisions
+├── CODING_GUIDELINE.md   optional: standing house style
 └── .yaait/
-    ├── SPEC.md       the TTB: kind (greenfield/maintenance), requirements with provenance,
-    │                 non-goals, acceptance criteria
-    ├── DESIGN.md     optional: components, invariants, budget, diagrams
-    ├── TECH.md       optional: the stack, verified versions, falsifiers, exit paths
-    └── JOURNAL.md    append-only: DECISION, APPROVAL, DEBT, CHALLENGE
+    ├── SPEC.md           the TTB: kind (greenfield/maintenance), requirements with
+    │                     provenance, non-goals, acceptance criteria
+    ├── DESIGN.md         optional: components, invariants, budget, diagrams
+    ├── TECH.md           optional: the stack, verified versions, falsifiers, exit paths
+    └── JOURNAL.md        append-only: DECISION, APPROVAL, DEBT, CHALLENGE
 ```
 
-Two files sit at the root because a team reads them on their own account. `TECH_DEBT.md` holds
+The root files sit there because a team reads them on their own account. `TECH_DEBT.md` holds
 *structural* debt — a live balance, paid and removed — and every item carries **evidence of
 what it has actually cost**, dated, rather than an estimate of what it might. An estimate is
 arguable; a list of receipts is not. Every item also records whether it is **contained** behind
