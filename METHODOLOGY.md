@@ -18,7 +18,7 @@ the gate's closing defense is that loop's last step at artifact scale.
 | Gate | The question it settles | What it writes |
 |---|---|---|
 | `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md`, and a rules block appended to the project's standing-instruction file |
-| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a structure diagram and a sequence diagram, plus a state diagram whenever anything has a lifecycle (§11) |
+| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a structure diagram (§11) and a sequence diagram, plus a state diagram whenever anything has a lifecycle |
 | `tech` | What is it built on, and what is the exit cost of each choice? | `.yaait/TECH.md` |
 | `code` | Does this increment work, and can you defend the code it changes? | source and tests; a `TECH_DEBT.md` receipt or a new item when the increment meets or takes on debt; a `ROADMAP.md` item when a feature is harder because of debt already there |
 | `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested and **who observed what** |
