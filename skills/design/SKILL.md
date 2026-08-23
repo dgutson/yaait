@@ -563,7 +563,7 @@ sequenceDiagram
 |---|---|---|---|---|
 | <the choice> | <what> | O(1) lookup | ~400 | X-001 (measured) |
 
-## Impact analysis  <!-- fix / feature only -->
+## Impact analysis  <!-- Maintenance TTB only -->
 
 | Touched | Depends on it | Behaviour today | Out of reach |
 |---|---|---|---|
