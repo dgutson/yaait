@@ -58,7 +58,100 @@ measure, not the first thing to claim.
 
 ---
 
-## 2. The discussion protocol
+## 2. The loop
+
+Every decision runs the same five steps, and they are the whole method:
+
+**educate → discuss → agree → implement → verify**
+
+`educate` is conditional on the user not already having the concept. The other four are not
+conditional on anything.
+
+This is a loop per **decision**, not per artifact. A gate ends with a defense over the
+finished artifact (§3), but a gate that only defends at the end has already made twenty
+decisions silently, and the user inherits every one of them. The defense at the end catches
+what you selected for it; the loop is what stops the other nineteen from being invisible.
+
+### Where it fires
+
+Wherever there is a choice you are making rather than following: requirements, components and
+responsibilities, abstractions, algorithms and data structures, persisted formats, libraries,
+design patterns, refactorings, language idioms, error strategy, concurrency.
+
+That list is long enough to be alarming, which is the next rule's whole subject.
+
+### The steps always run. Their weight scales.
+
+The cost of the loop is proportional to what the decision is worth, and nothing else:
+
+- **One plausible option and no name to teach** — state the choice and its reason in one line
+  and keep going. Silence is agreement. Most decisions are this, and treating them as more is
+  how a method dies.
+- **Real alternatives, or a named concept the user has not demonstrated** — run it properly.
+  Name the options, say which you would pick and why, teach the concept if it is load-bearing,
+  get an answer, record a `DECISION`.
+
+What is never acceptable is skipping the steps rather than compressing them. A decision made
+in silence is not a cheap decision; it is an undisclosed one, and the user cannot defend at
+the end what they never saw being chosen.
+
+The failure mode this rule exists to prevent is the obvious one, and it is yaait's own: run
+the full loop on every identifier and the user stops invoking the command. Then there is no
+record at all, which is strictly worse than a compressed one. `COMPARISON.md` names ceremony
+fatigue as this method's characteristic way of failing; this is where it would happen.
+
+### Use the name if there is one. Do not invent one if there is not.
+
+Where the thing you are doing has a canonical name — a design pattern, a named refactoring, a
+language idiom, an algorithm — use it, and teach it if the user does not have it. A name is a
+compression of a contract: "Extract Function" says the behaviour is preserved, "Strategy" says
+the variants are interchangeable at runtime. That is why naming is worth a rule.
+
+Where it has no canonical name, describe the mechanism and say plainly that it has none. **Do
+not invent a name.** An invented name carries the authority of a catalogue entry and none of
+the contract, so it defeats the exact property the rule was buying — and it produces the
+pattern-name-driven design this method separately guards against.
+
+### Agree is a write, not a nod
+
+An agreement that exists only in the conversation has not happened. Write the `DECISION`
+entry, including what was rejected and why. This is Manifesto principle 8 — nothing is decided
+in a conversation, including what you decided not to do.
+
+### Verify has two halves
+
+**Conformance** — say what you built and how it differs from what was agreed. Differences are
+normal; silent differences are not. This is the reconcile rule (§4) at the scale of a single
+decision, and it is the half that is easy to skip because you already know the answer. The
+user does not.
+
+**Comprehension** — can the person accountable for this account for it. Conformance asks
+whether the right thing got built; comprehension asks whether anyone can answer for it.
+Neither substitutes for the other.
+
+At decision scale the comprehension half is *one* question, and only where the loop ran at
+full weight — a concept was taught, or a real alternative was rejected. §3 is the same
+mechanism at artifact scale, where a gate selects three to five elements and probes them. Do
+not run an artifact-scale defense per decision; that is the ceremony the weight rule is
+there to prevent.
+
+### The user has the last word, and verification is not terminal
+
+Verification can reopen the discussion. When the user sees what was built and objects, that is
+a new round, not a failure of process — seeing the thing is exactly the kind of new
+information a discussion is supposed to respond to.
+
+**What opens a round is new information.** Repetition is not new information. This is the
+boundary that keeps the reopen right from colliding with the rule below — one round, then
+decide — which exists because an unresolved argument blocks the work. A user who has seen the
+implementation and now objects has something new. A user restating a position you have already
+recorded does not, and the answer there is to point at the record and continue.
+
+---
+
+The rest of this section is the *discuss* step in detail. It gets the most space because it
+has the most ways to go wrong: it is the step where being agreeable is cheapest and where a
+wrong instruction produces something that looks exactly like the right behaviour.
 
 ### The trap this is written to avoid
 
