@@ -19,7 +19,7 @@ There is nothing to build or run. The only real verification loop is installing 
 from a local clone and exercising a skill in a **separate directory**:
 
 ```bash
-claude plugin marketplace add /data/data/com.termux/files/home/src/yaait
+claude plugin marketplace add /home/daniel/src/yaait
 claude plugin install yaait@yaait-marketplace
 ```
 
@@ -55,21 +55,23 @@ review), `design/references/smells.md` (architectural smells), `design/reference
 smells are properties of a dependency graph, review criteria are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
-`DESIGN.md`, `TECH.md`, `JOURNAL.md`, plus `TECH_DEBT.md` and `EXPERIMENTS.md` at the project
-root. Never create those here; dogfooding happens in a fresh session and a separate directory
-(ROADMAP item R-002).
+`DESIGN.md`, `TECH.md`, `JOURNAL.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and the optional
+`DESIGN_GUIDELINE.md` / `CODING_GUIDELINE.md` at the project root. Never create those here;
+dogfooding happens in a fresh session and a separate directory (ROADMAP item R-002).
 
 ## Invariants that are easy to break
 
 - **The shared rules block is byte-identical in all six `SKILL.md` files** — everything from
-  `## The rules that are the method` through the end of `## Where things go` (~150 lines,
-  covering the discussion protocol, the defense, the reconcile rule and the artifact layout).
-  A rule changed in one skill must be changed in all six, identically, in the same commit.
+  `## The rules that are the method` through the end of `## Where things go` (~200 lines,
+  covering the loop, the discussion protocol, the defense, the reconcile rule and the artifact
+  layout). A rule changed in one skill must be changed in all six, identically, in one commit.
   Skills are loaded one at a time, so divergence is invisible at runtime and shows up as the
   method quietly behaving differently depending on which gate you entered through.
-- **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3 and §8;
-  `METHODOLOGY.md` §5 cites `smells.md` §4; `ROADMAP.md` cites `review.md` §5. Renumbering a
-  section silently invalidates references in files you did not open.
+- **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3, §7 and
+  §8; `ROADMAP.md` cites `review.md` §5. Renumbering a section silently invalidates references
+  in files you did not open. `METHODOLOGY.md` itself cites the reference files **by concept**,
+  never by path, with one locator table at its end — it is meant to survive repackaging, so do
+  not reintroduce `skills/...` paths into its body.
 - **Renaming a root document breaks every installed copy**, because skills reference these
   paths at runtime. `DOCTRINE.md` → `METHODOLOGY.md` is the whole reason 0.3.0 exists. A
   rename needs a version bump and a note about what the old copy now points at.
