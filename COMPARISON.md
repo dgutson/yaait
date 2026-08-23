@@ -68,6 +68,67 @@ guess.
 
 ---
 
+## vs. SWEBOK — the practitioner changed knowledge areas
+
+This one is not a rival method. It is the field's own map of itself, and the useful thing about
+a map is that you can point at where you used to stand.
+
+SWEBOK v4 (2024) divides software engineering into eighteen knowledge areas. Two of them matter
+here. **KA 4, Software Construction**, is "the detailed creation and maintenance of working
+software through coding, verification, unit testing, integration testing, and debugging."
+**KA 7, Software Maintenance**, takes its objective from ISO/IEC/IEEE 14764: "modify existing
+software while preserving its integrity."
+
+A competent generator absorbs KA 4. Coding, unit tests, the debugging loop — that is the work
+that got cheap, and it is the work a practitioner used to spend their day doing. What is left
+for the human is KA 7, applied to code that is minutes old rather than years old.
+
+That is the whole reframing, and it has a consequence worth stating plainly: **the human's
+relationship to the codebase is now the maintainer's relationship, starting at the first
+commit.** Not the author's. Reading code somebody else wrote in order to change it safely is
+not an unfortunate feature of legacy systems; it is the job.
+
+### SWEBOK already named the mechanism
+
+The useful part is that KA 7 does not merely describe this situation. It has spent decades
+cataloguing what goes wrong in it, and the top of its list is the thing yaait was built around.
+
+Among the key issues in software maintenance, SWEBOK lists **Limited Understanding** —
+"Research suggests a significant portion of total maintenance effort is devoted to
+understanding the software to be modified" — and identifies the factors that make it worse,
+including documentation and "organisation and presentation issues." Its first named maintenance
+*technique*, KA 7 §4.1, is **Program Comprehension**: "Maintainers spend considerable time
+reading and understanding programs in order to implement changes."
+
+So the comprehension gate is not an invention of this method. It is the primary technique of
+the knowledge area the human now works in, moved from the end of a system's life to the
+beginning, because that is where the unread code now appears.
+
+KA 7 also settles a question about proportion. "Most software maintenance — over 80% — is used
+for enhancing and adapting the software", not fixing it. Maintenance is not the bug queue. It
+is where nearly all of the work is, and building something genuinely new is the rare case —
+which is why a method that only works on greenfield projects is a method for the exception.
+
+### Where yaait lands
+
+| | SWEBOK's picture | Under a competent generator |
+|---|---|---|
+| Who performs KA 4 construction | the engineer | the machine |
+| Who performs KA 7 maintenance | the engineer, later | the engineer, immediately |
+| When *Limited Understanding* appears | inheriting somebody else's system | accepting this afternoon's diff |
+| The technique for it | program comprehension | unchanged — this is what yaait's gates run |
+| What "author" implies about comprehension | quite a lot | nothing |
+
+yaait is therefore not a construction methodology with a review step bolted on. It is a
+maintenance methodology used from the first commit, and the six gates are program comprehension
+made procedural.
+
+None of this is a claim that SWEBOK endorses anything here, or that yaait implements it. It is
+cited because it is the field's own account of what the human is now doing, written before
+anyone had a reason to argue about generators.
+
+---
+
 ## vs. Waterfall
 
 ### First, the correction
@@ -368,4 +429,9 @@ throwaway.
   depth* (2002): <https://en.wikipedia.org/wiki/Illusion_of_explanatory_depth>
 - *The Productivity-Reliability Paradox: Specification-Driven Governance for AI-Augmented
   Software Development*: <https://arxiv.org/abs/2605.01160>
+- IEEE Computer Society, *Guide to the Software Engineering Body of Knowledge (SWEBOK) v4.0*
+  (2024) — KA 4 Software Construction, KA 7 Software Maintenance:
+  <https://www.computer.org/education/bodies-of-knowledge/software-engineering>
+- ISO/IEC/IEEE 14764, *Software Engineering — Software Life Cycle Processes — Maintenance* —
+  the source of KA 7's definition of maintenance.
 - GitHub Spec Kit: <https://github.com/github/spec-kit>
