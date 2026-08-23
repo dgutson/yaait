@@ -41,7 +41,7 @@ explaining what an already-installed older copy would get wrong (see commit `0fe
 **Three doctrine layers at the root, each with a distinct job.** Do not blur them:
 
 - `MANIFESTO.md` — the position. Claims and principles, no procedure.
-- `METHODOLOGY.md` — the long-form rules, numbered `§1`–`§10`. This is the single source of
+- `METHODOLOGY.md` — the long-form rules, numbered `§1`–`§12`. This is the single source of
   truth; every skill carries a compacted copy of the parts it needs and cites this file for
   the reasoning.
 - `COMPARISON.md` — the argument and the evidence, including every number yaait quotes.
@@ -50,9 +50,11 @@ explaining what an already-installed older copy would get wrong (see commit `0fe
 why this command exists → the shared rules block → numbered `Step N` sections ending in a
 defense and a close. Deep reference material that would bloat the context lives in
 `skills/<name>/references/` and is read on demand: `code/references/review.md` (code-level
-review), `design/references/smells.md` (architectural smells), `design/references/mermaid.md`.
-`review.md` and `smells.md` are deliberately at different altitudes and must not overlap —
-smells are properties of a dependency graph, review criteria are properties of a diff.
+review), `design/references/smells.md` (architectural smells), `design/references/mermaid.md`,
+and `code/references/aposd-vs-clean-code.md` — which is *input* to R-001, not criteria, and
+must never be cited as settled. `review.md` and `smells.md` are deliberately at different
+altitudes and must not overlap — smells are properties of a dependency graph, review criteria
+are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
 `DESIGN.md`, `TECH.md`, `JOURNAL.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and the optional
@@ -67,11 +69,13 @@ dogfooding happens in a fresh session and a separate directory (ROADMAP item R-0
   layout). A rule changed in one skill must be changed in all six, identically, in one commit.
   Skills are loaded one at a time, so divergence is invisible at runtime and shows up as the
   method quietly behaving differently depending on which gate you entered through.
-- **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3, §7 and
-  §8; `ROADMAP.md` cites `review.md` §5. Renumbering a section silently invalidates references
-  in files you did not open. `METHODOLOGY.md` itself cites the reference files **by concept**,
-  never by path, with one locator table at its end — it is meant to survive repackaging, so do
-  not reintroduce `skills/...` paths into its body.
+- **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3, §7,
+  §8 and §10; `ROADMAP.md` cites `review.md` §5. Renumbering a section silently invalidates
+  references in files you did not open — and worse, a reference can survive the renumber and
+  resolve to the *wrong* section, which no dangling-reference check finds. Read what each `§N`
+  lands on; do not just check it is in range. `METHODOLOGY.md` itself cites the reference
+  files **by concept**, never by path, with one locator table at its end — it is meant to
+  survive repackaging, so do not reintroduce `skills/...` paths into its body.
 - **Renaming a root document breaks every installed copy**, because skills reference these
   paths at runtime. `DOCTRINE.md` → `METHODOLOGY.md` is the whole reason 0.3.0 exists. A
   rename needs a version bump and a note about what the old copy now points at.
