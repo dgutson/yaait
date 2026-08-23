@@ -1,6 +1,6 @@
 # The yaait methodology
 
-Six gates and the rules that govern them. Every skill carries a compact copy of the operative
+Six gates and the rules that govern them. Every command carries a compact copy of the operative
 rules inline; this is the long form, with the reasoning, for when a rule seems wrong or a
 situation is not covered.
 
@@ -12,12 +12,13 @@ the argument and the evidence.
 ## 1. The six gates, in order
 
 Each gate produces something durable and ends by asking the human a question they can only
-answer if they understood what was produced.
+answer if they understood what was produced. Inside a gate, every decision runs the loop (§2);
+the gate's closing defense is that loop's last step at artifact scale.
 
 | Gate | The question it settles | What it writes |
 |---|---|---|
-| `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md`, and a rules block appended to the project's `CLAUDE.md` |
-| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a class diagram and a sequence diagram, plus a state diagram whenever anything has a lifecycle |
+| `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md`, and a rules block appended to the project's standing-instruction file |
+| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a structure diagram and a sequence diagram, plus a state diagram whenever anything has a lifecycle (§11) |
 | `tech` | What is it built on, and what is the exit cost of each choice? | `.yaait/TECH.md` |
 | `code` | Does this increment work, and can you defend the code it changes? | source and tests; a `TECH_DEBT.md` receipt or a new item when the increment meets or takes on debt; a `ROADMAP.md` item when a feature is harder because of debt already there |
 | `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested and **who observed what** |
@@ -27,8 +28,9 @@ answer if they understood what was produced.
 entries. That append-only record, rather than any single document, is what a session actually
 leaves behind, and `stest`'s verdict lands there too.
 
-Two writes land outside `.yaait/`. `spec` appends a rules block to the project's `CLAUDE.md`,
-creating the file if absent, so later sessions honour the reconcile rule even when no yaait
+Two writes land outside `.yaait/`. `spec` appends a rules block to the project's
+standing-instruction file — `CLAUDE.md`, `AGENTS.md`, or whatever the tool reads — creating it
+if absent, so later sessions honour the reconcile rule even when no yaait
 command is invoked — and it must say so out loud, because a file that shapes every future
 session should never be a silent side effect. `code`, `stest` and `debt` all write
 `TECH_DEBT.md` at the project root.
@@ -48,6 +50,20 @@ review can answer for what they are presenting, however it was produced.
 `stest` becomes answerable once the last increment from `DESIGN.md` is complete. `debt` is
 triggered from `code` and `stest`, and is also invocable directly for the questions managers
 ask. Nothing here is mandatory except honesty about which gates were skipped.
+
+### What an invocation may carry
+
+A gate can be invoked with material rather than starting from a blank conversation. `spec` may
+be handed the description of the TTB. `design` and `code` may be handed additional
+requirements or guidelines. All of it is optional; every gate works when handed nothing.
+
+**None of it is exempt from the loop.** A requirement arriving as an argument is tagged for
+provenance and challenged exactly like a spoken one, and a guideline arriving as an argument
+is discussed exactly like one being decided for the first time. Without that rule an argument
+becomes the way to smuggle a requirement past the tagging — which is the single thing `spec`
+exists to prevent, defeated by the convenience of not having to type it in the conversation.
+
+An instruction that arrives with the invocation twice is a guideline nobody wrote down. §12.
 
 ### This has not been measured
 
@@ -596,14 +612,16 @@ How far to extract is not settled here, and must not be. That is the open agenda
 
 ## 8. The artifacts
 
-Method artifacts live in `.yaait/`. Two artifacts live in the **project root** instead,
-because they are things a team reads on their own account rather than machinery of the method
-— the same reason `ROADMAP.md` sits at the root.
+Method artifacts live in `.yaait/`. The rest live in the **project root** instead, because they
+are things a team reads on their own account rather than machinery of the method — the same
+reason `ROADMAP.md` sits at the root.
 
 ```
 <project root>/
-├── TECH_DEBT.md      outstanding structural debt, with evidence of what it has cost
-├── EXPERIMENTS.md    decisions settled by measurement rather than by argument
+├── TECH_DEBT.md           outstanding structural debt, with evidence of what it has cost
+├── EXPERIMENTS.md         decisions settled by measurement rather than by argument
+├── DESIGN_GUIDELINE.md    optional: standing structural decisions (§12)
+├── CODING_GUIDELINE.md    optional: standing house style (§12)
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, budget, diagrams
@@ -774,3 +792,90 @@ Finish the TTB or abandon it before starting another. Abandoning is a legitimate
 costs only the branch. A second TTB started on top of an unfinished one costs the record: from
 that point no `JOURNAL.md` entry can be attributed to one of them, which is the one thing the
 journal exists to make possible.
+
+## 11. Name your units before you count them
+
+The size budget is a number, and a number needs units. **Declare the units from the project's
+own vocabulary, at the moment you declare the budget.**
+
+A budget of "4 modules, 6 types, 1 interface, 0 abstract base classes" is a perfectly good
+budget for a project that has classes. For a C project the units are translation units,
+structs, headers and function-pointer tables. For a functional project they are modules, types
+and the places behaviour is passed as a value. For a shell or configuration codebase they are
+something else again. The units are whatever a reader of *this* project would count.
+
+Manifesto principle 10 — simplicity is a declared number — survives intact, because the
+mechanism was never the specific nouns. It was declaring the count before producing the thing,
+so that the count is a commitment rather than a description of what you happened to write.
+
+The rule exists because a budget in units the project does not have is not a loose budget; it
+is an unenforceable one. Nobody can exceed a count of abstract base classes in C, so the
+budget silently permits any amount of structure, which is the opposite of what it was for.
+
+### The reference material speaks OO, and that is a dialect
+
+The catalogues this method reads from — the architectural smell catalogue and the code review
+criteria — are written largely in object-oriented vocabulary: classes, interfaces,
+inheritance, GoF pattern names. That is a dialect, not a requirement, and much of it restates
+directly: most architectural smells are properties of a dependency graph and read the same
+whatever the nodes are.
+
+Some of it does not restate, and **that translation has not been done yet**. Where a rule is
+stated in terms the project does not have, translate it to the equivalent property of the
+project's own units and say that you did. Where it has no equivalent, say that instead. Do not
+apply a detector that cannot fire and report a clean result: an OO tell that is structurally
+incapable of firing in C is not evidence of anything, and reporting it as a pass is the most
+misleading possible outcome.
+
+## 12. Standing decisions: the guidelines
+
+Some questions get re-decided every increment, and should be decided once. Those live in two
+files at the project root, next to `TECH_DEBT.md` and `EXPERIMENTS.md`, for the same reason
+those are there: a team reads them on its own account rather than as machinery of the method.
+
+```
+<project root>/
+├── DESIGN_GUIDELINE.md    standing structural decisions: what shapes this project prefers
+└── CODING_GUIDELINE.md    standing house style: the questions the review criteria leave open
+```
+
+Both are optional. Neither is required to exist before anything else happens.
+
+**Read what exists before asking anything.** The code, the standing-instruction file, any
+style document already in the repo — all of it comes first. A survey that opens with questions
+asks the user to invent answers the codebase has already given, and they will answer
+differently from how the code actually reads, which produces a guideline that contradicts the
+project on the day it is written.
+
+**Precedence: an instruction given for this invocation wins for this invocation.** It is more
+specific and more recent. But say out loud that it diverges from the guideline, because a
+divergence absorbed in silence is how the guideline becomes fiction while still being cited.
+
+**Promotion: an instruction given twice is a guideline nobody wrote down.** The second time,
+offer to write it in. Otherwise it gets retyped on every invocation, drifts a little each
+time, and the project ends up with a house style that exists only in the habits of whoever is
+at the keyboard.
+
+**The reconcile rule (§4) applies.** When the code and the guideline disagree, one of them is
+wrong. Name which, out loud, and fix that side. A guideline nobody reconciles drifts exactly
+as a design document drifts and misleads with exactly the same authority — worse, in fact,
+because a guideline is quoted in review to settle arguments.
+
+**Deliberately violating a settled guideline is debt.** Contain it behind a boundary (§5) and
+record it (§8). "We do it this way except here" with no boundary and no record is not an
+exception, it is the guideline ceasing to be true.
+
+**A guideline is a decision while it is being written and a constraint afterwards** (§9).
+Nobody defends the guideline once per increment; that would be the emptiest possible gate.
+What gets defended is a deviation from it.
+
+### What must not go in
+
+Anything the review criteria settle. The guideline is for questions where a competent engineer
+could defend either answer and the project needs one of them picked — not for questions that
+have an answer.
+
+Without that line, the guideline becomes the place every question the criteria declined to
+answer gets dumped. That does not remove the vagueness; it relocates it, and it relocates it
+onto the person least equipped to resolve it, at the moment they are least equipped to do it —
+which is precisely inverted from what asking the user is for.
