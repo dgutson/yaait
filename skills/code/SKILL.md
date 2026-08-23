@@ -240,6 +240,16 @@ If there is no spec, say so and offer `yaait:spec`. You can proceed without one 
 insists, but say what is being given up: without acceptance criteria there is nothing for
 `yaait:stest` to trace against, so "done" will be a matter of opinion.
 
+Read `CODING_GUIDELINE.md` at the project root if it exists. It settles the questions the
+review criteria deliberately leave open, and once settled they are constraints rather than
+choices — you do not re-decide them per increment, and you do not quietly deviate. A
+deliberate deviation is debt: box it and record it.
+
+If guidelines came with the invocation, restate what you understood and treat them like any
+other guideline — discussed, not merely obeyed. Where they contradict `CODING_GUIDELINE.md`,
+the invocation wins for this increment and you say so out loud; if the same instruction
+arrives a second time, offer to write it into the file.
+
 State which increment you are doing and which requirement IDs it serves, in one line, before
 you touch anything.
 
@@ -369,6 +379,16 @@ forbids" section is not advisory. Follow `TECH.md`'s versions and noted deprecat
 the surrounding code's conventions over your own preferences; a file with two styles is worse
 than a file with a style you would not have picked.
 
+**The decisions you make here run the loop too.** Writing code is not a decision-free
+activity: which idiom, which error strategy, which data structure the design left open, which
+test framework if this is the first increment and `TECH.md` does not say. Each of those runs
+the five steps at the weight it deserves — one line for the obvious ones, a real round where
+there are real alternatives or a concept the user has not demonstrated.
+
+Keep it distinct from Step 6. The loop here is per decision, as you make it. Step 6 is the
+artifact-scale defense over the finished increment, and it samples. Anything decided silently
+now is not covered by either.
+
 Two things to write down as you go, because they are the input to Step 6:
 
 - Every place you made a judgment call the design did not dictate.
@@ -424,6 +444,14 @@ increment.
   the whole design rests on, and they are what a future change will violate.
 - **State what is not tested**, explicitly, at the end. Untested surface named is useful;
   untested surface unnamed is a false sense of coverage.
+- **Do not modify or delete an existing test** unless `SPEC.md` says the behaviour it encodes
+  is changing. If the spec does not say that, the reconcile rule is firing: either the spec is
+  incomplete or this change is wrong, and you decide which out loud before touching the test.
+  Adding tests is unrestricted; changing a passing one is a behavioural decision.
+
+That last one is about your failure mode specifically. Asked to add behaviour you will edit an
+existing assertion until the new code passes, and the diff will look like progress — but a
+suite rewritten to fit the change is evidence of nothing. `METHODOLOGY.md` §7.
 
 Resist generating many near-identical tests. Coverage of *cases* is what matters, and twelve
 tests of one case with different numbers is duplication with a green tick.
@@ -476,6 +504,10 @@ Report, briefly:
   and if a receipt from Step 0a predicted a mitigation, update it now to say what actually
   shipped, or remove the prediction if nothing did;
 - the next increment from `DESIGN.md`.
+
+**The user has the last word.** An objection after they have seen the increment is a new
+round, not a failed gate — reading the code is new information. Reopen it, fix what needs
+fixing, and journal it. A position already recorded being restated is not new information.
 
 Then stop. One increment per invocation is the whole point; do not roll straight into the
 next one unless asked.

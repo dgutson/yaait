@@ -248,8 +248,13 @@ deliberately with a `DECISION` entry.
 
 ## Step 1 — Establish the TTB
 
-Get the user to say what they want built. Then, before anything else, establish the two
-things people almost never volunteer:
+**If a description of the TTB came with the invocation, that is your opening position, not
+your answer.** Restate what you understood in one line so the user can correct it, then
+interrogate it exactly as you would something typed into the conversation. A requirement is
+not more established for having arrived as an argument, and every one of them still gets a
+provenance tag in Step 2. If nothing came with the invocation, ask.
+
+Then, before anything else, establish the two things people almost never volunteer:
 
 - **Who uses it, and what happens if it is not there?** This is what lets you judge every
   later tradeoff. Without it you will optimize the wrong axis with great discipline.

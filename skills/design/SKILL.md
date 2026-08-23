@@ -247,6 +247,15 @@ expensive structural decision, and if you find yourself designing around one, sa
 Read `.yaait/TECH.md` if it exists. Read `.yaait/DESIGN.md` if it exists — you are amending,
 not replacing, and the reconcile rule applies.
 
+Read `DESIGN_GUIDELINE.md` at the project root if it exists. It holds standing structural
+decisions this project has already made, and a design that quietly contradicts one is a
+deviation that needs defending, not a free choice. If the code plainly disagrees with the
+guideline, that is the reconcile rule firing — say which side you think is wrong.
+
+If requirements or guidelines came with the invocation, restate them here as what you
+understood, and treat them exactly like spoken ones: tagged for provenance, and open to
+challenge. An instruction is not more true for having arrived as an argument.
+
 If there is no `SPEC.md`, say so and offer to run `yaait:spec` first. Designing against a
 verbal description is how invented requirements get baked into structure, where they are
 much more expensive to remove.
@@ -296,6 +305,27 @@ proceeding on a guess.
 Without this, "what does this do today" has no recorded answer, so the defense in Step 8
 degrades into a formality — which is the state in which "I do not understand this, I will add
 a flag" passes the gate.
+
+## Step 1b — How every decision below is made
+
+Steps 2 through 4c each produce decisions. **Every one of them runs the loop** from the rules
+above, at the weight that decision is worth: one line and silence-is-agreement for a choice
+with one plausible option, the full round for one with real alternatives or an unfamiliar
+named concept.
+
+That is not in tension with writing the file before seeking approval (Step 7, Step 8), and the
+distinction matters:
+
+- **Each decision is agreed before it goes into the artifact.** Not after.
+- **The artifact is written before the artifact-scale defense.** A wrong design on disk is
+  editable; a lost conversation is not.
+
+What is forbidden is the third thing, which is what happens by default: producing the whole
+design silently and presenting it finished. The defense in Step 8 samples three to five
+elements. Everything not sampled was then never disclosed at all, and the user is accountable
+for all of it.
+
+Do not restate this per step. It is one rule and it applies to all of them.
 
 ## Step 2 — Components and responsibilities
 
@@ -598,3 +628,8 @@ If the design revealed that the spec is wrong — which happens, and is the desi
 doing its job — apply the reconcile rule: name it, fix `SPEC.md`, journal the change. A
 design that quietly satisfies a requirement the spec does not actually state has moved the
 invention problem one artifact downstream.
+
+**The user has the last word.** If they look at what was produced and object, that is a new
+round rather than a failed gate — seeing the design is exactly the new information a
+discussion is meant to respond to. Reopen, fix, and journal it. What does not reopen the
+discussion is a position already recorded being repeated.
