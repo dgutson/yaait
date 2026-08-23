@@ -361,61 +361,122 @@ Every `EXPERIMENTS.md` result is therefore labelled **`measured`** or **`predict
 `predicted` verdict is not an experiment; it is a hypothesis that has not been run yet, and
 saying so is the whole point of the label.
 
-## 7. The three kinds of TTB
+## 7. The two kinds of TTB
 
-A TTB is one of three things, and several commands behave differently depending on which.
+A TTB is one of two things, and several commands behave differently depending on which.
 Establish it in `yaait:spec` and record it at the top of `SPEC.md`.
 
-- **New** — something that does not exist yet. The default assumption of most of this
-  method, and the least common case in practice.
-- **Fix** — a defect in something that exists. `yaait:code` checks whether the defect traces
-  to an existing `TECH_DEBT.md` item and, if it does, records the receipt there. That receipt
-  is what converts an estimated cost into evidence.
-- **Feature** — an addition to something that exists. `yaait:code` checks whether the work is
-  materially harder because of existing debt, and if so files a `ROADMAP.md` item rather than
-  stopping to pay it. The finding is worth capturing; the interruption is not.
+- **Greenfield** — this is the first spec of the project. Nothing exists yet.
+- **Maintenance** — the project exists; this spec adds to it or changes it.
+
+The axis is whether the **project** exists, not what code this particular change will touch.
+That matters, because at spec time nobody knows what the change will touch — which is
+precisely why impact analysis is a design product and not a spec field. "Does the project
+exist" is a fact about the world at the moment `yaait:spec` runs, and it is the only version
+of this question a spec can answer honestly.
+
+**Determine it by looking, not by asking.** `yaait:spec` already reads for an existing
+`SPEC.md` and an existing codebase before it does anything else; that read *is* the
+determination. State the answer in one line and let the user correct it if it is wrong. Asking
+someone to classify their own work is effort with no return — they came to build something,
+not to file it.
+
+One question is all the kind is for: **is there a prior state to account for before adding to
+it?** Three behaviours turn on the answer, and they are that question asked of three different
+artifacts:
+
+- **The code map.** A greenfield project has no code to map. Any maintenance spec does, and a
+  spec written against a guess about what the code does today inherits the guess — including
+  in its acceptance criteria, which is where it gets expensive.
+- **The impact analysis.** "What else does this reach" needs something to reach. For a
+  maintenance TTB the question is always asked; the answer is sometimes "nothing that already
+  exists", and that is a finding rather than a skip.
+- **The debt check.** `yaait:code` asks one thing on a maintenance TTB: did existing debt make
+  this cost more? If a defect traces to a `TECH_DEBT.md` item, or the work was materially
+  harder because of one, record the receipt there — that receipt is what converts an estimated
+  cost into evidence. When it was materially harder, also file a `ROADMAP.md` item rather than
+  stopping to pay the debt. The finding is worth capturing; the interruption is not.
+
+Nothing else branches on the kind, and two things deliberately do not.
+**Defend-before-you-modify fires on any increment that touches code which already exists**,
+greenfield or not — see below for why that distinction matters. And the questions a defect
+needs — *what is the observed wrong behaviour*, as opposed to the suspected cause, and *what
+should happen instead* — are triggered by the user describing something broken, not by a
+label. Those two get confused constantly, and a spec built on a suspected cause will
+faithfully fix the wrong thing.
 
 The distinction is not bureaucracy. It is the difference between yaait being a greenfield
 methodology — which would make it useless for most working software — and one that bites on
 the code you already have.
 
-### Fix and Feature need a map before they need a spec
+### The human is the maintainer, including of new code
 
-A New TTB starts from nothing, so the only thing to understand is what you are about to
-write. Fix and Feature start from code somebody else wrote, and the spec is only as good as
-your account of what is already there.
+A project has exactly one greenfield TTB, ever. Everything after it is maintenance. And most
+of even that one is maintenance: from the second increment onward, the code being changed was
+written by a machine minutes ago, and nobody has read it.
 
-Before eliciting requirements for a Fix or Feature, consider generating a **code map** with a
+This is why the comprehension gate is not a special rule for legacy systems. It is the normal
+condition. `COMPARISON.md` makes the argument — construction is the knowledge area that got
+delegated, and what is left for the human is maintenance's oldest problem, arriving on day one
+instead of year three.
+
+The practical consequence is a rule about triggers. **Never express a comprehension check in
+terms of the TTB kind.** A greenfield TTB whose increment 2 modifies increment 1's code needs
+the gate exactly as much as a twenty-year-old C codebase does, and phrasing the trigger as "on
+a maintenance TTB" silently switches it off in the case this whole section exists to catch.
+
+### A Maintenance TTB needs a map before it needs a spec
+
+A greenfield TTB starts from nothing, so the only thing to understand is what you are about to
+write. A maintenance TTB starts from code somebody else wrote — possibly the machine, ten
+minutes ago — and the spec is only as good as your account of what is already there.
+
+Before eliciting requirements for a maintenance TTB, consider generating a **code map** with a
 program-understanding tool — `graphify`, `codebase-memory`, `serena`, `greptile`,
 `sourcegraph`, or anything else that emits a structural account of a codebase. This is
 optional and the method does not depend on it. What it must produce is a map that can be
 **regenerated on demand** and that **carries the date it was generated**.
 
-Kept next to `CLAUDE.md` or `AGENTS.md`, that map is the durable form of what *Clean Code*
-calls shared team memory. Clean Code's version was a claim about people — a tight-knit team
-that collectively holds the system in mind — and it does not survive turnover, or six months.
-A generated, dated, regenerable artifact does; and when the team is one person and a model,
-it is the only version of that memory available.
+Kept next to the project's standing-instruction file, that map is the durable form of what
+*Clean Code* calls shared team memory. Clean Code's version was a claim about people — a
+tight-knit team that collectively holds the system in mind — and it does not survive turnover,
+or six months. A generated, dated, regenerable artifact does; and when the team is one person
+and a model, it is the only version of that memory available.
 
-The date is the rule, not decoration. An undated map is the failure §4 names: it misleads
-with authority, and a drifted map is worse than no map because the reader who trusts it stops
+The date is the rule, not decoration. An undated map is the failure §4 names: it misleads with
+authority, and a drifted map is worse than no map because the reader who trusts it stops
 looking. Regenerate it rather than editing it, and do not trust it past its date.
 
 ### Impact analysis is a design product
 
-For a Fix or Feature, what else the change reaches is a design question, and the answer is a
+For a maintenance TTB, what else the change reaches is a design question, and the answer is a
 section of `DESIGN.md` that `yaait:code` ingests like any other design output. It is not a
 step inside `yaait:code`: by the time the change is being written, the answer can no longer
 alter the approach, which is the only thing it was for.
 
 A design phase is not always warranted — `yaait:spec` applies criteria for that. For a
-single-module Fix that reaches nothing outside the module it lives in, the module *is* the
+single-module change that reaches nothing outside the module it lives in, the module *is* the
 blast radius and the comprehension gate already covers it. What triggers a design phase on
 maintenance work is the change reaching outside its module.
 
 Without it, "what does this do today" is unanswerable, so the defense degrades into a
 formality — which is precisely the state that lets "I do not understand this, I will add a
 flag" through the gate.
+
+### An existing test is a statement about behaviour, not an obstacle
+
+**Do not modify or delete an existing test unless `SPEC.md` says the behaviour that test
+encodes is changing.** If it does not say that, the reconcile rule (§4) is firing: either the
+spec is incomplete, or the change is wrong. Decide which, out loud, before touching the test.
+
+This is a rule about your failure mode specifically. Asked to add behaviour, you will edit an
+existing assertion until the new code passes, and the diff will look like progress. A passing
+suite is then evidence of nothing, because the evidence was rewritten to fit. It is the same
+mechanism as §6's predicted-versus-measured problem: the artifact that was supposed to check
+the work got adjusted by the work.
+
+Adding tests is unrestricted. Changing one that already passes is a behavioural decision, and
+behavioural decisions belong in the spec.
 
 ### Refactors are expressed as named refactorings
 

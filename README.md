@@ -77,7 +77,7 @@ In your project, not in this plugin:
 ├── TECH_DEBT.md      outstanding structural debt, with dated evidence of what it has cost
 ├── EXPERIMENTS.md    decisions settled by measurement, labelled `measured` or `predicted`
 └── .yaait/
-    ├── SPEC.md       the TTB: kind (new/fix/feature), requirements with provenance,
+    ├── SPEC.md       the TTB: kind (greenfield/maintenance), requirements with provenance,
     │                 non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, budget, diagrams
     ├── TECH.md       optional: the stack, verified versions, falsifiers, exit paths

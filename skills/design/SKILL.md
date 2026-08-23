@@ -228,12 +228,14 @@ Set the budget from the spec, not from what feels professional. Count the requir
 count the genuinely distinct responsibilities, and be suspicious of any number larger than
 that count.
 
-## Step 1a — For a Fix or Feature: the impact analysis
+## Step 1a — For a Maintenance TTB: the impact analysis
 
-Skip for a **New** TTB. For a Fix or Feature the first design product is not the components —
-it is the answer to *what does this change reach*. It belongs in `DESIGN.md` and `yaait:code`
-ingests it. It is not a step inside `yaait:code`: by the time the change is being written, the
-answer can no longer alter the approach, which is the only thing it was for.
+Skip for a **Greenfield** TTB. Otherwise the first design product is not the components — it
+is the answer to *what does this change reach*. Sometimes that answer is "nothing that already
+exists", and that is a finding to record rather than a reason to skip the step. It belongs in
+`DESIGN.md` and `yaait:code` ingests it. It is not a step inside `yaait:code`: by the time the
+change is being written, the answer can no longer alter the approach, which is the only thing
+it was for.
 
 State, for the change this TTB proposes:
 

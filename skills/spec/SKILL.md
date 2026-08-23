@@ -220,35 +220,43 @@ Then interrogate. Good questions at this stage are the ones whose answers change
 shape of the thing: what it must interoperate with, what it must persist, what happens
 when it fails, who else touches the same data, what is explicitly somebody else's problem.
 
-## Step 1a — Establish which kind of TTB this is
+## Step 1a — Record which kind of TTB this is
 
-A TTB is one of three things, and later commands branch on it. Ask, and record it at the top
-of `SPEC.md`:
+A TTB is one of two things. **Do not ask — you already know from Step 0.**
 
-- **New** — does not exist yet. The default assumption of most methodologies and the least
-  common case in real work.
-- **Fix** — a defect in something that exists. `yaait:code` will check whether the defect
-  traces to a `TECH_DEBT.md` item and record the receipt there, which is how an estimated cost
-  becomes evidence.
-- **Feature** — an addition to something that exists. `yaait:code` will check whether the work
-  is materially harder because of existing debt and file a `ROADMAP.md` item if so.
+- **Greenfield** — this is the first spec of the project. Nothing exists yet.
+- **Maintenance** — the project exists; this spec adds to it or changes it.
 
-For a **fix**, two extra questions belong here and nowhere else: *what is the observed wrong
-behaviour* (not the suspected cause — those get confused constantly, and a spec built on a
-suspected cause will faithfully fix the wrong thing), and *what should happen instead*. The
-acceptance criterion for a fix is a test that fails today.
+State which one it is in a single line, record it at the top of `SPEC.md`, and move on. Let
+the user correct you if you got it wrong. Asking someone to classify their own work is effort
+with no return, and it is a strange first question to put to somebody who came to build
+something.
 
-## Step 1b — For a Fix or Feature, offer a code map
+The kind answers exactly one question — is there a prior state to account for — and three
+things turn on it: whether to offer a code map (Step 1b), whether `yaait:design` produces an
+impact analysis, and whether `yaait:code` has a `TECH_DEBT.md` to check against.
 
-Skip this for a **New** TTB. For a Fix or Feature, ask whether the user wrote this code and
-whether they still hold it in mind. If either answer is no, offer to generate a **code map**
-with a program-understanding tool before eliciting requirements — `graphify`,
-`codebase-memory`, `serena`, `greptile`, `sourcegraph`, or whatever the project already uses.
+The axis is whether the *project* exists, not what code this change will touch. You cannot
+know the second one yet; that is what the impact analysis is for. See `METHODOLOGY.md` §7.
+
+**If the user describes something broken**, two extra questions belong here and nowhere else,
+whatever the TTB kind: *what is the observed wrong behaviour* — not the suspected cause, since
+those get confused constantly and a spec built on a suspected cause will faithfully fix the
+wrong thing — and *what should happen instead*. When a defect is what prompted this, the
+acceptance criterion is a test that fails today.
+
+## Step 1b — For a Maintenance TTB, offer a code map
+
+Skip this for a **Greenfield** TTB — there is nothing to map. Otherwise ask whether the user
+wrote this code and whether they still hold it in mind. If either answer is no, offer to
+generate a **code map** with a program-understanding tool before eliciting requirements —
+`graphify`, `codebase-memory`, `serena`, `greptile`, `sourcegraph`, or whatever the project
+already uses.
 
 This is optional and the command proceeds without it. What matters is that the map can be
 **regenerated on demand** and **carries its generation date**: an undated map misleads with
-authority, and a drifted one is worse than none. Kept beside `CLAUDE.md` or `AGENTS.md`, it is
-the durable form of shared team memory — `METHODOLOGY.md` §7.
+authority, and a drifted one is worse than none. Kept beside the project's standing-instruction
+file, it is the durable form of shared team memory — `METHODOLOGY.md` §7.
 
 Record in `SPEC.md` whether a map was used and the date it was generated.
 
@@ -383,7 +391,7 @@ never written loses the entire conversation.
 > [inferred] derived from what they said, [assumed] a gap this spec filled.
 
 Format: 1
-Kind: new | fix | feature
+Kind: greenfield | maintenance
 Code map: none | <tool>, generated YYYY-MM-DD
 Next ID: S-007
 
@@ -488,7 +496,7 @@ vibes, and say which criterion fired:
 - concurrency, async, or shared mutable state;
 - a persisted format or a wire protocol — anything with a compatibility future;
 - more than one plausible decomposition, where picking wrong is expensive to undo;
-- the TTB is a **Fix** or **Feature** whose change reaches outside the module it lives in
+- the TTB is **Maintenance** and the change reaches outside the module it lives in
   — the impact analysis is the design work, and it belongs in `DESIGN.md`.
 
 **Recommend against `yaait:design`** for a single-module TTB with no persistence and an

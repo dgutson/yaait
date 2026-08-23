@@ -202,16 +202,22 @@ you touch anything.
 
 ## Step 0a — Check this increment against TECH_DEBT.md
 
-Read `TECH_DEBT.md` if it exists. What happens next depends on the TTB kind recorded in
-`SPEC.md`, and the two branches are deliberately different.
+Skip this on a **Greenfield** TTB with no `TECH_DEBT.md` yet — there is no prior state to
+check against. Otherwise read the file and ask one question: **did existing debt make this
+increment cost more?**
 
-### If the TTB is a fix
+It arrives in two shapes, and both end in the same place.
 
-Ask whether this defect **traces to an existing debt item.** Often it will: debt does not
-cause bugs in the abstract, it causes them one at a time, and this is one.
+**A defect that traces to a debt item.** Often one will: debt does not cause bugs in the
+abstract, it causes them one at a time, and this is one.
 
-If it does, append a receipt to that item's **interest** section — the date, the fix, and the
-mechanism in one line:
+**Work that is materially harder because of a debt item.** Not "would this be nicer if the
+code were better" — that is always true and therefore says nothing. Materially harder means
+you have to special-case something, thread a change through places that should not know about
+it, or work around a shape that is wrong.
+
+In either case, append a receipt to that item's **interest** section — the date, the work, and
+the mechanism in one line:
 
 ```
 - 2026-08-29 · fix F-014 (frame drops at 40+ moves) traced here: full-state write on the
@@ -223,32 +229,23 @@ takes one line. An estimated cost is arguable; a list of dated receipts is not, 
 someone holding a budget can act on.
 
 **A receipt records what happened, never what you intend to do.** Write the trace now — the
-defect, the date, the mechanism — because that is already true. Do not write the mitigation
+work, the date, the mechanism — because that is already true. Do not write the mitigation
 until the increment actually closes and the code exists, and then write what shipped rather
 than what was planned. Recording an intention as an accomplishment corrupts the one artifact
 whose entire value is being evidence, and it does it in the most damaging possible way: the
-item now looks partly addressed, so the next reader discounts it. If the increment ends without
-the fix landing, the receipt still stands on its own — the trace was real.
+item now looks partly addressed, so the next reader discounts it. If the increment ends
+without the fix landing, the receipt still stands on its own — the trace was real.
 
-If the defect reveals debt that was **not** recorded, add the item now — with `Deliberate? No`,
-which is the honest answer for debt discovered rather than chosen.
-
-### If the TTB is a feature
-
-Ask whether this work is **materially harder because of existing debt.** Not "would this be
-nicer if the code were better" — that is always true and therefore says nothing. Materially
-harder: you have to special-case something, thread a change through places that should not
-know about it, or work around a shape that is wrong.
-
-If so:
-
-1. Append a receipt to that debt item, as above, noting the multiplier if you can ("roughly
-   2x estimate").
-2. **File a `ROADMAP.md` item for the repayment** — and then continue with the feature.
+**When the work was materially harder, also file a `ROADMAP.md` item for the repayment** —
+noting the multiplier if you can ("roughly 2x estimate") — and then continue with the
+increment.
 
 Do **not** stop to pay it. That is deliberate: interrupting the increment to refactor is how
 one feature becomes three days, and the finding is worth capturing while the interruption is
 not. The receipt plus the roadmap item is the mechanism; stopping is not.
+
+If the work reveals debt that was **not** recorded, add the item now — with `Deliberate? No`,
+which is the honest answer for debt discovered rather than chosen.
 
 If an item has now accumulated several receipts, say so and suggest `/yaait:debt` — recurrent
 debt has usually stopped being a code-quality issue and become something else, and that
@@ -272,7 +269,7 @@ entirely of them.
 You are unusually good at producing that change, convincingly, at speed. So the gate goes
 before the edit, not after.
 
-**Start from the impact analysis** if `DESIGN.md` has one — for a Fix or Feature it does, and
+**Start from the impact analysis** if `DESIGN.md` has one — for a Maintenance TTB it does, and
 it already names what this change touches, what depends on it and what the behaviour there is
 today. Ask about those boundaries rather than rediscovering them, and if the recorded
 behaviour disagrees with the code, that is the reconcile rule firing, not a detail to patch

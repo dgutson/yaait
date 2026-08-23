@@ -9,6 +9,12 @@ An unattended LLM is a technical-debt reactor. The argument for that is in
 
 **Generating code is no longer the bottleneck. Understanding what you just accepted is.**
 
+You are not constructing software any more. You are maintaining it, from the first commit.
+Construction is the part that got cheap. What is left is the maintainer's job — reading code
+you did not write in order to change it without breaking it — and the dominant cost of that
+job has always been comprehension. That is not a new problem; the field has catalogued it for
+decades. What is new is that it starts on day one, on code that is minutes old.
+
 Accept without understanding and you add slop on top of slop. Nobody can say what a change to
 that code will break, so it breaks in front of customers; nobody can restructure it safely, so
 it resists every change after this one. That is the debt. And it compounds: each unread change
@@ -87,6 +93,8 @@ genuinely the last reader of.
 A method that claims to apply everywhere is selling something.
 
 Use it for code that will be maintained, extended, or blamed.
+
+Paradigm is not one of the limits. Nothing here is specific to object-oriented code.
 
 ---
 
