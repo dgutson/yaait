@@ -74,8 +74,8 @@ This one is not a rival method. It is the field's own map of itself, and the use
 a map is that you can point at where you used to stand.
 
 SWEBOK v4 (2024) divides software engineering into eighteen knowledge areas. Two of them matter
-here. **KA 4, Software Construction**, is "the detailed creation and maintenance of working
-software through coding, verification, unit testing, integration testing, and debugging."
+here. **KA 4, Software Construction**, "refers to the detailed creation and maintenance of
+software through coding, verification, unit testing, integration testing and debugging."
 **KA 7, Software Maintenance**, takes its objective from ISO/IEC/IEEE 14764: "modify existing
 software while preserving its integrity."
 
