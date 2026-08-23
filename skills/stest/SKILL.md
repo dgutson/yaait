@@ -81,9 +81,9 @@ not run it per decision.
 new information, so an objection after verify opens a new round. Repetition is not new
 information — point at the record and carry on.
 
-The three rules that follow are this loop's hardest steps in detail: how to discuss, how to
-verify, and what to do when reality disagrees with something already written down.
-`METHODOLOGY.md` §2.
+The rules that follow are this loop's hardest steps in detail: how to discuss, how to verify,
+how to deliver it without a wall of text, and what to do when reality disagrees with something
+already written down. `METHODOLOGY.md` §2.
 
 ### Challenge substantively, never stylistically
 
