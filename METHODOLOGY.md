@@ -425,9 +425,10 @@ containment — the boundary has exactly one implementation *by construction*.
 
 It does not apply, and the reason is precise. The justification for a litter box is not a
 hypothetical second variant; it is a **dated intention to replace the first one**, recorded
-in `TECH_DEBT.md`. That is a named event in the sense §4 requires. The abstraction is
-justified, and it expires when the debt is paid — at which point, if the boundary now has one
-implementation and no outstanding debt behind it, §4 applies again and the boundary should go.
+in `TECH_DEBT.md`. That is a named event in the sense the catalogue requires. The abstraction
+is justified, and it expires when the debt is paid — at which point, if the boundary now has
+one implementation and no outstanding debt behind it, the False Abstraction rule applies
+again and the boundary should go.
 
 ## 6. The research obligation
 
