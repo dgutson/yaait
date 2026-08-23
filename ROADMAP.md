@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-011
+Next ID: R-012
 
 ---
 
@@ -107,36 +107,72 @@ Next ID: R-011
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-008 — A `/yaait:guideline` command and CODING_GUIDELINE.md
+### R-008 — Two guideline commands: `:design-guideline` and `:coding-guideline`
 
 - **Category:** Commands
-- **What:** A command that surveys the existing code and whatever `CLAUDE.md` already says,
-  then surveys the **user**, and writes `CODING_GUIDELINE.md`. It settles house style: the
-  rows of `skills/code/references/aposd-vs-clean-code.md` where both stances survive both
-  filters — contemporary practice *and* generated code — plus baseline items that need
-  deciding once (duplication and DRY; information leakage, e.g. a helper used by exactly one
-  class belonging inside it). Like `yaait:code`, it asks rather than decides, and leaves an
-  explanation space when the user does not know. The methodology rule requiring a settled
-  guideline before the first `yaait:code` lands **in this same pass**, so no doctrine rule
-  points at a command that does not exist.
+- **What:** two commands that write the standing-decision files `METHODOLOGY.md` §12 already
+  specifies: `DESIGN_GUIDELINE.md` (standing structural decisions) and `CODING_GUIDELINE.md`
+  (house style, settling the questions the review criteria deliberately leave open). Both do
+  the same two things in the same order — **program understanding first, user survey second**.
+  Each reads the existing code, the project's standing-instruction file and any style document
+  already in the repo, and only then asks; §12 makes the ordering a rule because a survey that
+  opens with questions asks the user to invent answers the codebase has already given. Both
+  ask rather than decide, and leave an explanation space where the user does not know.
+  `CODING_GUIDELINE.md` settles the rows of the Clean Code/APOSD evidence file where both
+  stances survive both filters — contemporary practice *and* generated code — plus the
+  baseline items that need deciding once (duplication and DRY; information leakage, e.g. a
+  helper used by exactly one caller belonging inside it).
 - **Why:** both authors in the Clean Code debate are assertive where the honest answer is "it
-  depends", and neither accounts for a senior's judgement or for project context. yaait
-  should not resolve that by replacing two doctrines with a third: the person accountable for
-  the codebase is the person who should pick, and yaait already has the machinery for asking
-  and teaching. This is also what makes `yaait:code` usable in a codebase whose team already
-  follows a house style — R-001's Q5.
-- **Guard:** only rows where **both** stances survive the generated-code filter defer to the
-  guideline. Rows where one side clearly loses — One Thing as a review test, method ordering
-  as a defense, interface comments, deep versus shallow — stay settled in `review.md`.
-  Without that line the guideline becomes a dump for everything `review.md` declined to
-  answer, which relocates the vagueness instead of removing it and asks the user to decide at
-  the moment they are least equipped.
-- **Outcome:** the command exists, `CODING_GUIDELINE.md` has a documented format, and the
-  methodology requires one before the first increment. Note this makes yaait **seven**
-  commands, so the same pass updates `plugin.json`, `marketplace.json`, `CLAUDE.md`,
-  `METHODOLOGY.md` §1's title and `README.md`.
+  depends", and neither accounts for a senior's judgement or for project context. yaait should
+  not resolve that by replacing two doctrines with a third: the person accountable for the
+  codebase is the person who should pick, and yaait already has the machinery for asking and
+  teaching. This is also what makes `yaait:code` usable in a codebase whose team already
+  follows a house style — R-001's Q5. `METHODOLOGY.md` §12 already carries the precedence,
+  promotion and reconcile rules, and `design`/`code` Step 0 already read both files where they
+  exist; what is missing is anything that writes one.
+- **Guard — the vagueness must not simply relocate:** only rows where **both** stances survive
+  the generated-code filter defer to the guideline. Rows where one side clearly loses — One
+  Thing as a review test, method ordering as a defense, interface comments, deep versus
+  shallow — stay settled in the review criteria. Without that line the guideline becomes a dump
+  for everything the criteria declined to answer, which asks the user to decide at the moment
+  they are least equipped. §12 states this; the commands must not undercut it.
+- **Guard — do not build a fourth code reader.** These two, R-006's survey command and §7's
+  code map all read the same codebase for overlapping reasons. Settle the shared input before
+  writing the second one.
+- **Outcome:** both commands exist, both files have a documented format, and the methodology
+  rule requiring a settled guideline before the first increment lands **in this same pass** —
+  §12 deliberately omits it so that no doctrine rule points at a command that does not exist.
+  Note this makes yaait **eight** commands, so the same pass updates `plugin.json`,
+  `marketplace.json`, `CLAUDE.md`, `METHODOLOGY.md` §1's title and table, and `README.md`.
 - **Blocked-by:** —
 - **Enables:** R-001
+
+### R-011 — Translate the reference material out of OO-only vocabulary
+
+- **Category:** Doctrine
+- **What:** `METHODOLOGY.md` §11 now declares the method paradigm-neutral, says the catalogues
+  speak OO as a dialect, and states that the translation **has not been done**. Do it. The
+  specific hard cases, all verified: `mermaid.md:12` is the only unconditional artifact
+  requirement in the repo ("**Always:** a class diagram") and there is no non-OO structural
+  template anywhere — `flowchart` over modules or translation units is the obvious missing one;
+  `smells.md` §9 already holds non-OO mappings but sits ninth of eleven, after all the
+  OO-worded material, and omits Polymorphism, Creator, Controller, Pure Fabrication and every
+  §7 tell; `review.md` has **no** non-OO section at all despite running on every increment
+  while `smells.md` runs once per design; the `Manager`-with-no-data tell (`smells.md:293`,
+  ranked third-most-reliable) is undecidable in C, where a stateless `.c` file is normal and
+  healthy; and pattern-name-driven design is detected by counting "three or more named GoF
+  patterns", which cannot fire in C even though the failure it guards against exists there as
+  a vtable of one and a registration macro nobody registers with. Error masking's C shape — an
+  ignored return code — is absent from the most-measured check in the method.
+- **Why:** yaait should work on the Linux kernel. Right now a C project hits a mandatory class
+  diagram in Step 5, a budget counting abstract base classes in Step 1, and a review that
+  reports clean because half its detectors are structurally incapable of firing. That last one
+  is the real damage: a detector that cannot fire is not a pass, but it reports as one, which
+  is worse than having no detector at all.
+- **Outcome:** every rule in the reference files either restates in the project's own units or
+  says explicitly that it does not apply. No detector reports a result it cannot compute.
+- **Blocked-by:** —
+- **Enables:** —
 
 ### R-009 — Apply REVIEW.md's findings to MANIFESTO.md
 
@@ -203,6 +239,11 @@ Next ID: R-011
   is actionable on its own. But "prefer a named refactoring" with no pinned vocabulary drifts
   into invented names, and an invented name carries no contract, which is exactly the
   property the rule exists to buy.
+- **Constraint:** paradigm-neutral from the start, per `METHODOLOGY.md` §11. Two of the five
+  names currently listed in `yaait:design` Step 4c — Move Method, Replace Conditional with
+  Polymorphism — have no C form, and while R-010 is unwritten those five *are* the vocabulary.
+  A catalogue that names only OO refactorings makes §7's rule unfollowable in a C project,
+  which pushes it toward exactly the invented names the rule exists to prevent.
 - **Outcome:** a reference file both `design` and `code` can read on demand. Must **not**
   settle how far to extract — that belongs to R-008's guideline.
 - **Blocked-by:** —
