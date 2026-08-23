@@ -251,9 +251,9 @@ methodology exists.
 
 Because self-assessment does not work. People systematically overestimate their own
 explanatory knowledge — and the illusion reliably collapses the moment they are asked to
-*explain* rather than to *rate*. Asking "are you familiar with RAII?" surveys a judgment
-already known to be inflated, under social pressure that makes "no" expensive to say. It
-measures nothing. It is worse than nothing, because it produces a confident record of
+*explain* rather than to *rate*. Asking "are you familiar with backpressure?" surveys a
+judgment already known to be inflated, under social pressure that makes "no" expensive to say.
+It measures nothing. It is worse than nothing, because it produces a confident record of
 comprehension that was never established.
 
 So: **never ask whether the user knows something. Ask them something that requires knowing
@@ -419,7 +419,7 @@ never be repaid.**
 
 ### This is the one legitimate single-implementation abstraction
 
-`skills/design/references/smells.md` §4 says: one concrete variant and no named event means
+The **architectural smell catalogue** says: one concrete variant and no named event means
 False Abstraction, so delete it. Applied mechanically to a litter box, that rule deletes the
 containment — the boundary has exactly one implementation *by construction*.
 
@@ -453,11 +453,12 @@ not tested. It exists to produce a number and is then deleted. What survives is 
 That is why an experiment does not need `yaait:code` and must not be run through it. Gating a
 throwaway measurement is the category error that makes methodologies hated.
 
-### Run experiments in a subagent
+### Run experiments somewhere else
 
 Experiments generate noise: throwaway implementations, benchmark output, failed attempts,
 timing runs. None of it belongs in the main conversation, which needs the *verdict* and the
-numbers behind it. Delegate the run to a subagent and bring back the `EXPERIMENTS.md` entry.
+numbers behind it. Run it in a delegated context — a separate session, a subordinate agent,
+another window — and bring back the `EXPERIMENTS.md` entry rather than the transcript.
 
 ### The failure mode this exists to prevent is yours
 
@@ -607,8 +608,8 @@ and an ad-hoc rewrite carries none. An unnamed rewrite mixes structural and beha
 change in one diff, and afterwards nobody can say which of the two broke the test — or that
 behaviour changed at all.
 
-How far to extract is not settled here, and must not be. That is the open agenda in
-`skills/code/references/review.md` §5.
+How far to extract is not settled here, and must not be. That is the open agenda in the
+**code review criteria**, §5.
 
 ## 8. The artifacts
 
@@ -879,3 +880,18 @@ Without that line, the guideline becomes the place every question the criteria d
 answer gets dumped. That does not remove the vagueness; it relocates it, and it relocates it
 onto the person least equipped to resolve it, at the moment they are least equipped to do it —
 which is precisely inverted from what asking the user is for.
+
+---
+
+## Where the reference material lives
+
+This document names its catalogues by what they are, because where they sit is a property of
+how the method is packaged rather than of the method. In this distribution:
+
+| Called here | Found at |
+|---|---|
+| the architectural smell catalogue | `skills/design/references/smells.md` |
+| the code review criteria | `skills/code/references/review.md` |
+| the diagram conventions | `skills/design/references/mermaid.md` |
+
+A different packaging may put them elsewhere. Nothing above depends on these paths.
