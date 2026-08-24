@@ -3,7 +3,7 @@
 > **Findings only, except where a finding is marked APPLIED.** Reviewed 2026-08-22 against
 > commit `fb46241`. Line numbers refer to the files at that commit; the doctrine pass of
 > 2026-08-21..23 has since moved them, so read the citations with
-> `git show fb46241:<file>`. Applied so far: **A2**.
+> `git show fb46241:<file>`. Applied so far: **A1**, **A2**, **A3**.
 
 ## How this was produced
 
@@ -23,6 +23,12 @@ narrows it).
 # Part A — Contradictions
 
 ## A1. The accountability clause's escape hatch is unreachable — HARD
+
+> **APPLIED 2026-08-24.** A fourth defense outcome exists: *Answered wrongly* → `DEBT`,
+> never `APPROVAL`. In `METHODOLOGY.md` §3 and the shared block in all six skills. The
+> `DEBT` template gained a `What happened` field so a reader can tell a declined question
+> from an attempted one. The unlinked-journal-entry gap this finding also names is NOT
+> addressed and remains open.
 
 The clause at `MANIFESTO.md:72-74` is the document's load-bearing sentence:
 
@@ -96,6 +102,12 @@ the half that shipped.
 down**", or "Nothing is decided *only* in a conversation."
 
 ## A3. Principle 4 is violated by construction — HARD
+
+> **APPLIED 2026-08-24**, but not as written. Every defense now closes by naming the
+> *categories* it did not probe — not an enumeration of what was unexamined, which would
+> be the whole increment and would recreate the tedium the 3-5 limit exists to prevent.
+> `stest` Step 5, cited here as the model, in fact names classes rather than instances,
+> so this follows it more closely than the literal reading would.
 
 > 4. **Undefended is allowed. Undefended and unrecorded is not.** (`MANIFESTO.md:53`)
 

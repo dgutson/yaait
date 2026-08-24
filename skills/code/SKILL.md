@@ -128,15 +128,29 @@ reasons that both matter: choosing "Explain RAII" costs nothing while typing "I 
 what RAII is" is a confession in writing, and naming the concepts discloses exactly what
 jargon the user is about to approve.
 
-Three outcomes:
+Four outcomes:
 
 - **Defended** → `APPROVAL` entry. Say so briefly; do not interrogate a correct answer.
+- **Answered wrongly** → correct it, then a `DEBT` entry — never `APPROVAL`. Taught and
+  Declined are both the user telling you they do not have it; a wrong answer is the case
+  where neither of you knew that, which is why it is the one most worth recording. Logging
+  it as an approval puts a claim of comprehension in the record that nothing established.
 - **Taught** → explain short and concrete, grounded in *this* artifact, then re-probe with
   a **different** question on the same concept. Re-asking the original only tests whether
   they remember your answer. One extra round — a gate that becomes a course gets abandoned.
+  Then write a `TAUGHT` entry. It is the only record that a concept had to be supplied, and
+  the same concept recurring across increments is the signal that it needs learning
+  properly rather than explaining again.
 - **Declined** → `DEBT` entry naming exactly what is undefended, then continue. Declining
   is allowed. A blocking gate is weaker than it sounds: people route around blocks by not
   invoking the command, and then there is no record at all.
+
+**Then say what you did not probe** — one line, in the defense and in the entry: the
+categories you passed over, not an enumeration. "Did not probe the error paths, the retry
+policy, or the generated migration." Three to five elements is a small fraction of any
+increment, so without this line everything unselected is undefended *and* unrecorded, which
+is the one state Manifesto principle 4 forbids. `stest` Step 5 does the same for tests and
+calls it the reason anyone should trust the rest of the report.
 
 ### Deliver it without a wall of text
 
@@ -183,7 +197,8 @@ team reads them on their own account, rather than being machinery of the method:
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, size budget, diagrams
     ├── TECH.md       optional: the stack, with verified versions and falsifiers
-    └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, challenges
+    └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
+                      challenges
 ```
 
 **One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
@@ -217,8 +232,14 @@ gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
 ### DEBT — undefended: <what, and where>
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
+- **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
 - **Consequence if wrong:** what actually breaks.
 - **Accepted by:** who, and whether deliberately.
+
+### TAUGHT — <concept>, at <artifact element>
+- **Concept:** the name, as it would be looked up later.
+- **Prompted by:** the defense question that surfaced it.
+- **Re-probe:** the second question asked, and what the user said.
 
 ### CHALLENGE — <the disputed point>
 - **My position:** and the failure mode it rested on.

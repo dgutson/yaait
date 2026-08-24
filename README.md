@@ -83,7 +83,7 @@ In your project, not in this plugin:
     │                     provenance, non-goals, acceptance criteria
     ├── DESIGN.md         optional: components, invariants, budget, diagrams
     ├── TECH.md           optional: the stack, verified versions, falsifiers, exit paths
-    └── JOURNAL.md        append-only: DECISION, APPROVAL, DEBT, CHALLENGE
+    └── JOURNAL.md        append-only: DECISION, APPROVAL, DEBT, TAUGHT, CHALLENGE
 ```
 
 The root files sit there because a team reads them on their own account. `TECH_DEBT.md` holds

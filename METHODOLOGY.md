@@ -24,9 +24,9 @@ the gate's closing defense is that loop's last step at artifact scale.
 | `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested and **who observed what** |
 | `debt` | What have the accepted compromises actually cost? | an analysis; a `ROADMAP.md` item when debt has recurred enough to be a product problem |
 
-**Every gate appends to `.yaait/JOURNAL.md`** — `DECISION`, `APPROVAL`, `DEBT` and `CHALLENGE`
-entries. That append-only record, rather than any single document, is what a session actually
-leaves behind, and `stest`'s verdict lands there too.
+**Every gate appends to `.yaait/JOURNAL.md`** — `DECISION`, `APPROVAL`, `DEBT`, `TAUGHT` and
+`CHALLENGE` entries. That append-only record, rather than any single document, is what a
+session actually leaves behind, and `stest`'s verdict lands there too.
 
 Two writes land outside `.yaait/`. `spec` appends a rules block to the project's
 standing-instruction file — `CLAUDE.md`, `AGENTS.md`, or whatever the tool reads — creating it
@@ -313,16 +313,30 @@ options by name. Two reasons, both load-bearing:
   they are about to approve. Sometimes that list is the most useful output of the whole
   command.
 
-### The three outcomes
+### The four outcomes
 
 **Defended** — the answer is right, or right enough that the user clearly has the model in
 their head. Say so briefly and move on. Do not interrogate a correct answer.
+
+**Answered wrongly** — the user answers, and the answer is wrong. Correct it, and write a
+`DEBT` entry rather than an `APPROVAL`. This outcome exists because without it the wrong
+answer has nowhere to go: it is not Defended, the user did not ask so it is not Taught, and
+they did not decline. In practice it silently became an `APPROVAL`, which is the one record
+the accountability clause cannot survive — a document asserting that comprehension was
+established by the very event that showed it was not.
+
+It is also the outcome that matters most. Taught and Declined are both the user reporting
+that they do not have the concept; a wrong answer is the case where neither party knew that
+until the question was asked. That is the unknown unknown, and it is the reason the defense
+is a question rather than a checklist.
 
 **Taught** — the user asks. Explain it: short, concrete, grounded in *this* artifact rather
 than in general. Then **re-probe with a different question about the same concept.** Not
 the original question — that only tests whether they remember what you just said. A new
 angle tests whether the concept transferred. Keep this to one extra round; a tutorial is
-not a gate, and a gate that becomes a course gets abandoned.
+not a gate, and a gate that becomes a course gets abandoned. Then write a `TAUGHT` entry
+(§8). Nothing else records that the concept had to be supplied, and without that record
+the same concept can be re-explained indefinitely with no one noticing.
 
 **Declined** — the user does not want to go into it now. This is allowed, and treating it as
 a failure is what would make the whole gate unenforceable. Write a `DEBT` entry naming
@@ -331,6 +345,23 @@ a failure is what would make the whole gate unenforceable. Write a `DEBT` entry 
 A blocking gate sounds stronger and is weaker: people route around blocks by not invoking
 the tool, and then there is no record at all. A recorded gap is honest, searchable, and
 actionable later. That is worth more than a block that gets bypassed.
+
+### Say what you did not probe
+
+Three to five elements is a small fraction of any artifact. Everything you did not select
+is therefore undefended, and unless you say so it is also unrecorded — which is precisely
+the state Manifesto principle 4 forbids. Close every defense with one line naming the
+categories you passed over: "did not probe the error paths, the retry policy, or the
+generated migration."
+
+**Categories, not an enumeration.** Listing every unexamined element would recreate the
+tedium the 3-to-5 limit exists to prevent, and a defense nobody reads protects nothing.
+`stest` Step 5 is the model — it names classes of untested thing rather than instances, and
+calls itself "the honest part of the report and the reason anyone should trust the rest of
+it." The defense had no counterpart until this rule.
+
+Write it as fact, not apology. "Did not probe the concurrency or the error paths" is useful.
+"This review was not exhaustive" is not.
 
 ### Delivering it without a wall of text
 
@@ -639,6 +670,13 @@ at a moment in time. That is a fact about a moment, it is true forever, and it i
 `TECH_DEBT.md` is **structural debt**: the code has a known deficiency that will cost
 something later. That is a live liability with a balance. It gets paid and removed.
 
+`TAUGHT` entries record the same kind of fact as `DEBT` — a concept the user did not have
+at a given moment — with the opposite outcome: it was supplied rather than deferred. They
+are deliberately not filed as debt. Asking to be taught is the behaviour the method wants,
+and recording it as a deficiency reinstates the cost the defense's option list exists to
+remove; people stop asking, and the record goes quiet for the wrong reason. Read together,
+`TAUGHT` and `DEBT` are the only account of which concepts a project keeps demanding.
+
 Different lifecycles, so different files. The link between them runs one way: **persistent
 comprehension debt is a leading indicator of structural debt.** Code nobody can defend, over
 several increments, is usually code with a structural problem — and when that turns out to be
@@ -723,7 +761,7 @@ Append-only. Never edit or delete an entry; if something turns out to be wrong, 
 entry saying so. The value of this file is that it is a record, and a record that gets
 tidied is a story.
 
-Four entry types:
+Five entry types:
 
 ```markdown
 ## 2026-08-21
@@ -746,6 +784,12 @@ Four entry types:
 - **Consequence if wrong:** under a server outage, all clients retry in lockstep and
   extend the outage.
 - **Accepted by:** Daniel, deliberately, to keep moving.
+
+### TAUGHT — thundering herd, at the retry backoff in net/client.py
+- **Concept:** thundering herd.
+- **Prompted by:** "the server is down for ten minutes — how many requests does this send?"
+- **Re-probe:** "what changes if every client starts its backoff at the same instant?" —
+  Daniel: "they stay in lockstep; the jitter is what decorrelates them."
 
 ### CHALLENGE — persisting the whole game state every move
 - **My position:** write only the move log; full-state writes will dominate frame time.
