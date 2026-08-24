@@ -609,11 +609,65 @@ rather than being a command you remember to run:
 ### Experiment code is not increment code
 
 An experiment is a spike. It is not defended, not reviewed against the smell references, and
-not tested. It exists to produce a number and is then deleted. What survives is the entry in
-`EXPERIMENTS.md` and the decision it justifies.
+not tested. What survives is the entry in `EXPERIMENTS.md` and the decision it justifies.
 
 That is why an experiment does not need `yaait:code` and must not be run through it. Gating a
 throwaway measurement is the category error that makes methodologies hated.
+
+### Whether the apparatus is kept turns on what it measured
+
+The three examples above all measure something that **already exists** — an algorithm on data,
+a library at load, a format at a size. For those the code under test is the record and the
+apparatus is scaffolding: discard it. Re-running the measurement later means running it against
+the *then-current* code, so kept apparatus is stale by construction and its numbers are not
+comparable with the new ones anyway.
+
+Some experiments instead **model something that does not exist yet** — a simulation of a game
+nobody has built, a cost model, a capacity estimate. There is no code under test. The apparatus
+*is* the experiment, its numbers are only comparable with each other, and rebuilding it from a
+prose description produces a *different model* whose output cannot be compared with what is
+already in `EXPERIMENTS.md`. Keep that one, deliberately and in version control.
+
+Do not decide this by asking whether anyone will want to re-run it. That is a forecast, and §2
+says not to ask for those. Ask what the experiment measured; the answer follows.
+
+### Where a kept apparatus goes, and what it must satisfy
+
+`experiments/` at the project root, beside `EXPERIMENTS.md`, with the experiment's ID in the
+filename — `experiments/X-001-board-density.py`. The ID is what links the two, so the link
+survives somebody rewording the description.
+
+The form is the project's choice, not the method's, exactly as with the code map in §7. What is
+required are the properties:
+
+- **It re-runs with one command**, and that command is recorded in the entry. An apparatus
+  nobody can re-run is not an apparatus; it is litter with a filename.
+- **Its parameters are named inputs at the top**, not magic numbers three functions deep. The
+  next reader is changing one of them — that is the only reason they opened it.
+- **The numbers live in `EXPERIMENTS.md`**, not only in the script's output. The entry stays
+  the record of *what was measured*; the script is the record of *how*.
+- **It carries the date and environment it was run in.** Same reason an undated code map is
+  worse than none: it misleads with authority.
+- **Nothing in the product imports from it.** This is §5's boundary rule, and it is the one
+  property that stops a kept apparatus becoming undefended production code. An import from
+  `experiments/` is a review finding.
+
+On form: a **plain script** is the right default — no dependency, works in any language, and
+it diffs, which is the whole point of versioning it. A **notebook is a poor fit here**, for a
+reason specific to this method rather than to taste: `.ipynb` permits out-of-order execution,
+so possessing the notebook does not establish which state produced the number, and a
+trustworthy provenance for a number is what `EXPERIMENTS.md` exists for. It also stores its
+outputs inside the file, so it diffs badly. **marimo** is a good option where the project is
+already Python and wants something interactive: it is a plain `.py` on disk, so it diffs, and
+its execution is a dataflow graph rather than a stateful sequence, which removes the
+stale-state problem. It is a dependency and Python-only, so it is an option and never a
+requirement — §11 applies.
+
+### Nothing that is not prose goes in `.yaait/`
+
+`.yaait/` holds the method's record: files other gates read and parse. A script, a binary, a
+data dump or a log in there is a category error whatever its lifetime, and it will be mistaken
+for an artifact by the next gate that lists the directory.
 
 ### Run experiments somewhere else
 
@@ -621,6 +675,10 @@ Experiments generate noise: throwaway implementations, benchmark output, failed 
 timing runs. None of it belongs in the main conversation, which needs the *verdict* and the
 numbers behind it. Run it in a delegated context — a separate session, a subordinate agent,
 another window — and bring back the `EXPERIMENTS.md` entry rather than the transcript.
+
+Where the apparatus is being discarded, run it outside the repository altogether rather than
+writing it into the project and deleting it afterwards. "Somewhere else" is not the working
+tree.
 
 ### The failure mode this exists to prevent is yours
 
@@ -861,7 +919,7 @@ the file into a wishlist. Record that verdict explicitly rather than leaving the
 > Decisions settled by measurement rather than by argument. Results are labelled
 > `measured` or `predicted`; a `predicted` verdict is a hypothesis, not an experiment.
 
-Format: 1
+Format: 2
 Next ID: X-003
 
 ## X-001 — Move-lookup structure for the board
@@ -869,7 +927,9 @@ Next ID: X-003
 - **Question (stated before running):** at 19x19 with under 400 stones, is a dict keyed by
   coordinate faster than a flat list scan for legality checks?
 - **Candidates:** flat list scan · dict keyed by (x, y) · bitboard
-- **Conditions:** Python 3.12, this laptop, 10k lookups, warm, N=5 runs.
+- **Conditions:** Python 3.12, this laptop, 10k lookups, warm, N=5 runs, 2026-08-21.
+- **Apparatus:** discarded — it measured code that exists, so re-running means re-running
+  against today's `Board`, not this script.
 - **Result:** `measured` — list 41 ms, dict 12 ms, bitboard 9 ms.
 - **Verdict:** dict. Bitboard's 3 ms is not worth the readability cost at this size.
 - **What would overturn this:** board larger than 19x19, or lookups on the hot path of a
@@ -885,6 +945,12 @@ them, not for you.
 The **question stated before running** is not a formality. Deciding what you were measuring
 after seeing the numbers is the most common way a benchmark lies, and it is invisible in the
 write-up unless the ordering is enforced.
+
+**Apparatus** is either `discarded` with the one-line reason, or the path and the command that
+re-runs it: `experiments/X-002-match-length.py`, `python experiments/X-002-match-length.py
+--players 4`. §6 decides which; the field exists so that the decision is stated rather than
+inferred from whether a file happens to be lying around. `Format: 2` added it — a `Format: 1`
+entry does not say what became of its apparatus.
 
 ### JOURNAL.md
 

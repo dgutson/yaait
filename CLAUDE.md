@@ -62,9 +62,10 @@ which must not be given the design conversation), and `code/references/aposd-vs-
 smells are properties of a dependency graph, review criteria are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
-`DESIGN.md`, `TECH.md`, `JOURNAL.md`, `FEEDBACK.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and
-the optional `DESIGN_GUIDELINE.md` / `CODING_GUIDELINE.md` at the project root. Never create
-those here; dogfooding happens in a fresh session and a separate directory (ROADMAP R-002).
+`DESIGN.md`, `TECH.md`, `JOURNAL.md`, `FEEDBACK.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md`, an
+`experiments/` directory for kept apparatus, and the optional `DESIGN_GUIDELINE.md` /
+`CODING_GUIDELINE.md` at the project root. Never create those here; dogfooding happens in a
+fresh session and a separate directory (ROADMAP R-002).
 
 ## Invariants that are easy to break
 

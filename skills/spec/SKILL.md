@@ -272,6 +272,7 @@ team reads them on their own account, rather than being machinery of the method:
 <project root>/
 ├── TECH_DEBT.md      outstanding structural debt, with evidence of what it has cost
 ├── EXPERIMENTS.md    decisions settled by measurement rather than argument
+├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, diagrams
@@ -281,6 +282,14 @@ team reads them on their own account, rather than being machinery of the method:
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
                       `yaait:feedback`
 ```
+
+**Nothing that is not prose goes in `.yaait/`.** That directory holds the method's record —
+files the other gates read and parse. A script, a data dump or a log in there is a category
+error whatever its lifetime, and the next gate to list the directory will read it as an
+artifact. Code that produced a number lives in `experiments/` if it is worth keeping at all,
+and outside the repository if it is not: `METHODOLOGY.md` §6 decides which, on the basis of
+whether the experiment measured something that already exists or modelled something that does
+not. Nothing in the product may import from `experiments/`.
 
 `FEEDBACK.md` is the one file here that is **not** an upstream artifact. It records how using
 yaait went, not anything about the thing being built, so nothing traces to it and the reconcile
@@ -584,6 +593,14 @@ Run the cheapest experiment that settles it — **in a subagent where the harnes
 so the throwaway output stays out of this conversation; otherwise run it inline and say that is
 what you did. Record it in `EXPERIMENTS.md` labelled `measured`.
 
+**Then decide what becomes of the apparatus, and say so.** If it measured something that
+already exists, it is scaffolding: run it outside the repository and discard it. If it *models*
+something that does not exist yet — a simulation, a cost model — the apparatus is the
+experiment, rebuilding it later would produce a different model, and it is kept in
+`experiments/` at the project root with the experiment's ID in the filename. Either way the
+`Apparatus:` field in `EXPERIMENTS.md` records which, and **nothing goes in `.yaait/`** — that
+directory holds prose the other gates parse, never code. `METHODOLOGY.md` §6.
+
 Two reasons this is a step and not an aside. An impossible requirement is far cheaper to
 discover here than in `yaait:code`. And a measured number settles a disagreement in one turn
 that argument would not settle at all: the user is entitled to their intuition about a quantity
@@ -747,9 +764,13 @@ This project is developed under yaait. Its artifacts live in `.yaait/`:
   undefended, and continue.
 - **A spike is not an increment.** Code written to produce a number — a benchmark, a
   feasibility probe, a throwaway implementation — is not defended, not reviewed and not
-  tested. What survives is the entry in `EXPERIMENTS.md` and the decision it justifies, not
-  the code. Gating a throwaway measurement is the category error that makes methodologies
-  hated.
+  tested. What survives is the entry in `EXPERIMENTS.md` and the decision it justifies.
+  Gating a throwaway measurement is the category error that makes methodologies hated.
+- **`.yaait/` is prose only, and `experiments/` is off limits to the product.** Scripts,
+  data dumps and logs never go in `.yaait/`; the gates parse what is in there. Apparatus
+  worth keeping lives in `experiments/` at the project root, named by its experiment ID —
+  and **nothing in the product may import from it**, because it skipped every gate on
+  purpose. An import from `experiments/` is a review finding, not a judgment call.
 - Append to `JOURNAL.md`; never edit or delete an entry.
 ```
 

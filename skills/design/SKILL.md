@@ -274,6 +274,7 @@ team reads them on their own account, rather than being machinery of the method:
 <project root>/
 ├── TECH_DEBT.md      outstanding structural debt, with evidence of what it has cost
 ├── EXPERIMENTS.md    decisions settled by measurement rather than argument
+├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, diagrams
@@ -283,6 +284,14 @@ team reads them on their own account, rather than being machinery of the method:
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
                       `yaait:feedback`
 ```
+
+**Nothing that is not prose goes in `.yaait/`.** That directory holds the method's record —
+files the other gates read and parse. A script, a data dump or a log in there is a category
+error whatever its lifetime, and the next gate to list the directory will read it as an
+artifact. Code that produced a number lives in `experiments/` if it is worth keeping at all,
+and outside the repository if it is not: `METHODOLOGY.md` §6 decides which, on the basis of
+whether the experiment measured something that already exists or modelled something that does
+not. Nothing in the product may import from `experiments/`.
 
 `FEEDBACK.md` is the one file here that is **not** an upstream artifact. It records how using
 yaait went, not anything about the thing being built, so nothing traces to it and the reconcile
@@ -495,12 +504,16 @@ omitted.
 
 **When the answer is not obvious, measure it.** Which structure is faster at our N, whether
 this approach holds up at the data size the spec implies — those have answers. Run the
-experiment **in a subagent**, so the throwaway implementations and benchmark output stay out
-of this conversation, and record it in `EXPERIMENTS.md` with the question stated before the
-run and the result labelled `measured`.
+experiment **in a subagent where the harness allows one**, so the throwaway implementations and
+benchmark output stay out of this conversation; otherwise run it inline and say so. Record it
+in `EXPERIMENTS.md` with the question stated before the run and the result labelled `measured`.
 
-Experiment code is a spike: not defended, not smell-reviewed, not tested, deleted afterwards.
-What survives is the `EXPERIMENTS.md` entry and the decision it justifies.
+Experiment code is a spike: not defended, not smell-reviewed, not tested. What survives is the
+`EXPERIMENTS.md` entry and the decision it justifies. An algorithm comparison measures code
+that exists, so its apparatus is scaffolding — run it outside the repository and discard it,
+recording `discarded` in the entry. A *model* of something not yet built is kept instead, in
+`experiments/` at the project root. Never in `.yaait/`, which holds prose the gates parse.
+`METHODOLOGY.md` §6.
 
 ### The failure mode here is yours
 

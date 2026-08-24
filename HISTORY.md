@@ -4,6 +4,65 @@
 
 ## 2026-08-24
 
+### Experiment apparatus gets a home, and `.yaait/` stops accepting code
+
+**Released 0.10.0.** The `spec` dogfood wrote its board-density simulation to `.yaait/sim.py`,
+beside `SPEC.md` and `JOURNAL.md`, and announced it as "rerunnable". Two separate defects, one
+of them doctrinal.
+
+**`.yaait/` is prose only, and nothing said so.** That directory holds the method's record —
+files the other gates read and parse — and the layout diagram merely listed them without ever
+stating the constraint. A script in there is a category error whatever its lifetime, because
+the next gate to list the directory reads it as an artifact. Now stated in the shared block, in
+`METHODOLOGY.md` §6, and in the `## yaait` block that `spec` Step 9 installs into the project's
+own `CLAUDE.md` — which is the copy that governs sessions never loading this plugin, and
+therefore the ones most likely to import from a stray script.
+
+**§6 said "deleted" and meant it, but §6 was written about benchmarks.** All three of its
+examples measure something that already exists: an algorithm on data, a library at load, a
+format at a size. For those the code under test is the record, the apparatus is scaffolding,
+and keeping it is worse than useless — re-running later means running against the
+*then-current* code, so old apparatus is stale by construction and its numbers do not compare
+with the new ones. But a simulation of a game nobody has built has no code under test. The
+apparatus *is* the experiment, its numbers are only comparable with each other, and rebuilding
+it from the prose entry produces a **different model** whose output cannot be compared with
+what is already recorded. The method had no slot for that, so the session improvised, kept the
+file, and never stated the decision.
+
+So the rule now turns on what the experiment measured, which is a fact, rather than on whether
+anyone expects to re-run it — that is a forecast, and the rule added in 0.9.0 says not to ask
+for those. Measures something that exists: discard the apparatus, run it outside the repository
+rather than writing it into the working tree and deleting it after. Models something that does
+not exist yet: keep it, in `experiments/` at the project root beside `EXPERIMENTS.md`, with the
+experiment's ID in the filename so the link survives somebody rewording the description. Either
+way `EXPERIMENTS.md` gains an `Apparatus:` field recording which — `discarded` with a reason,
+or the path and the command that re-runs it — so the decision is stated instead of inferred
+from whether a file happens to be lying around. That makes it `Format: 2`.
+
+**The form is the project's choice, and the method names properties instead of a tool**, on the
+precedent of how §7 handles the code map. A kept apparatus re-runs with one recorded command,
+has its parameters as named inputs at the top rather than magic numbers three functions deep,
+records its numbers in `EXPERIMENTS.md` rather than only in its own output, carries the date
+and environment it ran in, and is imported by nothing in the product. A plain script is the
+default — no dependency, any language, and it diffs, which is the entire point of versioning
+it. A `.ipynb` notebook is a poor fit for a reason specific to this method: it permits
+out-of-order execution, so possessing the notebook does not establish which state produced the
+number, and a trustworthy provenance for a number is what `EXPERIMENTS.md` exists for. marimo
+is offered as an option where the project is already Python and wants something interactive,
+since it is a plain `.py` that diffs and its dataflow execution removes the stale-state problem
+— an option, never a requirement, per §11.
+
+**The boundary is enforced rather than wished for.** "Nothing imports from `experiments/`" is
+decoration unless something checks it, so it is now a named finding in `code`'s review criteria
+— always a finding, never a judgment call, because that directory skipped every gate by design
+and an import silently promotes it to production code. It is also in the installed `CLAUDE.md`
+block for the same reason as above. This is §5's containment rule applied to a directory
+instead of a module.
+
+**Not fixed:** the existing `.yaait/sim.py` in the naval-battle project is not moved by any of
+this — the plugin cannot reach into a project on another machine. That is a manual step, and it
+is the first thing to do there before `design` runs.
+
 ### `:feedback`, an instrument for the friction the artifacts never show
 
 Added `/yaait:feedback` in the same release. It captures what went wrong in the gate that just

@@ -144,6 +144,11 @@ small increment.
   of them — see §5.
 - **Dead code** — unreachable, unused, or commented out. Delete it. Version control is the
   archive; commented-out code is how Lava Flow starts.
+- **Import from `experiments/`** — always a finding, never a judgment call. That directory
+  holds apparatus that produced a number: not defended, not smell-reviewed, not tested, by
+  design (`METHODOLOGY.md` §6). The moment product code imports from it, it has become
+  production code that skipped every gate. *Fix:* move what is needed into the increment
+  properly, through `yaait:code`, and leave the apparatus alone.
 - **Defensive redundancy** — the same condition validated at three levels. Reads as
   thoroughness; actually diffuses ownership, so no layer will dare drop the check. Decide
   which layer owns the invariant, state it in `DESIGN.md`, delete the rest.
