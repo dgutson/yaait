@@ -656,7 +656,7 @@ reason `ROADMAP.md` sits at the root.
 ├── CODING_GUIDELINE.md    optional: standing house style (§12)
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
-    ├── DESIGN.md     optional: components, invariants, budget, diagrams
+    ├── DESIGN.md     optional: components, invariants, diagrams
     ├── TECH.md       optional: the stack, with verified versions and falsifiers
     └── JOURNAL.md    append-only record of decisions, approvals, debt and challenges
 ```
@@ -838,26 +838,11 @@ costs only the branch. A second TTB started on top of an unfinished one costs th
 that point no `JOURNAL.md` entry can be attributed to one of them, which is the one thing the
 journal exists to make possible.
 
-## 11. Name your units before you count them
+## 11. The reference material speaks OO, and that is a dialect
 
-The size budget is a number, and a number needs units. **Declare the units from the project's
-own vocabulary, at the moment you declare the budget.**
-
-A budget of "4 modules, 6 types, 1 interface, 0 abstract base classes" is a perfectly good
-budget for a project that has classes. For a C project the units are translation units,
-structs, headers and function-pointer tables. For a functional project they are modules, types
-and the places behaviour is passed as a value. For a shell or configuration codebase they are
-something else again. The units are whatever a reader of *this* project would count.
-
-Manifesto principle 10 — simplicity is a declared number — survives intact, because the
-mechanism was never the specific nouns. It was declaring the count before producing the thing,
-so that the count is a commitment rather than a description of what you happened to write.
-
-The rule exists because a budget in units the project does not have is not a loose budget; it
-is an unenforceable one. Nobody can exceed a count of abstract base classes in C, so the
-budget silently permits any amount of structure, which is the opposite of what it was for.
-
-### The reference material speaks OO, and that is a dialect
+**The method is paradigm-neutral. Its reference material is not**, and the gap is not
+cosmetic: a rule stated in nouns the project does not have is not a loose rule, it is an
+unenforceable one.
 
 The catalogues this method reads from — the architectural smell catalogue and the code review
 criteria — are written largely in object-oriented vocabulary: classes, interfaces,

@@ -66,8 +66,8 @@ to be the person who accepted the cost.
 8. **A decision that exists only in the conversation has not happened.** Including what
    you decided not to do.
 9. **The document never outranks the world.** Nor does the code, silently.
-10. **Simplicity is a declared number.** Every abstraction past it names the second concrete
-    thing that needs it.
+10. **Every abstraction names the second concrete thing that needs it, or the dated event
+    that will produce one.** One variant and neither is a guess, not a design.
 11. **Debt is allowed. Hidden debt is not, and smeared debt is not.** Contain it behind a
     boundary or it will never be repaid.
 12. **The multiplier acts on judgment.** Applied to zero it returns zero.

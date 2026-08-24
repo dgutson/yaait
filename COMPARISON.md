@@ -303,7 +303,7 @@ whose servicing cost exceeds what the team can produce.
 | | Scrum | yaait |
 |---|---|---|
 | Unit of planning | the sprint (time) | the artifact (spec, design, increment) |
-| Design | emerges | precedes, explicitly, with a declared size budget |
+| Design | emerges | precedes, explicitly; every abstraction names its second concrete variant |
 | Debt control | "prioritize refactoring" | a gate that will not pass an undefended abstraction |
 | Metrics | velocity, burndown | defended vs. undefended artifacts; recorded comprehension debt |
 | Done means | acceptance criteria met | acceptance criteria met **and** someone can defend it, or the record says they cannot |
