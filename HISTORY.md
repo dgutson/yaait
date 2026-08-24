@@ -2,6 +2,56 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-08-24
+
+### The size budget is removed
+
+`design` Step 1 made the model declare "4 modules, 6 types, 1 interface, 0 abstract base
+classes" before designing; the number had reached fifteen sites including a manifesto
+principle, a `METHODOLOGY.md` section, the `DESIGN.md` template and the shared block in all
+six skills. It is gone.
+
+- **The number was never the mechanism.** Step 4 judges each abstraction against its second
+  concrete variant; Step 6 judges the whole design against `smells.md` §8, twelve
+  LLM-specific antipatterns written about exactly this failure. Neither needs a count, and
+  neither needs units — which is what had forced §11 into existence.
+- **Read literally, the budget was an amnesty**, not a cap: only elements *beyond* the number
+  had to name a second variant, exempting the first N from the test that works. Read
+  charitably it was redundant. The ambiguity was itself a defect.
+- **The pre-registration argument does not hold.** The same agent declared the number,
+  designed against it and reported the result, in one turn, from the same spec. Registration
+  works when a third party holds it and an independent instrument measures the outcome.
+- **REVIEW A8 is resolved**, the first half by removal, the second — Principle 10 forbidding
+  the litter box Principle 11 mandates — by the audit's own proposed clause: "or the dated
+  event that will produce one", which is what `design` Step 4b already used.
+- **R-001's Q1 lost a horn** and **R-011 lost an example**; both items stay open.
+- **Released 0.5.0.** An installed 0.4.0 still asks for a budget and writes a `## Budget`
+  section into `DESIGN.md` that nothing else in the method reads.
+
+Nothing re-counts what no longer exists, so the planned A8a fix was dropped rather than
+built. `METHODOLOGY.md` §11 keeps its number and its second half; `MANIFESTO.md`'s principles
+were not renumbered, because a citation can survive a renumber while resolving to the wrong
+principle.
+
+### R-009 part A: the defense gets four outcomes and a teaching record
+
+Three commits, `0f8bd4f`..`699749a`, applying `REVIEW.md` findings A1, A2 and A3.
+
+- **Principle 8** said the opposite of what the method does. It now carries the shared block's
+  own wording — a decision that exists *only* in the conversation has not happened — and the
+  restatement in `METHODOLOGY.md` §2 was deleted rather than synced.
+- **A1 — a fourth defense outcome.** *Answered wrongly* → `DEBT`, never `APPROVAL`. The `DEBT`
+  template gained a `What happened` field.
+- **A3 — every defense closes by naming what it did not probe**, as categories rather than
+  instances. Recorded in `REVIEW.md` as "applied, but not as written".
+- **`TAUGHT`**, a fifth journal entry type, deliberately recording the exchange and no verdict
+  — so A5, whether machine-graded comprehension counts, stays a live question. The format
+  landed before the command that reads it because `JOURNAL.md` is append-only.
+- **R-007 became `:learn`** and lost a premise that was false: the teaching data it was said
+  to read did not exist, because the Taught path wrote nothing.
+
+Still open from R-009: A4, A5, A6, A7, A9, A10, A11, B1, B2, B3.
+
 ## 2026-08-23
 
 ### Doctrine pass: maintenance framing, the loop, two TTB kinds, tool-agnosticism

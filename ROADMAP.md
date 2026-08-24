@@ -18,22 +18,22 @@ Next ID: R-012
 - **Category:** Doctrine
 - **What:** Hold a dedicated discussion on *Clean Code* and rewrite
   `skills/code/references/review.md` §5 into settled criteria. The five open questions are
-  already written out in that file as the agenda: function size versus the declared size
-  budget; where the *why* lives if comments are held to be a failure; how many small classes
-  is too many; which Clean Code prescriptions have any empirical support; and what
-  `yaait:code` does in a codebase whose team already follows the book.
+  already written out in that file as the agenda: function size versus the structural smells;
+  where the *why* lives if comments are held to be a failure; how many small classes is too
+  many; which Clean Code prescriptions have any empirical support; and what `yaait:code` does
+  in a codebase whose team already follows the book.
 - **Why:** Several Clean Code prescriptions **contradict decisions yaait has already made**,
   so this cannot be settled in a paragraph. "Extract till you drop" and many-small-classes
   produce the Poltergeist, Middle Man and Lasagna shapes that
-  `skills/design/references/smells.md` condemns, and collide with the size budget
-  `yaait:design` declares. "Comments are a failure to express yourself in code" collides
+  `skills/design/references/smells.md` condemns. "Comments are a failure to express yourself
+  in code" collides
   head-on with the comprehension gate: code can express *what* and *how*, never *why this
   and not the obvious alternative* — which is exactly what a defense asks for. Until this
   lands, `yaait:code`'s review criteria are marked provisional and the conflicts are
   unresolved in a file the user reads.
 - **Outcome:** `review.md` §5 is replaced by settled criteria, the PROVISIONAL banner is
-  removed, and any consequent change to `design/references/smells.md` or to `design`'s
-  budget rule is made in the same pass.
+  removed, and any consequent change to `design/references/smells.md` or to `design`'s Step 4
+  is made in the same pass.
 - **Blocked-by:** R-008
 - **Enables:** R-002
 
@@ -177,10 +177,9 @@ Next ID: R-012
   a vtable of one and a registration macro nobody registers with. Error masking's C shape — an
   ignored return code — is absent from the most-measured check in the method.
 - **Why:** yaait should work on the Linux kernel. Right now a C project hits a mandatory class
-  diagram in Step 5, a budget counting abstract base classes in Step 1, and a review that
-  reports clean because half its detectors are structurally incapable of firing. That last one
-  is the real damage: a detector that cannot fire is not a pass, but it reports as one, which
-  is worse than having no detector at all.
+  diagram in Step 5 and a review that reports clean because half its detectors are structurally
+  incapable of firing. That second one is the real damage: a detector that cannot fire is not a
+  pass, but it reports as one, which is worse than having no detector at all.
 - **Outcome:** every rule in the reference files either restates in the project's own units or
   says explicitly that it does not apply. No detector reports a result it cannot compute.
 - **Blocked-by:** —

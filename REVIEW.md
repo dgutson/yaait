@@ -3,7 +3,7 @@
 > **Findings only, except where a finding is marked APPLIED.** Reviewed 2026-08-22 against
 > commit `fb46241`. Line numbers refer to the files at that commit; the doctrine pass of
 > 2026-08-21..23 has since moved them, so read the citations with
-> `git show fb46241:<file>`. Applied so far: **A1**, **A2**, **A3**.
+> `git show fb46241:<file>`. Applied so far: **A1**, **A2**, **A3**; **A8** resolved.
 
 ## How this was produced
 
@@ -193,6 +193,13 @@ hatch of the rule that names the failure.
 affected document's own header, replacing "Kept true".
 
 ## A8. Principle 10 has no delivery mechanism, and lacks the carve-out Principle 11 requires — SOFT
+
+> **RESOLVED 2026-08-24**, by removing the mechanism rather than delivering it. The size
+> budget is deleted from `design`, from the `DESIGN.md` template, from the shared block and
+> from Principle 10 — so there is no number left to re-count, and the finding's first half is
+> moot rather than fixed. The second half is fixed as the audit proposed: Principle 10 now
+> reads "...or the dated event that will produce one", which is the clause `design` Step 4b
+> already used to admit the litter box. See the commits of 2026-08-24.
 
 "Simplicity is a declared number" (`:62-63`) appears in one skill only. `code` never
 re-counts the budget; `stest` and `debt` never check it. "Actual" is filled in by the same
