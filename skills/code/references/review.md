@@ -184,11 +184,11 @@ yaait has not taken a position on *Clean Code*, and it cannot borrow one, becaus
 that book's prescriptions **conflict with decisions yaait has already made.** These are not
 matters of taste; they are contradictions that would make the review criteria incoherent.
 
-**Q1 — Function size versus the size budget.** "Extract till you drop" and "functions should
-be four lines long" produce many small functions, each named, each delegating. That is the
-same shape as Poltergeist, Middle Man and Lasagna Code, all of which
-`design/references/smells.md` condemns — and it collides directly with the numeric budget
-`yaait:design` declares. Both positions cannot hold. Which wins, and where is the boundary?
+**Q1 — Function size versus the structural smells.** "Extract till you drop" and "functions
+should be four lines long" produce many small functions, each named, each delegating. That is
+the same shape as Poltergeist, Middle Man and Lasagna Code, all of which
+`design/references/smells.md` condemns. Both positions cannot hold. Which wins, and where is
+the boundary?
 
 **Q2 — Comments.** Clean Code holds that a comment is a failure to express yourself in code.
 yaait holds that the human must be able to defend this code in six months. Code can express
