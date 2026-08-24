@@ -227,21 +227,26 @@ and gets promoted when it turns out to be one. Full formats for both root files 
 
 `JOURNAL.md` is append-only. Never edit or delete an entry — if something turns out to be
 wrong, append a new entry saying so. Its whole value is being a record, and a record that
-gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
+gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading, and every entry opens
+with the gate that wrote it — several gates run on the same day, and without that line the
+record cannot answer which of them a project actually used:
 
 ```markdown
 ### DECISION — <short title>
+- **Gate:** the command writing this entry.
 - **Context:** what prompted the choice.
 - **Chosen:** what was picked.
 - **Rejected:** what was not, and why not.
 - **Decided by:** who.
 
 ### APPROVAL — <artifact element>
+- **Gate:** the command writing this entry.
 - **Question asked:** the defense question.
 - **Answer:** what the user said, and whether it held up.
 - **Approved by:** who.
 
 ### DEBT — undefended: <what, and where>
+- **Gate:** the command writing this entry.
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
 - **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
@@ -249,11 +254,13 @@ gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
 - **Accepted by:** who, and whether deliberately.
 
 ### TAUGHT — <concept>, at <artifact element>
+- **Gate:** the command writing this entry.
 - **Concept:** the name, as it would be looked up later.
 - **Prompted by:** the defense question that surfaced it.
 - **Re-probe:** the second question asked, and what the user said.
 
 ### CHALLENGE — <the disputed point>
+- **Gate:** the command writing this entry.
 - **My position:** and the failure mode it rested on.
 - **Their position:**
 - **Outcome:** who conceded, and what they had got wrong.

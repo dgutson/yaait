@@ -51,10 +51,11 @@ why this command exists → the shared rules block → numbered `Step N` section
 defense and a close. Deep reference material that would bloat the context lives in
 `skills/<name>/references/` and is read on demand: `code/references/review.md` (code-level
 review), `design/references/smells.md` (architectural smells), `design/references/mermaid.md`,
-and `code/references/aposd-vs-clean-code.md` — which is *input* to R-001, not criteria, and
-must never be cited as settled. `review.md` and `smells.md` are deliberately at different
-altitudes and must not overlap — smells are properties of a dependency graph, review criteria
-are properties of a diff.
+`design/references/independent-check.md` (the brief for the subagent `design` Step 7a spawns,
+which must not be given the design conversation), and `code/references/aposd-vs-clean-code.md`
+— which is *input* to R-001, not criteria, and must never be cited as settled.
+`review.md` and `smells.md` are deliberately at different altitudes and must not overlap —
+smells are properties of a dependency graph, review criteria are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
 `DESIGN.md`, `TECH.md`, `JOURNAL.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and the optional

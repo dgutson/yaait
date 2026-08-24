@@ -761,12 +761,18 @@ Append-only. Never edit or delete an entry; if something turns out to be wrong, 
 entry saying so. The value of this file is that it is a record, and a record that gets
 tidied is a story.
 
+Every entry names the gate that wrote it. Entries are grouped by date and several gates run
+on the same day, so without that line the file records what was decided but not which part
+of the method was in use when it was — and "which gates does this project actually run" is a
+question nothing else can answer.
+
 Five entry types:
 
 ```markdown
 ## 2026-08-21
 
 ### DECISION — event loop over threads
+- **Gate:** design
 - **Context:** input handling for the game loop.
 - **Chosen:** single-threaded event loop.
 - **Rejected:** a thread per input source — cost of synchronising shared game state
@@ -774,11 +780,13 @@ Five entry types:
 - **Decided by:** Daniel.
 
 ### APPROVAL — Board.apply_move signature
+- **Gate:** code
 - **Question asked:** "What happens if apply_move is called with a move for the wrong player?"
 - **Answer:** correct — raises before mutating, so the board is never half-updated.
 - **Approved by:** Daniel.
 
 ### DEBT — undefended: the retry backoff in net/client.py
+- **Gate:** code
 - **Undefended:** why the backoff is exponential with jitter rather than fixed.
 - **Concept not established:** thundering herd.
 - **Consequence if wrong:** under a server outage, all clients retry in lockstep and
@@ -786,12 +794,14 @@ Five entry types:
 - **Accepted by:** Daniel, deliberately, to keep moving.
 
 ### TAUGHT — thundering herd, at the retry backoff in net/client.py
+- **Gate:** code
 - **Concept:** thundering herd.
 - **Prompted by:** "the server is down for ten minutes — how many requests does this send?"
 - **Re-probe:** "what changes if every client starts its backoff at the same instant?" —
   Daniel: "they stay in lockstep; the jitter is what decorrelates them."
 
 ### CHALLENGE — persisting the whole game state every move
+- **Gate:** code
 - **My position:** write only the move log; full-state writes will dominate frame time.
 - **Daniel's position:** state is 4 KB, writes are async, simplicity wins at this size.
 - **Outcome:** Daniel's. I conceded — I had not checked the state size and my objection

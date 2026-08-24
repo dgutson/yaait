@@ -215,21 +215,26 @@ and gets promoted when it turns out to be one. Full formats for both root files 
 
 `JOURNAL.md` is append-only. Never edit or delete an entry — if something turns out to be
 wrong, append a new entry saying so. Its whole value is being a record, and a record that
-gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
+gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading, and every entry opens
+with the gate that wrote it — several gates run on the same day, and without that line the
+record cannot answer which of them a project actually used:
 
 ```markdown
 ### DECISION — <short title>
+- **Gate:** the command writing this entry.
 - **Context:** what prompted the choice.
 - **Chosen:** what was picked.
 - **Rejected:** what was not, and why not.
 - **Decided by:** who.
 
 ### APPROVAL — <artifact element>
+- **Gate:** the command writing this entry.
 - **Question asked:** the defense question.
 - **Answer:** what the user said, and whether it held up.
 - **Approved by:** who.
 
 ### DEBT — undefended: <what, and where>
+- **Gate:** the command writing this entry.
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
 - **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
@@ -237,11 +242,13 @@ gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
 - **Accepted by:** who, and whether deliberately.
 
 ### TAUGHT — <concept>, at <artifact element>
+- **Gate:** the command writing this entry.
 - **Concept:** the name, as it would be looked up later.
 - **Prompted by:** the defense question that surfaced it.
 - **Re-probe:** the second question asked, and what the user said.
 
 ### CHALLENGE — <the disputed point>
+- **Gate:** the command writing this entry.
 - **My position:** and the failure mode it rested on.
 - **Their position:**
 - **Outcome:** who conceded, and what they had got wrong.
@@ -259,7 +266,19 @@ that this one inherits.
 
 If there is no spec, say so and offer `yaait:spec`. You can proceed without one if the user
 insists, but say what is being given up: without acceptance criteria there is nothing for
-`yaait:stest` to trace against, so "done" will be a matter of opinion.
+`yaait:stest` to trace against, so "done" will be a matter of opinion. If they proceed
+anyway, append a `DECISION` saying so. A gate that was offered and declined and a gate that
+nobody ever mentioned leave exactly the same silence in the record, and only one of the two
+is worth knowing about later.
+
+If there is a spec, **check its `Gates recommended` section against what is actually on
+disk.** Where it recommends `yaait:design` and no `DESIGN.md` exists, or recommends
+`yaait:tech` and no `TECH.md` exists, name the criterion that fired and ask whether to run
+that gate before this increment. If the user proceeds without it, append a `DECISION`
+carrying the recommendation, the criterion and the choice — this is the only point at which
+a gate skipped silently in some earlier session becomes visible at all. A spec written
+before this section existed does not have one: say that once and continue, rather than
+reading its absence as nothing having been recommended.
 
 Read `CODING_GUIDELINE.md` at the project root if it exists. It settles the questions the
 review criteria deliberately leave open, and once settled they are constraints rather than

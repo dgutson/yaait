@@ -221,21 +221,26 @@ and gets promoted when it turns out to be one. Full formats for both root files 
 
 `JOURNAL.md` is append-only. Never edit or delete an entry — if something turns out to be
 wrong, append a new entry saying so. Its whole value is being a record, and a record that
-gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
+gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading, and every entry opens
+with the gate that wrote it — several gates run on the same day, and without that line the
+record cannot answer which of them a project actually used:
 
 ```markdown
 ### DECISION — <short title>
+- **Gate:** the command writing this entry.
 - **Context:** what prompted the choice.
 - **Chosen:** what was picked.
 - **Rejected:** what was not, and why not.
 - **Decided by:** who.
 
 ### APPROVAL — <artifact element>
+- **Gate:** the command writing this entry.
 - **Question asked:** the defense question.
 - **Answer:** what the user said, and whether it held up.
 - **Approved by:** who.
 
 ### DEBT — undefended: <what, and where>
+- **Gate:** the command writing this entry.
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
 - **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
@@ -243,11 +248,13 @@ gets tidied is a story. Entries go under a `## YYYY-MM-DD` heading:
 - **Accepted by:** who, and whether deliberately.
 
 ### TAUGHT — <concept>, at <artifact element>
+- **Gate:** the command writing this entry.
 - **Concept:** the name, as it would be looked up later.
 - **Prompted by:** the defense question that surfaced it.
 - **Re-probe:** the second question asked, and what the user said.
 
 ### CHALLENGE — <the disputed point>
+- **Gate:** the command writing this entry.
 - **My position:** and the failure mode it rested on.
 - **Their position:**
 - **Outcome:** who conceded, and what they had got wrong.
@@ -494,6 +501,11 @@ Next ID: S-007
 ## Open questions
 
 - <anything genuinely unresolved — not padding>
+
+## Gates recommended
+
+- `yaait:design` — <recommended | not warranted>, because <which criterion fired>
+- `yaait:tech` — <recommended | not warranted>, because <which criterion fired>
 ```
 
 Keep `Format: 1`. Other commands parse this file, and a parser that reads a changed format
@@ -522,9 +534,19 @@ anything you argued about.
 
 ## Step 9 — Install the standing rule
 
-The spec only stays true if later sessions know it exists. Append this to the project's
-`CLAUDE.md`, creating the file if absent, so it loads in every future session — including
-sessions that never invoke this plugin:
+The spec only stays true if later sessions know it exists. It lives in the project's
+`CLAUDE.md`, so it loads in every future session — including sessions that never invoke this
+plugin.
+
+**Read that file first and look for a `## yaait` heading.** A Maintenance TTB runs this gate
+in a project that already has the block, and an append that does not check installs the
+standing rules a second time. Duplicated instructions are not inert: a rule stated twice
+reads as a rule stated emphatically, and nothing tells the reader which copy is current.
+
+- **Absent** — append the block below, creating `CLAUDE.md` if there is none.
+- **Present, and it matches** — say it is already installed and move on.
+- **Present, but it differs** — say what differs and offer to replace it. Never append a
+  second copy.
 
 ```markdown
 ## yaait
@@ -548,6 +570,11 @@ This project is developed under yaait. Its artifacts live in `.yaait/`:
   with X", always something whose answer is in the code. If they cannot answer and do not
   want to go into it, record a `DEBT` entry in `JOURNAL.md` naming exactly what is
   undefended, and continue.
+- **A spike is not an increment.** Code written to produce a number — a benchmark, a
+  feasibility probe, a throwaway implementation — is not defended, not reviewed and not
+  tested. What survives is the entry in `EXPERIMENTS.md` and the decision it justifies, not
+  the code. Gating a throwaway measurement is the category error that makes methodologies
+  hated.
 - Append to `JOURNAL.md`; never edit or delete an entry.
 ```
 
@@ -576,5 +603,17 @@ worth more than the thorough one.
 **Recommend `yaait:tech` when** the stack is not already constrained, or when it is
 constrained by something the user could not justify when asked in Step 6.
 
-State the recommendation, give the reason in one line, and stop. Do not start the next
-phase unless asked.
+State the recommendation, give the reason in one line, and **write it into `SPEC.md`'s
+`Gates recommended` section** — both the recommendation and the criterion that fired, for
+each of the two gates. Say it out loud and stop; do not start the next phase unless asked.
+
+The section is written even when the answer is "not warranted", because that is the case a
+later reader most needs: a spec with no `DESIGN.md` beside it is otherwise indistinguishable
+from a spec whose design phase was recommended and skipped. Recording the recommendation is
+what lets `yaait:code` tell those apart without anyone keeping notes.
+
+If the user says here that they are proceeding without a gate you recommended, append a
+`DECISION` naming the criterion that fired and the fact that it was declined. A
+recommendation made against criteria and then dropped leaves no trace otherwise, and the
+record then shows a project that was never advised rather than one that was advised and
+chose differently — which is the more flattering of the two and the less true.

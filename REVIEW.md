@@ -3,7 +3,8 @@
 > **Findings only, except where a finding is marked APPLIED.** Reviewed 2026-08-22 against
 > commit `fb46241`. Line numbers refer to the files at that commit; the doctrine pass of
 > 2026-08-21..23 has since moved them, so read the citations with
-> `git show fb46241:<file>`. Applied so far: **A1**, **A2**, **A3**; **A8** resolved.
+> `git show fb46241:<file>`. Applied so far: **A1**, **A2**, **A3**; **A8** resolved;
+> **A11** partly applied.
 
 ## How this was produced
 
@@ -243,6 +244,18 @@ the premise — a loop reasoning "only from the code" — is absent from the con
 cannot."
 
 ## A11. Scope is stated absolutely in one place and narrowed in another — SCOPE
+
+> **PARTLY APPLIED 2026-08-24 — the installed block only.** The `## yaait` block `spec`
+> writes into the project's `CLAUDE.md` now carries the carve-out `METHODOLOGY.md` §5 always
+> had: a spike is not an increment, and what survives is the `EXPERIMENTS.md` entry rather
+> than the code. Step 9 also gained the idempotency guard the finding does not mention — a
+> Maintenance TTB re-runs that gate, and the append had no check, so the standing rules
+> installed twice.
+>
+> **Still open, both remaining claims.** `MANIFESTO.md:72` versus `:84-89` is untouched, and
+> `code` still runs with no `SPEC.md` and never asks the applicability question, so a user
+> can enter the gates without ever having been asked whether yaait applies. That path now
+> leaves a `DECISION` behind, which records the choice but does not put the question.
 
 `MANIFESTO.md:72` states the accountability requirement unconditionally, and `:76`
 reinforces it against one specific defeater while naming no others. `:84-89` then exempts

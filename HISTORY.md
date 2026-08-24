@@ -4,6 +4,48 @@
 
 ## 2026-08-24
 
+### Prep for the first project: no duplicate standing rules, and a run that records itself
+
+Both changes alter what an installed copy does, so **released 0.7.0**.
+
+**The spec gate no longer breaks the project's `CLAUDE.md`.** Step 9 appended the `## yaait`
+block with no idempotency guard, so a second `/yaait:spec` — the normal case, since every
+change after the first is a Maintenance TTB — installed the standing rules twice. It now reads
+the file first and branches on whether a `## yaait` heading is present, offering to replace a
+block that differs rather than appending beside it. The block also gained the spike carve-out
+`METHODOLOGY.md` §5 has always carried; without it, the file governing every future session in
+that project — including sessions that never load this plugin — instructed them to gate
+throwaway measurements, which is the category error §5 names by name. This discharges the
+second half of REVIEW A11.
+
+**The method now records which gates ran, and which were recommended and skipped.** The first
+dogfood exists to find where the method gets quietly abandoned, and nothing could produce that
+record: `JOURNAL.md` entries carried a date and a type but not their origin, and a declined
+gate was detected in two places and written down in neither. Two mechanisms, neither of which
+asks anyone to keep notes:
+
+- **Every `JOURNAL.md` entry opens with a `Gate:` line.** Several gates run on one day, so the
+  file recorded what was decided but not which part of the method was in use when it was. Five
+  templates in the shared block of all six skills, mirrored in `METHODOLOGY.md` §8, whose
+  worked example now shows two different gates under one date.
+- **A gate recommended and never run becomes visible.** `SPEC.md` gained a `Gates recommended`
+  section, written by `spec` Step 10 *even when the answer is "not warranted"* — a spec with no
+  `DESIGN.md` beside it is otherwise indistinguishable from one whose design phase was
+  recommended and skipped. `code` Step 0 checks that section against what is on disk and
+  appends a `DECISION` when the user proceeds anyway, and does the same on its no-spec path.
+  No new entry type: a declined gate already fits `DECISION`'s Context/Chosen/Rejected shape.
+
+`Format: 1` stands — nothing validates the field, the new section is additive, and no `SPEC.md`
+exists anywhere yet to be misread.
+
+**What this deliberately does not cover.** A gate abandoned *mid-flow* leaves a partial
+artifact and still reads as having run. The record answers "which gates ran" and "which were
+skipped outright", not "where did the user stop halfway". The OO-only vocabulary of the
+reference material was checked and deferred: it costs nothing on the OO project this will
+first be run against, and becomes blocking the day yaait is pointed at C.
+
+This repo's own `CLAUDE.md` also stopped claiming four reference files where there are five.
+
 ### The author stops auditing itself: `design` gets an independent check
 
 `design` Step 7a spawns a subagent with `references/independent-check.md` as its brief. It

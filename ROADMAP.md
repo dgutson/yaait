@@ -50,6 +50,11 @@ Next ID: R-013
   and `stest` weakly, since game acceptance criteria are fuzzy.
 - **Outcome:** A written record of which gates were used and which were skipped, and at
   least one concrete revision to a SKILL.md driven by it.
+- **Note:** as of 0.7.0 that record writes itself and needs no notes kept during the run —
+  every `JOURNAL.md` entry names the gate that wrote it, and a gate recommended in `SPEC.md`'s
+  `Gates recommended` section but never run produces a `DECISION` the next time `code` runs.
+  What is still not captured is a gate abandoned **mid-flow**: it leaves a partial artifact and
+  reads as having run, so watch for that case by hand and say so if it happens.
 - **Blocked-by:** —
 - **Enables:** R-003, R-004
 
@@ -189,9 +194,12 @@ Next ID: R-013
 
 - **Category:** Doctrine
 - **What:** `REVIEW.md` records 11 findings against `MANIFESTO.md` — five HARD, where both
-  propositions cannot hold — plus a ranked table of places the document oversells. None of it
-  has been applied. Work Part A first, then Part B; Part C lists the suspicions that did not
-  survive checking and needs no action.
+  propositions cannot hold — plus a ranked table of places the document oversells. **A1, A2 and
+  A3 are applied, A8 is resolved, and A11 is half applied** — read `REVIEW.md`'s header and its
+  per-finding markers before starting, rather than reworking what is already done. A11's
+  remaining halves are the `MANIFESTO.md:72` versus `:84-89` contradiction and the fact that
+  `code` never asks whether yaait applies at all. Work Part A first, then Part B; Part C lists
+  the suspicions that did not survive checking and needs no action.
 - **Why:** the manifesto is the document `README.md` advertises as "what yaait claims, in one
   page", so it is the version that gets linked and quoted alone. Its own audit found that the
   accountability clause's escape hatch is unreachable (A1), that Principle 8 is false as
