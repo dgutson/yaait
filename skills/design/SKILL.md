@@ -3,8 +3,8 @@ name: design
 description: >
   Produce, argue about and defend a .yaait/DESIGN.md for the thing to build before any code
   exists — components, responsibilities, invariants, what the design forbids, and mermaid
-  class/sequence/state diagrams — with a declared size budget that every abstraction beyond
-  it must justify by naming a second concrete variant. Deliberately guards both directions:
+  class/sequence/state diagrams — where every abstraction must justify itself by naming a
+  second concrete variant that needs it. Deliberately guards both directions:
   against emergent design (structure that never arrives, debt that never gets repaid) and
   against LLM over-engineering (false abstraction, gold plating, speculative generality,
   symmetry-driven design, pattern-name-driven design). Use whenever the user runs
@@ -281,25 +281,26 @@ If there is no `SPEC.md`, say so and offer to run `yaait:spec` first. Designing 
 verbal description is how invented requirements get baked into structure, where they are
 much more expensive to remove.
 
-## Step 1 — Declare the budget, before designing
+## Step 1 — How every decision below is made
 
-State the size of the design **before** you produce it:
+Steps 2 through 4c each produce decisions. **Every one of them runs the loop** from the rules
+above, at the weight that decision is worth: one line and silence-is-agreement for a choice
+with one plausible option, the full round for one with real alternatives or an unfamiliar
+named concept.
 
-```
-Budget: 4 modules, 6 types, 1 interface, 0 abstract base classes.
-```
+That is not in tension with writing the file before seeking approval (Step 7, Step 8), and the
+distinction matters:
 
-Then design within it. Every element beyond the budget must be justified out loud by
-naming the **second concrete variant** that needs it — see Step 4.
+- **Each decision is agreed before it goes into the artifact.** Not after.
+- **The artifact is written before the artifact-scale defense.** A wrong design on disk is
+  editable; a lost conversation is not.
 
-Declaring the number first is the mechanism, and the ordering is the mechanism. A budget
-declared afterwards is a description of what you happened to produce. "Keep it simple" is
-advice nobody has ever been held to; a number you committed to before you started is
-something the user can hold you to.
+What is forbidden is the third thing, which is what happens by default: producing the whole
+design silently and presenting it finished. The defense in Step 8 samples three to five
+elements. Everything not sampled was then never disclosed at all, and the user is accountable
+for all of it.
 
-Set the budget from the spec, not from what feels professional. Count the requirements,
-count the genuinely distinct responsibilities, and be suspicious of any number larger than
-that count.
+Do not restate this per step. It is one rule and it applies to all of them.
 
 ## Step 1a — For a Maintenance TTB: the impact analysis
 
@@ -326,27 +327,6 @@ proceeding on a guess.
 Without this, "what does this do today" has no recorded answer, so the defense in Step 8
 degrades into a formality — which is the state in which "I do not understand this, I will add
 a flag" passes the gate.
-
-## Step 1b — How every decision below is made
-
-Steps 2 through 4c each produce decisions. **Every one of them runs the loop** from the rules
-above, at the weight that decision is worth: one line and silence-is-agreement for a choice
-with one plausible option, the full round for one with real alternatives or an unfamiliar
-named concept.
-
-That is not in tension with writing the file before seeking approval (Step 7, Step 8), and the
-distinction matters:
-
-- **Each decision is agreed before it goes into the artifact.** Not after.
-- **The artifact is written before the artifact-scale defense.** A wrong design on disk is
-  editable; a lost conversation is not.
-
-What is forbidden is the third thing, which is what happens by default: producing the whole
-design silently and presenting it finished. The defense in Step 8 samples three to five
-elements. Everything not sampled was then never disclosed at all, and the user is accountable
-for all of it.
-
-Do not restate this per step. It is one rule and it applies to all of them.
 
 ## Step 2 — Components and responsibilities
 
@@ -536,11 +516,6 @@ than a clean report.
 
 Format: 1
 Spec: .yaait/SPEC.md
-
-## Budget
-
-Declared: <N modules, N types, N interfaces>. Actual: <N/N/N>.
-<If actual exceeds declared, the justification for each excess element.>
 
 ## Components
 
