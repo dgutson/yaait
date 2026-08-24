@@ -131,8 +131,7 @@ pattern-name-driven design this method separately guards against.
 ### Agree is a write, not a nod
 
 An agreement that exists only in the conversation has not happened. Write the `DECISION`
-entry, including what was rejected and why. This is Manifesto principle 8 — nothing is decided
-in a conversation, including what you decided not to do.
+entry, including what was rejected and why. This is Manifesto principle 8.
 
 ### Verify has two halves
 

@@ -1,7 +1,9 @@
 # Review — MANIFESTO.md
 
-> **Findings only. Nothing here has been applied.** Reviewed 2026-08-22 against commit
-> `fb46241`. Line numbers refer to the files at that commit.
+> **Findings only, except where a finding is marked APPLIED.** Reviewed 2026-08-22 against
+> commit `fb46241`. Line numbers refer to the files at that commit; the doctrine pass of
+> 2026-08-21..23 has since moved them, so read the citations with
+> `git show fb46241:<file>`. Applied so far: **A2**.
 
 ## How this was produced
 
@@ -57,6 +59,13 @@ entry to one, so a reader holding the commit cannot find the record, and vice ve
 obligation ("a challenge you were given no means to answer is not a review").
 
 ## A2. Principle 8 is false as written, and the method contradicts it universally — HARD
+
+> **APPLIED 2026-08-24.** Principle 8 now reads "A decision that exists only in the
+> conversation has not happened" — the shared block's own wording, promoted. The
+> restatement in `METHODOLOGY.md` §2 that carried the unqualified version is gone.
+> Two of the four arguments below were not accepted: the empty-domain reading is
+> over-literal, and the collapse into Principle 4 is wrong — P4 governs comprehension,
+> P8 governs decisions, and nothing in P4 reaches rejected alternatives.
 
 > 8. **Nothing is decided in a conversation.** Including what you decided not to do.
 > (`MANIFESTO.md:60`)
