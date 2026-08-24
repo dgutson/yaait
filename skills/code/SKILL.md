@@ -195,7 +195,7 @@ team reads them on their own account, rather than being machinery of the method:
 ├── EXPERIMENTS.md    decisions settled by measurement rather than argument
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
-    ├── DESIGN.md     optional: components, invariants, size budget, diagrams
+    ├── DESIGN.md     optional: components, invariants, diagrams
     ├── TECH.md       optional: the stack, with verified versions and falsifiers
     └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
                       challenges
