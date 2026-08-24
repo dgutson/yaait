@@ -912,6 +912,39 @@ which is precisely inverted from what asking the user is for.
 
 ---
 
+## 13. The author is not the auditor
+
+A generator checked by the same generator inherits the misunderstanding. `stest` builds its
+human-observation rule on that premise, and it applies below the last gate as well as at it:
+when the party that produced an artifact also reviews it, the review grades the intention
+rather than the artifact, because the intention is the only thing that party cannot forget.
+
+So one review in this method is run by a **second reader that has not seen the conversation**
+— a subagent given the written artifact, the spec, and the standing project files, and
+nothing else. It is spawned for independence. That is a different reason from every other
+delegation here, which exists to keep throwaway output out of the conversation, and the
+difference is load-bearing: attach the conversation to the brief and the check silently
+becomes a second self-review.
+
+Three rules make it survive contact with the session that called it.
+
+**Findings are shown unfiltered.** The author does not get to select which parts of its audit
+the user sees. A filtered audit is the arrangement the step exists to break.
+
+**The caller rebuts, never suppresses.** It holds what the checker was denied — what the user
+asked for, what was rejected, what constraint was stated aloud — so a finding can be wrong
+and saying why is useful. The rebuttal sits beside the finding and the human decides.
+
+**A rebuttal that lands is usually a defect upstream.** If the justification exists but only
+in the conversation, the artifact is not what is wrong; the document that failed to record it
+is. That is the reconcile rule, arriving from an unusual direction.
+
+The failure this guards against is not a bad design passing. It is a design whose weakest
+element is the one nobody can see any more, because the person who could have seen it is the
+person who built it.
+
+---
+
 ## Where the reference material lives
 
 This document names its catalogues by what they are, because where they sit is a property of
@@ -922,5 +955,6 @@ how the method is packaged rather than of the method. In this distribution:
 | the architectural smell catalogue | `skills/design/references/smells.md` |
 | the code review criteria | `skills/code/references/review.md` |
 | the diagram conventions | `skills/design/references/mermaid.md` |
+| the independent check protocol | `skills/design/references/independent-check.md` |
 
 A different packaging may put them elsewhere. Nothing above depends on these paths.

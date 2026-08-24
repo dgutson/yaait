@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-012
+Next ID: R-013
 
 ---
 
@@ -207,6 +207,32 @@ Next ID: R-012
 - **Enables:** —
 
 ## Next
+
+### R-012 — The independent check on a diff, and what "needless verbosity" is
+
+- **Category:** Doctrine
+- **What:** run the arrangement `design` Step 7a now uses — a subagent that has not seen the
+  conversation, findings shown unfiltered, caller rebuts but cannot suppress — against a
+  `yaait:code` increment's diff, and write the one criterion that does not exist yet. The
+  observable form of verbosity is **constructive**: the checker produces the same behaviour in
+  materially less code, and *that rewrite is the finding*. An objection it cannot express as a
+  shorter version passing the increment's tests is taste, and is not reported.
+- **Why:** the design-level check catches structure invented before code exists. It cannot
+  catch the forty-line function where twelve lines do the work, because a design has no code.
+  That is the failure users actually meet: the long function that gets acknowledged as too
+  long and rewritten far shorter the moment somebody comments on it — meaning the shorter
+  version was reachable all along and nothing in the method was going to ask for it.
+- **Guard — this check will fire every time if built naively.** An LLM can always produce a
+  shorter version of any code. The tests-must-pass condition and a named category for what was
+  removed (dead branch, restated condition, wrapper with one caller) are what separate a
+  finding from golf. Without them the user learns to discount it, which costs more than the
+  verbosity did.
+- **Guard — it must not settle how far to extract.** `METHODOLOGY.md` §12 reserves that for
+  `CODING_GUIDELINE.md`, and this criterion sits one inch from it.
+- **Outcome:** `yaait:code` runs an independent check on the increment, and `review.md` carries
+  a verbosity criterion stated as a falsifiable property rather than a preference.
+- **Blocked-by:** R-001
+- **Enables:** —
 
 ### R-003 — Negative-control the discussion protocol
 

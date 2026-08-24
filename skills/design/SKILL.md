@@ -7,7 +7,8 @@ description: >
   second concrete variant that needs it. Deliberately guards both directions:
   against emergent design (structure that never arrives, debt that never gets repaid) and
   against LLM over-engineering (false abstraction, gold plating, speculative generality,
-  symmetry-driven design, pattern-name-driven design). Use whenever the user runs
+  symmetry-driven design, pattern-name-driven design), which a subagent that has not seen the
+  conversation re-checks once the design is written. Use whenever the user runs
   /yaait:design, after /yaait:spec recommends a design phase, or when they say things like
   "how should this be structured", "let's design this", "draw me the classes", "what
   components do we need", "sequence diagram for this flow". Also suggest it before writing
@@ -506,6 +507,10 @@ Report what you found in your own design, including what you removed. "I had a
 `StorageBackend` interface with one implementation and deleted it" is worth more to the user
 than a clean report.
 
+This check is yours and it is not the last word. Step 7a runs the same question past a reader
+that has not seen this conversation, precisely because you know why every element is here and
+will grade the intention. Do not pre-empt it by softening what you report now.
+
 ## Step 7 — Write DESIGN.md
 
 ````markdown
@@ -590,6 +595,33 @@ session from "fixing" it by adding the abstraction you rejected.
 
 Write the file before seeking approval. The defense in Step 8 is where approval happens,
 and a wrong design on disk is editable while a lost conversation is not.
+
+## Step 7a — Run the independent check
+
+Read `references/independent-check.md` and spawn a subagent with it as the brief. It receives
+`DESIGN.md`, `SPEC.md`, `TECH_DEBT.md` and `DESIGN_GUIDELINE.md` where they exist, and **not
+this conversation** — that is the entire mechanism, so do not summarise the discussion into
+the brief as background.
+
+It runs here, after the file exists, because a blind reader needs an artifact to read. Step 6
+asked you to check your own design; this asks someone who does not know why you built it.
+
+Then, and the reference file states these as rules because each one is a way the step
+quietly stops working:
+
+- **Show every finding verbatim.** You do not filter your own audit.
+- **Rebut where you can, and put the rebuttal next to the finding.** You hold what the
+  checker was denied: the conversation, the alternatives that were rejected, the constraint
+  the user said out loud.
+- **A rebuttal that lands is usually a spec defect.** If the second variant exists but only
+  in the conversation, `SPEC.md` is what is wrong — apply the reconcile rule.
+- **Disagreement is a discussion, not a verdict**, and it is the most useful thing this step
+  produces: it means the artifact does not say what you assumed it said.
+- **An overruled finding gets a `DECISION` entry** naming the element, the objection and why
+  it was kept.
+
+Findings that survive feed Step 8 — an element the checker flagged and the user kept is a
+strong candidate for the abstraction that step requires you to probe.
 
 ## Step 8 — Run the defense
 

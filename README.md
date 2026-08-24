@@ -40,7 +40,7 @@ does it.
 | Command | What it does |
 |---|---|
 | `/yaait:spec` | Discuss the thing to build (the **TTB**). Every requirement tagged `[stated]`, `[inferred]` or `[assumed]`, so invented requirements are visible. Forces non-goals, falsifiable acceptance criteria, and "how would we know this is wrong". |
-| `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it. Optional; `spec` recommends it against stated criteria. |
+| `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it, re-checked by a subagent that has not seen the conversation. Optional; `spec` recommends it against stated criteria. |
 | `/yaait:tech` | The stack, with every version **verified** against current docs rather than recalled, plus a falsifier and an exit cost per choice. Optional, and invocable at any point. |
 | `/yaait:code` | One increment at a time, with tests. Enforces the hardest rule: **defend the code you are about to modify, before you modify it.** |
 | `/yaait:stest` | System test traced clause by clause against the spec. **You observe the critical path yourself**, and the report must say what was *not* tested. |

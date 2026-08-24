@@ -4,6 +4,33 @@
 
 ## 2026-08-24
 
+### The author stops auditing itself: `design` gets an independent check
+
+`design` Step 7a spawns a subagent with `references/independent-check.md` as its brief. It
+receives `DESIGN.md`, `SPEC.md`, `TECH_DEBT.md` and `DESIGN_GUIDELINE.md` where they exist,
+and **not the conversation** — that omission is the whole mechanism.
+
+- **Why it is not Step 6 twice.** Step 6 has the author check its own design and stays, as a
+  supplement. It grades the intention, because the intention is the one thing the author
+  cannot forget. This is `stest`'s own argument about self-grading, applied a level down.
+- **Runs after Step 7**, once `DESIGN.md` exists, because a blind reader needs an artifact
+  rather than a description of one.
+- **Findings are shown unfiltered; the caller rebuts but cannot suppress.** The caller holds
+  what the checker was denied, so a rebuttal is useful — and a rebuttal that lands is usually
+  a spec defect, since the justification existed only in the conversation.
+- **Disagreement is a discussion, not a verdict.** An overruled finding becomes a `DECISION`.
+- **The failure guarded against is the detector that always fires.** Four mandatory fields per
+  finding, "clean" declared an expected outcome, a cap of five, and `TECH_DEBT.md` and
+  `DESIGN_GUIDELINE.md` in the inputs so a boxed shortcut and a standing project decision are
+  not re-raised on every run.
+- **`METHODOLOGY.md` §13** states the rule, since a skill implementing doctrine the source of
+  truth never states inverts this repo's architecture. Appending §13 renumbers nothing.
+- **Released 0.6.0.**
+
+The diff-level half — needless verbosity, in the constructive form where the checker's own
+shorter rewrite is the evidence — is deferred as **R-012**, blocked by R-001, because it needs
+new criteria in a file that is still PROVISIONAL.
+
 ### The size budget is removed
 
 `design` Step 1 made the model declare "4 modules, 6 types, 1 interface, 0 abstract base
