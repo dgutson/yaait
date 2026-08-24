@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-013
+Next ID: R-014
 
 ---
 
@@ -55,6 +55,20 @@ Next ID: R-013
   `Gates recommended` section but never run produces a `DECISION` the next time `code` runs.
   What is still not captured is a gate abandoned **mid-flow**: it leaves a partial artifact and
   reads as having run, so watch for that case by hand and say so if it happens.
+- **Progress:** `spec` has been run, on a multi-player naval battle game. It completed and
+  produced the 0.9.0 revision — question routing and speech-act labelling, see HISTORY. Two
+  things worth carrying into the remaining gates. The gate did **not** get abandoned; the
+  friction was that the user could not tell what kind of answer each question wanted, which is
+  a different failure from ceremony fatigue and would not have shown up in the invoked/skipped
+  record this item was designed around. And the highest-value moment came from Step 5a
+  (measurement settling an argument in one turn), which is worth watching for in `tech` Step 3a
+  and `design`. Five gates remain: `design` and `tech` are both recommended in that project's
+  spec and are the next to exercise.
+- **Instrument:** `/yaait:feedback` was added in 0.9.0 to make the rest of this item cheaper —
+  it captures friction per gate into `.yaait/FEEDBACK.md` so the record does not depend on
+  anyone remembering to write a report afterwards. The `spec` pass had no such file; its
+  evidence exists only as a transcript and a one-off report, which is why the phrasing
+  complaint nearly went unrecorded. Run it after each gate from `design` onward.
 - **Blocked-by:** —
 - **Enables:** R-003, R-004
 
@@ -255,7 +269,13 @@ Next ID: R-013
   command inherits it. It is the highest-value test in the repo and it is not covered by any
   structural check.
 - **Outcome:** A recorded pass, or a revision to the shared rules block in all six skills.
-- **Blocked-by:** R-002
+- **Note:** unblocked ahead of R-002 finishing. R-002 gated this on having real usage, and the
+  `spec` pass supplied it without the other five gates: the protocol produced one challenge
+  that was measured and won, and one **defeated on its premises** — the objection asserted
+  who the harm fell on, and the user's values were the opposite. 0.9.0 added the rule that "who
+  it hurts" is not the gate's to assert, which makes this test more urgent rather than less,
+  because that rule is now the thing under test.
+- **Blocked-by:** —
 - **Enables:** —
 
 ### R-004 — Optimize the five skill descriptions for triggering
@@ -270,6 +290,27 @@ Next ID: R-013
   A methodology nobody invokes is not a methodology.
 - **Outcome:** Descriptions replaced by measured ones, with the before/after scores recorded.
 - **Blocked-by:** R-002
+- **Enables:** —
+
+### R-013 — Decide whether SPEC.md needs a checkable format, and who checks it
+
+- **Category:** Tooling
+- **What:** 0.9.0 closed `SPEC.md`'s vocabulary — the key and tag lists in `spec` Step 7 are
+  now the whole set, and adding one is a format change that bumps `Format:`. Nothing verifies
+  that a written `SPEC.md` conforms. Decide whether it needs to, and where such a check would
+  live.
+- **Why:** in one session the first dogfood invented a `[defended]` tag, an `[OPEN]` status,
+  four new bullet keys and a second `Acceptance` line. `stest` traces acceptance criteria
+  clause by clause, and `design`, `code` and `debt` all read this file, so a reader that parses
+  a drifted spec *successfully but wrongly* fails silently — the worst failure available. The
+  closed list addresses drift by instruction; it cannot detect it.
+- **Outcome:** either a check that runs outside the gate that wrote the file, or a recorded
+  decision that instruction is sufficient and this closes as won't-fix.
+- **Note:** having the gate validate its own output is not the answer — that is the model
+  grading its own homework, which is the pattern `METHODOLOGY.md` §13 rejects. The same
+  argument says a grammar in the SKILL.md is just more prose to follow, so if the answer is a
+  check, it probably is not prose.
+- **Blocked-by:** —
 - **Enables:** —
 
 ### R-010 — A refactoring-patterns reference file

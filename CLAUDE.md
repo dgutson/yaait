@@ -10,8 +10,11 @@ instruction set that an LLM executes at runtime (`skills/*/SKILL.md`). Editing h
 editing text that becomes another session's behaviour, so the review standard is "would a
 model follow this and get the intended result", not "does it compile".
 
-The plugin exposes six skills — `spec`, `design`, `tech`, `code`, `stest`, `debt` — invoked as
-`/yaait:<name>`.
+The plugin exposes six method gates — `spec`, `design`, `tech`, `code`, `stest`, `debt` —
+invoked as `/yaait:<name>`. There is also one **instrument**, `feedback`, which is not a gate:
+it builds nothing and captures friction into `.yaait/FEEDBACK.md` for later forensic analysis.
+It is provisional, serves the first dogfood, and deliberately does not carry the shared rules
+block — see below.
 
 ## Commands
 
@@ -23,11 +26,12 @@ claude plugin marketplace add /home/daniel/src/yaait
 claude plugin install yaait@yaait-marketplace
 ```
 
-Check the shared rules block is still byte-identical across all six skills (see below) —
-all six hashes must match:
+Check the shared rules block is still byte-identical across the six gates (see below) — all
+six hashes must match. The list is spelled out rather than globbed, because `skills/feedback/`
+carries no shared block by design and a glob reports it as divergence:
 
 ```bash
-for f in skills/*/SKILL.md; do
+for f in skills/{spec,design,tech,code,stest,debt}/SKILL.md; do
   printf '%s  %s\n' "$(sed -n '/^## The rules that are the method/,/^## Step 0/p' "$f" \
     | sed '$d' | md5sum | cut -c1-32)" "$f"
 done
@@ -58,18 +62,22 @@ which must not be given the design conversation), and `code/references/aposd-vs-
 smells are properties of a dependency graph, review criteria are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
-`DESIGN.md`, `TECH.md`, `JOURNAL.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and the optional
-`DESIGN_GUIDELINE.md` / `CODING_GUIDELINE.md` at the project root. Never create those here;
-dogfooding happens in a fresh session and a separate directory (ROADMAP item R-002).
+`DESIGN.md`, `TECH.md`, `JOURNAL.md`, `FEEDBACK.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md` and
+the optional `DESIGN_GUIDELINE.md` / `CODING_GUIDELINE.md` at the project root. Never create
+those here; dogfooding happens in a fresh session and a separate directory (ROADMAP R-002).
 
 ## Invariants that are easy to break
 
-- **The shared rules block is byte-identical in all six `SKILL.md` files** — everything from
-  `## The rules that are the method` through the end of `## Where things go` (~200 lines,
-  covering the loop, the discussion protocol, the defense, the reconcile rule and the artifact
-  layout). A rule changed in one skill must be changed in all six, identically, in one commit.
-  Skills are loaded one at a time, so divergence is invisible at runtime and shows up as the
-  method quietly behaving differently depending on which gate you entered through.
+- **The shared rules block is byte-identical in all six gate `SKILL.md` files** — everything
+  from `## The rules that are the method` through the end of `## Where things go` (~305 lines,
+  covering the loop, question routing, the discussion protocol, how to mark what kind of ask
+  something is, the defense, the reconcile rule and the artifact layout). A rule changed in one
+  gate must be changed in all six, identically, in one commit. Skills are loaded one at a time,
+  so divergence is invisible at runtime and shows up as the method quietly behaving differently
+  depending on which gate you entered through. **`skills/feedback/` is excluded on purpose**
+  and carries none of it: the block's challenge protocol and defense would damage that
+  command's record, since a user's account of their own friction is not a claim to be
+  contested. Do not "fix" its missing block.
 - **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3, §7,
   §8 and §10; `ROADMAP.md` cites `review.md` §5. Renumbering a section silently invalidates
   references in files you did not open — and worse, a reference can survive the renumber and

@@ -182,6 +182,39 @@ one signal the whole method depends on.
 
 So the trigger for challenge is defined **substantively**, never stylistically.
 
+### Ask the right source
+
+Before asking anything, decide who holds the answer. Every question has exactly one source of
+truth, and there are only four:
+
+1. **Only the user has it.** Intent, values, what they will tolerate, their environment, who
+   else touches this, what they would do if it broke, what counts as a problem in their
+   setting. Ask, and the answer is final — there is nothing to check it against, because the
+   user *is* the ground truth for this class.
+2. **A measurement has it.** Any quantity: throughput, latency, how long something takes, what
+   it costs, how well it plays. Do not ask, and do not argue. §6 is the obligation to go and
+   find out; this is the reminder that a person asked to estimate a quantity will produce a
+   number anyway, out of politeness, and that number then enters the record as a requirement
+   with nothing behind it.
+3. **You have it.** Consequences, mechanisms, which parts interact, whether a rule is fair,
+   what a decision implies three requirements later. Working that out is the job you were
+   invoked to do. Handing it back as a question buys nothing.
+4. **Nobody has it.** The future. No one can say what will be observed in three months, and a
+   question that requires it earns a shrug — correctly. Convert it: name the bets the artifact
+   rests on, in the present tense, and ask which one the user would be least surprised to lose.
+   Ranking today's stated assumptions is a judgment they can actually make.
+
+**The failure mode is not silence.** A misrouted question rarely comes back empty; it comes
+back with a confident answer to a *different* question, because the user reads the question you
+should have asked and answers that. The artifact then records the point as settled, the
+provenance tag says the user supplied it, and nothing anywhere says the question you asked went
+unanswered. That is worse than no question, on the same grounds §3 gives for the checklist: it
+manufactures a record of agreement that no event established.
+
+The corollary for classes 2 and 3 is that **most of what feels like a question for the user is
+work you are avoiding.** Asking is cheap for you and expensive for them, so the bias runs one
+way, and the tell is that the answer would be checkable if you went and checked it.
+
 ### When to challenge
 
 Challenge when you can name all three of:
@@ -195,6 +228,18 @@ Challenge when you can name all three of:
 
 If you cannot fill in all three, you do not have an objection — you have a preference.
 Agree in one sentence and move on.
+
+**Of the three, "who it hurts" is the one you are least entitled to assert.** The failure mode
+and the cost are usually claims about mechanism, and mechanism is yours to reason about. The
+victim is often a claim about what the user values — whether their users would mind, whether
+this counts as abuse in their setting, whether the exposure is a problem at all — and that
+belongs to the class above where only the user has the answer. Asserting it produces an
+objection that is structurally complete and premised on a guess, and such an objection is
+**defeated on its own terms** rather than merely outweighed: when the user says "that outcome
+would please me", there is nothing left of the argument, and the round is spent.
+
+The three-part test checks an objection's *structure*. It cannot check its premises, and the
+premise most likely to be wrong is the one about somebody else's values.
 
 ### When not to challenge
 
@@ -271,6 +316,49 @@ artifact.** They cannot be answered by nodding, they cannot be answered from voc
 and — this matters — a person who *does* understand answers them in one sentence, so the
 gate is nearly free for the case where everything is fine.
 
+### Say what kind of ask this is
+
+A defense question, a request to decide something, a request to confirm something and an
+objection all arrive as prose in the same conversation, and the user cannot tell them apart
+unless told. The four differ in what a correct answer looks like and — the part that decides
+how much effort the answer deserves — in whether the user can be wrong at all:
+
+| Kind | A correct answer is | Can they be wrong? |
+|---|---|---|
+| **Deciding** | a choice; whatever they say becomes the artifact | no |
+| **Checking** | yes, or a correction; silence means yes | no |
+| **Challenging** | a counter-argument, or agreement that it changes | no — they can win |
+| **Defending** | an explanation of something already in the artifact | yes: `DEBT`, not `APPROVAL` |
+
+Only the last one carries a cost for being wrong, and only the last one has a designed escape
+hatch. A user who reads a `Defending` question as a `Challenging` one will answer it with a
+counter-proposal — a perfectly good response to a challenge, and a non-answer to a probe — and
+will never see that the escape hatch was available. So **open every ask with its kind**, as a
+literal label: `**Deciding — S-011.**`
+
+The label is a constraint on the author before it is information for the reader. "Defending —"
+cannot be followed by a rhetorical question without the label and the sentence visibly
+contradicting each other, and that contradiction is catchable while writing. This is why the
+rule is a keyword rather than a principle about clarity: the principles in "Delivering it"
+below are the ones that drift, and a keyword either is there or is not.
+
+Four rules hold whatever the kind:
+
+- **One question per ask, and it is the last sentence.** The quote, the file and the stake come
+  first. A question in the middle of a paragraph gets skimmed past.
+- **No rhetorical questions.** A question whose answer you already know is an assertion wearing
+  a question mark, and the reader has no way to tell which one it is. Make the assertion.
+- **Anchor each ask to an identifier, never to a position in a list**, and ask for answers by
+  identifier. `S-008` is self-checking; "3." is bookkeeping handed to the user, and when they
+  answer three of four asks the numbering slides by one and the missing answer is invisible.
+- **The asks and the way out ship in one message.** Spending the user's turn on *how* they
+  would like to answer means that by the time they answer, the asks have scrolled out of view.
+  This constraint outranks the element count when the two conflict: if the instrument in front
+  of you carries fewer slots than you have asks, reduce the asks rather than sending the
+  questions in prose and the escape hatch in a separate call. Four elements the user can
+  navigate defend more than five they cannot, and the split is what makes answers arrive
+  misaligned with the questions.
+
 ### Selecting what to defend
 
 Pick **3 to 5** elements. Not all of them. The number is a hard constraint, because the
@@ -330,6 +418,13 @@ that they do not have the concept; a wrong answer is the case where neither part
 until the question was asked. That is the unknown unknown, and it is the reason the defense
 is a question rather than a checklist.
 
+**An answer to a different question is this outcome, not Defended.** It is the common shape in
+practice: the user answers the question your wording actually asked, or the one they expected,
+and the answer is reasonable — sometimes better reasoning than the question deserved. Accepting
+it produces an `APPROVAL` naming a question that was never answered, which is the same
+falsified record as logging a wrong answer as an approval, arriving by a route nobody notices.
+Say which question is still open and either re-ask it or record it as debt.
+
 **Taught** — the user asks. Explain it: short, concrete, grounded in *this* artifact rather
 than in general. Then **re-probe with a different question about the same concept.** Not
 the original question — that only tests whether they remember what you just said. A new
@@ -363,6 +458,20 @@ it." The defense had no counterpart until this rule.
 Write it as fact, not apology. "Did not probe the concurrency or the error paths" is useful.
 "This review was not exhaustive" is not.
 
+### Expect it to produce new material, not just answers
+
+The defense is the first point at which the user engages with something concrete rather than
+with a description of it, so it is also where they think of things: a requirement nobody
+mentioned, a constraint that reframes the artifact, an audience you did not know about. Two of
+those can be worth more than every answer in the round.
+
+§2's "the user has the last word, and verification is not terminal" covers *objections* after
+verify. This is the neighbouring case of *additions*, and it needs saying separately because
+the reflex is to treat new material at a gate as scope creep and file it under open questions.
+It is not creep; it is the gate working, and it means the steps the new material invalidates
+get re-run. Budget for an artifact to be rewritten after it was written — that is a normal
+outcome of a defense, not a sign the earlier steps were done badly.
+
 ### Delivering it without a wall of text
 
 A correct defense that arrives as a wall fails exactly as completely as no defense, and it
@@ -378,8 +487,14 @@ questions are not the whole job — the delivery is.
   parse the question. Quote the line, name the file.
 - **Attach the stake in one clause** — "because this is what a caller relies on", "because
   this ships to customers". Answering should feel worth it rather than like an exam.
-- **Cap the surrounding prose.** The whole defense should be scannable in about fifteen
-  seconds, enough to decide where to engage. Explanation is what the follow-up round is for.
+- **Three lines per element, hard** — where it is, what is at stake, the question. An element
+  that will not fit in three is too big to defend with one question: split it, or choose
+  another. This replaces an earlier instruction to keep the whole defense "scannable in about
+  fifteen seconds", which could not be satisfied alongside the rules above it and could not be
+  checked by anyone: five elements each carrying a quotation, a file, a stake and a question,
+  plus a ranking line and a not-probed line, is not a fifteen-second read. A rule set that
+  cannot be satisfied is worse than a loose one, because the author has to pick which rule to
+  break silently, and the one that gets broken is the cap.
 - **No recap of what you just did.** They watched you do it.
 
 The general rule: everything you write is competing for attention with the work itself. Say
@@ -421,6 +536,22 @@ A drifted design document is worse than no design document, because it misleads 
 authority. If reconciling is genuinely too large to do now, say so explicitly and write a
 `DECISION` entry recording that the document is known-stale and why — but that is a last
 resort, not a shortcut.
+
+**It also covers the user contradicting themselves.** The rule above is scoped to reality
+contradicting a document, but the same shape occurs inside a single gate: what the user says
+in the fourth round cannot be true alongside what they said in the first, twenty minutes
+earlier. Nothing else in this methodology covers that, and it is common — the invocation is
+written before the discussion has happened, so it is the least informed thing the user will
+say all session.
+
+Resolve it the same way. **The later statement wins**, because it is the more informed one, but
+name the contradiction to the user before the artifact is written rather than after, say which
+side you are taking, and record it as a `DECISION`. Two failures this prevents: silently
+following the earlier statement, which produces an artifact built on something the user has
+already moved past; and silently following the later one, which leaves the original words
+apparently unaddressed and gives them no chance to say that they meant the first thing after
+all. Discovering the conflict after the file is written is a rewrite. Naming it in the moment
+is a sentence.
 
 ---
 
@@ -789,6 +920,8 @@ Five entry types:
 - **Gate:** code
 - **Undefended:** why the backoff is exponential with jitter rather than fixed.
 - **Concept not established:** thundering herd.
+- **What happened:** declined with reasons — this client talks to one server that Daniel
+  also operates, so a lockstep retry storm is their own outage to see and restart out of.
 - **Consequence if wrong:** under a server outage, all clients retry in lockstep and
   extend the outage.
 - **Accepted by:** Daniel, deliberately, to keep moving.
@@ -808,6 +941,15 @@ Five entry types:
   assumed it was large.
 - **Decided by:** Daniel.
 ```
+
+Two fields in there carry more weight than their length suggests. `DEBT`'s **What happened**
+separates *declined* from *declined with reasons*: a decline on grounds specific to this
+project is a decision that was made, and without the grounds in the entry it reads six months
+later as a plain gap somebody forgot. And `CHALLENGE`'s **Outcome** has a third shape besides
+the two concessions — *the argument was defeated and the disputed thing survives on entirely
+different grounds*. That happens whenever an objection's premise turns out wrong while the
+thing objected to was right for a reason nobody had stated, and neither "I conceded" nor "they
+conceded" describes it.
 
 `DEBT` and `CHALLENGE` are the two entry types that make this file worth keeping. Anyone
 can log decisions. Logging what you did not understand, and logging the arguments you lost,

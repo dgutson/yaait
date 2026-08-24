@@ -2,11 +2,12 @@
 name: spec
 description: >
   Open a yaait discussion about the thing to build (the TTB) and turn it into a
-  .yaait/SPEC.md whose every requirement is tagged as stated, inferred or assumed — so
-  requirements the LLM invented are visible instead of laundered into the record. Runs a
-  challenge-and-defense loop rather than transcribing what the user said: pushes back on
-  requirements that cannot be tested, forces non-goals and acceptance criteria, asks how we
-  would know the spec is wrong, separates inherited constraints from real decisions, and
+  .yaait/SPEC.md whose every requirement is tagged as stated, selected, inferred or assumed —
+  so requirements the LLM invented are visible instead of laundered into the record, including
+  the ones the user merely picked from a menu the LLM wrote. Runs a challenge-and-defense loop
+  rather than transcribing what the user said: pushes back on requirements that cannot be
+  tested, forces non-goals and acceptance criteria, names the bets the spec rests on instead of
+  asking anyone to predict the future, separates inherited constraints from real decisions, and
   finishes by recommending whether a design or tech phase is warranted against stated
   criteria. Use whenever the user runs /yaait:spec, starts a new project or feature under
   yaait, or says anything like "let's spec this out", "what should this do", "I want to
@@ -83,9 +84,27 @@ not run it per decision.
 new information, so an objection after verify opens a new round. Repetition is not new
 information — point at the record and carry on.
 
-The rules that follow are this loop's hardest steps in detail: how to discuss, how to verify,
-how to deliver it without a wall of text, and what to do when reality disagrees with something
-already written down. `METHODOLOGY.md` §2.
+The rules that follow are this loop's hardest steps in detail: who to ask, how to discuss, how
+to say what kind of answer you need, how to verify, how to deliver it without a wall of text,
+and what to do when reality disagrees with something already written down. `METHODOLOGY.md` §2.
+
+### Ask the right source
+
+Every question has exactly one source of truth. Route it before you ask, because a misrouted
+question does not come back empty — it comes back with a confident answer to a *different*
+question, and the record then says the point was settled.
+
+- **Only the user has it** — intent, values, what they will tolerate, their environment, who
+  else touches this, what they would do if it broke. Ask, and the answer is final.
+- **A measurement has it** — any quantity: throughput, latency, how long something takes, how
+  much it costs, how well it plays. Do not ask and do not argue; measure it. Someone asked to
+  estimate a quantity will guess, and the guess enters the record as a requirement.
+- **You have it** — consequences, mechanisms, which parts interact, whether a rule is fair.
+  Working that out is the job. Handing it over as a question buys nothing, and it costs you the
+  answer to whatever the user thought you were asking.
+- **Nobody has it** — the future. Never ask anyone to forecast. Convert it instead: name the
+  bets the artifact rests on, in the present tense, and ask which one they would be least
+  surprised to lose. That is answerable today from what they already know.
 
 ### Challenge substantively, never stylistically
 
@@ -93,6 +112,12 @@ Push back when you can name all three: **the failure mode** (specifically — no
 fragile" but "if two moves arrive in the same tick the second overwrites the first"),
 **who or what it hurts**, and **roughly what it costs**. If you cannot fill in all three,
 you have a preference rather than an objection: agree in one sentence and move on.
+
+Of the three, **"who it hurts" is the part you are least entitled to assert.** Where the harm
+lands on the user's own values or context — what they care about, what their users would mind,
+what counts as abuse in their setting — that part belongs to them, so ask it rather than
+filling it in. The three-part test checks an objection's structure, not its premises, and an
+objection resting on an assumed victim gets defeated on its own terms rather than outweighed.
 
 Agreeing quickly when the user is right is not people-pleasing, it is calibration. Never
 manufacture disagreement to seem rigorous — contrarianism on command is sycophancy with
@@ -108,6 +133,38 @@ why, let the user choose, journal who chose.
 Label your confidence: "I know this", "a pattern I have seen repeatedly", and "I am
 inferring and have not checked" are three different claims, and you sound identical in all
 three. This matters most for versions, API shapes and deprecations.
+
+### Say what kind of ask this is
+
+Nobody can tell a challenge from a confirmation from a comprehension probe unless you say
+which it is. When they cannot tell, they answer the one they guessed, you record it as an
+answer to the one you asked, and the artifact then reads as settled on grounds nobody examined.
+
+So open every ask with its kind — `**Deciding — S-011.**`, and the same for the other three.
+They differ in what a correct answer looks like and in whether the user can be wrong at all:
+
+- **Deciding** — they choose, and whatever they say becomes the artifact. They cannot be
+  wrong, and "either one, you pick" is a complete answer.
+- **Checking** — you believe something and want it confirmed or corrected. Silence means yes.
+- **Challenging** — you think something is wrong; the failure mode, who it hurts and what it
+  costs follow, and they can win.
+- **Defending** — a comprehension probe. The answer is already in the artifact, being wrong
+  costs a `DEBT` entry rather than an `APPROVAL`, and asking to have it explained is free.
+
+Then, whatever the kind:
+
+- **One question per ask, and it is the last sentence.** The quote, the file and the stake come
+  first. A question buried mid-paragraph is a question nobody answers.
+- **No rhetorical questions.** A question you already know the answer to is an assertion
+  wearing a question mark, and the reader cannot tell which one it is. Make the assertion.
+- **Anchor each ask to an identifier, never to a position in a list** — `S-008`, the file, the
+  function name — and ask for answers by identifier. An ordinal is bookkeeping you have handed
+  to the user, and when they answer three of four asks the numbering silently slides by one.
+- **The asks and the way out ship in one message.** Never spend the user's turn on how they
+  would like to answer: by the time they answer, the asks have scrolled out of view. Where the
+  instrument cannot carry both — a picker with fewer slots than you have asks — cut the number
+  of asks rather than splitting them from their escape hatch across two turns. Four elements
+  the user can navigate defend more than five they cannot.
 
 ### The defense: never ask whether they know — ask something that requires knowing
 
@@ -141,6 +198,8 @@ Four outcomes:
   Declined are both the user telling you they do not have it; a wrong answer is the case
   where neither of you knew that, which is why it is the one most worth recording. Logging
   it as an approval puts a claim of comprehension in the record that nothing established.
+  An answer to a *different* question than the one you asked is this outcome too, not a
+  defense — say which question went unanswered rather than accepting the near miss.
 - **Taught** → explain short and concrete, grounded in *this* artifact, then re-probe with
   a **different** question on the same concept. Re-asking the original only tests whether
   they remember your answer. One extra round — a gate that becomes a course gets abandoned.
@@ -158,6 +217,12 @@ increment, so without this line everything unselected is undefended *and* unreco
 is the one state Manifesto principle 4 forbids. `stest` Step 5 does the same for tests and
 calls it the reason anyone should trust the rest of the report.
 
+**Expect the defense to produce new material, not just answers.** It is the first moment the
+user engages with something concrete, so it is when they think of things — a requirement
+nobody mentioned, a constraint that reframes the artifact. That is not an interruption; it is
+the gate working. Budget for it, and re-run the steps it invalidates rather than filing the
+new material as an afterthought.
+
 ### Deliver it without a wall of text
 
 A correct defense that arrives as a wall fails as completely as no defense, and in the same
@@ -172,8 +237,9 @@ of the mechanism.
   to re-open the artifact to parse the question.
 - **Attach the stake in one clause**: "because a caller relies on this". Answering should
   feel worth it, not like an exam.
-- **Cap the surrounding prose.** The whole defense should be scannable in about fifteen
-  seconds — enough to decide where to engage. Explanation is what the next round is for.
+- **Three lines per element, hard** — where it is, what is at stake, the question. An element
+  that will not fit is too big to defend in one question: split it or choose another. This is
+  the cap that binds, and it replaces a stopwatch nobody could check.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -190,6 +256,13 @@ It cuts both ways. Sometimes the document is what is wrong, and rewriting it is 
 the document does not automatically win, which is precisely the waterfall failure. But
 never silently implement the thing that works and leave the document describing the thing
 that does not. A drifted document misleads with authority, which is worse than no document.
+
+**It also covers the user contradicting themselves.** When something they say now cannot be
+true alongside something they said earlier in the same session, the later statement wins — it
+is the more informed one — but name the contradiction before you write the file rather than
+after, and record it as a `DECISION`. Finding out at the end that half the artifact followed
+the earlier statement is a rewrite; catching it in the moment is a sentence.
+
 ## Where things go
 
 In the **user's project**, never in this plugin. Two files sit at the project root because a
@@ -203,9 +276,20 @@ team reads them on their own account, rather than being machinery of the method:
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, diagrams
     ├── TECH.md       optional: the stack, with verified versions and falsifiers
-    └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
-                      challenges
+    ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
+    │                 challenges
+    └── FEEDBACK.md   append-only: friction with the method itself, written only by
+                      `yaait:feedback`
 ```
+
+`FEEDBACK.md` is the one file here that is **not** an upstream artifact. It records how using
+yaait went, not anything about the thing being built, so nothing traces to it and the reconcile
+rule does not apply — a gate that finds it disagreeing with `SPEC.md` has found two different
+subjects, not a contradiction. Leave it alone unless you are `yaait:feedback`.
+
+**Each file is created by whichever gate first has content for it**, not up front. An empty
+`TECH_DEBT.md` or `EXPERIMENTS.md` is exactly the ceremony this method exists to avoid, and it
+is worse than absent: a later gate cannot tell "nothing to record" from "nobody looked".
 
 **One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
 one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
@@ -243,7 +327,9 @@ record cannot answer which of them a project actually used:
 - **Gate:** the command writing this entry.
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
-- **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
+- **What happened:** answered wrongly, and what the answer missed; or declined; or declined
+  *with reasons* — and then state them, because a decline on sound project-specific grounds
+  reads as a deficit in six months unless the grounds are in the entry.
 - **Consequence if wrong:** what actually breaks.
 - **Accepted by:** who, and whether deliberately.
 
@@ -257,13 +343,15 @@ record cannot answer which of them a project actually used:
 - **Gate:** the command writing this entry.
 - **My position:** and the failure mode it rested on.
 - **Their position:**
-- **Outcome:** who conceded, and what they had got wrong.
+- **Outcome:** who conceded and what they had got wrong — or, where neither did, that the
+  argument was defeated and what the disputed thing rests on now instead.
 - **Decided by:** who.
 ```
 
 `DEBT` and `CHALLENGE` are the entries that make the file worth keeping. Anyone can log
 decisions; logging what was not understood, and logging the arguments you lost, is what
 makes the record honest enough to be useful in six months.
+
 ## Step 0 — Read what already exists
 
 Check for `.yaait/SPEC.md`, `.yaait/JOURNAL.md`, `CLAUDE.md`, and any README in the repo.
@@ -287,10 +375,19 @@ Then, before anything else, establish the two things people almost never volunte
 - **Who uses it, and what happens if it is not there?** This is what lets you judge every
   later tradeoff. Without it you will optimize the wrong axis with great discipline.
 - **How long is it expected to live?** A weekend tool and a five-year service have
-  different correct answers to every subsequent question. If the honest answer is "a
-  weekend", say plainly that yaait is probably the wrong tool and offer to just build it —
-  see the "when not to use yaait" section of `COMPARISON.md`. Do not run a methodology on
-  something that does not need one.
+  different correct answers to every subsequent question. Do not ask for a forecast —
+  nobody has one, and "how long will this live" invites a number rather than an answer. Ask
+  in the present tense instead: what happens to this when you stop working on it, and if it
+  broke in a year, would you fix it or bin it? If the answer amounts to "a weekend", say
+  plainly that yaait is probably the wrong tool and offer to just build it — see the "when
+  not to use yaait" section of `COMPARISON.md`. Do not run a methodology on something that
+  does not need one.
+
+  **Ask this once more after the defense.** It is the answer that calibrates every
+  subsequent tradeoff and it is elicited at the point of least information, before the user
+  knows what they are calibrating. The defense is the first moment they engage with anything
+  concrete, so it is where the real answer tends to arrive — and an answer that arrives then
+  can still be acted on, whereas one that arrives in `code` cannot.
 
 Then interrogate. Good questions at this stage are the ones whose answers change the
 shape of the thing: what it must interoperate with, what it must persist, what happens
@@ -344,7 +441,11 @@ it gets expensive.
 
 This is the core of the command. Each requirement gets an ID and a provenance tag:
 
-- `[stated]` — the user said it, in substance. Not "the user would obviously want this."
+- `[stated]` — the user said it, in substance, in their own words. Not "the user would
+  obviously want this", and not "the user agreed when I put it to them."
+- `[selected]` — the user chose it from options **you** composed, in answer to an ask-first
+  question below. Weaker than `[stated]`, stronger than `[inferred]`: the option set was your
+  plausibility judgment and the pick adds one fact, that they saw it and did not object.
 - `[inferred]` — you derived it from something they said. It follows, but they did not say
   it.
 - `[assumed]` — you filled a gap. Nothing they said implies it; you needed *something*
@@ -354,6 +455,13 @@ Be honest about the difference between `[inferred]` and `[assumed]`, because the
 runs one way: labelling an assumption as an inference makes your spec look better and makes
 the user's review worse. If you cannot point at the thing you inferred it *from*, it is
 assumed.
+
+**A tag records where the requirement came from, and it never changes.** Confirmation is a
+separate `Confirmed:` field added beside it — never a rewrite of the tag. Promoting
+`[assumed]` to `[stated]` because the user agreed destroys the only record that the
+requirement was yours to begin with, which is the one thing this whole command exists to
+keep. The tag answers "whose sentence was this originally"; the `Confirmed:` field answers
+"did they later agree". Both are useful and neither substitutes for the other.
 
 ### Ask before filling, when the gap is expensive
 
@@ -370,12 +478,28 @@ Ask first when either holds:
 
 Everything else: fill it, tag it `[assumed]`, and confirm in one batch. That triage is what
 keeps this from becoming a forty-question interrogation, which is the version nobody finishes.
-Aim for two or three ask-first questions in a normal spec. If you have ten, you are asking
-about details.
+The number of ask-first questions scales with how many genuine forks the TTB has — a
+greenfield game can legitimately have eight or nine, and a small change to an existing module
+one or none. The check is "is this a detail?", never "have I hit three yet?"
 
-Then **walk the user through every `[inferred]` and `[assumed]` requirement**. Each one
-gets confirmed (promote to `[stated]`), corrected, or dropped. Do not batch these into a
-wall of forty items — group them and lead with the ones where being wrong is expensive.
+**If you ask by offering options, the options are yours and the record must say so.** A
+generated option set is not a neutral instrument: you chose the framing, the alternatives and
+the ordering, and where the harness marks one option "(Recommended)" that is your opinion
+embedded inside the measuring device. So:
+
+- Tag the result `[selected]`, not `[stated]`, and record what was on the menu and which
+  option you recommended. The alternatives are the part with forensic value: when the
+  requirement turns out wrong, "they were never offered the right option" and "they wanted this
+  and were wrong" call for completely different repairs, and without the menu you cannot tell
+  the two apart.
+- **Say that the menu is escapable**, every time, and mean it. The best answer is regularly one
+  you did not think to offer, and a user who believes the list is exhaustive will pick the
+  nearest fit instead of telling you.
+
+Then **walk the user through every `[selected]`, `[inferred]` and `[assumed]` requirement**.
+Each one gets confirmed, corrected, or dropped — and confirmation adds a `Confirmed:` field
+while the tag stays exactly as it was. Do not batch these into a wall of forty items — group
+them and lead with the ones where being wrong is expensive.
 
 If the list of assumptions is long, say so, and say what that means: a long assumption list
 is a measurement of how underspecified the request was, and it is useful information rather
@@ -394,6 +518,14 @@ question arriving later disguised as a bug report.
 A good non-goal is specific and *tempting*: "no multiplayer", "no undo", "does not handle
 timezones — everything is UTC", "no plugin system". A non-goal nobody would have built
 anyway is not doing any work.
+
+**Do not offer non-goals as a closed list to tick.** A checklist of four you composed returns
+four ticks and no pushing, and then every non-goal in the spec is a scope decision of yours
+wearing the user's clothes — which is precisely the failure this step names. Ask the open
+question first, and only offer candidates once they have given you at least one of their own.
+Whatever they do not author, you author, and **at least one gate-proposed non-goal is a
+mandatory defense target in Step 8** — not an optional one. Scope decisions are the cheapest
+thing in a spec to get wrong silently and the most expensive to discover in `code`.
 
 ## Step 4 — Acceptance criteria
 
@@ -414,30 +546,51 @@ If a requirement genuinely cannot be given a falsifiable criterion, keep it but 
 `[untestable]` and say why. Sometimes that is honest — aesthetics, feel, "it should be
 fun". Naming it as untestable is what stops it from being quietly reported as passing.
 
-## Step 5 — Ask how we would know this is wrong
+## Step 5 — Ask what this spec is betting on
 
-Not "how do we know it works" — Step 4 covered that. Ask: **what would we observe, three
-months in, that would tell us this specification was the wrong thing to have built?**
+Not "how do we know it works" — Step 4 covered that. What matters here are the assumptions
+*underneath* the requirements rather than in them: that users will want this, that the load
+will look like that, that the format will not change. Those are the assumptions that sink
+projects, and they are invisible to requirement-level review because they are not requirements.
 
-This is the highest-value question in the command and the one most likely to be met with
-silence. It surfaces the assumptions underneath the requirements rather than in them: that
-users will want this, that the load will look like that, that the format will not change.
-Those are the assumptions that sink projects, and they are invisible to requirement-level
-review because they are not requirements.
+**Do not ask for a forecast.** "What would tell us in three months that this was wrong" is a
+question about the future, and nobody has the future — asked straight, it earns a shrug, and
+the shrug is the correct answer. Turn it around into the one direction where the user does
+hold information: **you** name the bets, in the present tense and out of the requirements you
+have just written, and ask which one they would be least surprised to lose. Picking the
+shakiest of four stated bets is a judgment about today, and they can make it.
+
+So: write three to five candidate bets, each one a thing this spec assumes is true and would
+be damaged if it were not. Then ask.
+
+**If they decline anyway**, that is fine and it is common. Keep your candidates, and label the
+section in `SPEC.md` as yours rather than theirs — the header line says whose they are. What
+must not happen is either of the two silent failures: leaving the section empty, which is
+indistinguishable from never having asked, or writing your candidates in as though the user
+had supplied them, which is the laundering this whole command exists to prevent.
 
 Record the answers. They are what `DESIGN.md` should be built to survive.
 
-## Step 5a — Feasibility: measure it if it is not obvious
+## Step 5a — Measure any quantity the requirements rest on
 
-If a requirement's feasibility is genuinely unknown — the throughput, the latency, whether a
-platform can do this at all — that is a question with an answer, and discussing it is a way of
-avoiding finding out. Run the cheapest experiment that settles it, **in a subagent** so the
-throwaway output stays out of this conversation, and record it in `EXPERIMENTS.md` labelled
-`measured`.
+**Any load-bearing quantity that neither of you can estimate is a question with an answer, and
+discussing it is a way of avoiding finding out.** Feasibility is the obvious case — the
+throughput, the latency, whether a platform can do this at all — but it is not the common one.
+The quantity that most often decides a spec is a tuning number: how long a match runs, how big
+a page gets, what a month of this costs, where the boredom lives. Those are as measurable as
+feasibility and far more likely to be argued about instead.
 
-An impossible requirement is far cheaper to discover here than in `yaait:code`. Do not accept
-a requirement whose feasibility neither of you can vouch for; either measure it or tag it
-`[assumed]` and say plainly that the whole spec rests on an unverified capability.
+Run the cheapest experiment that settles it — **in a subagent where the harness allows one**,
+so the throwaway output stays out of this conversation; otherwise run it inline and say that is
+what you did. Record it in `EXPERIMENTS.md` labelled `measured`.
+
+Two reasons this is a step and not an aside. An impossible requirement is far cheaper to
+discover here than in `yaait:code`. And a measured number settles a disagreement in one turn
+that argument would not settle at all: the user is entitled to their intuition about a quantity
+and so are you, and neither of you is entitled to be right about it without checking.
+
+Do not accept a requirement whose feasibility neither of you can vouch for; either measure it
+or tag it `[assumed]` and say plainly that the whole spec rests on an unverified capability.
 
 ## Step 6 — Separate constraints from decisions
 
@@ -463,13 +616,13 @@ never written loses the entire conversation.
 ```markdown
 # SPEC — <TTB name>
 
-> The thing to build. Requirement provenance is tagged: [stated] the user said it,
-> [inferred] derived from what they said, [assumed] a gap this spec filled.
+> The thing to build. Requirement provenance is tagged: [stated] the user said it in their
+> own words, [selected] they chose it from options this spec offered, [inferred] derived from
+> what they said, [assumed] a gap this spec filled. Tags record origin and never change.
 
-Format: 1
+Format: 2
 Kind: greenfield | maintenance
 Code map: none | <tool>, generated YYYY-MM-DD
-Next ID: S-007
 
 ## What this is
 
@@ -486,6 +639,12 @@ Next ID: S-007
 - **Acceptance:** <an observable outcome that could fail>
 - **Assumption:** <what gap this filled, and what happens if the guess is wrong>
 
+### S-003 — <short title>  `[selected]`
+- **Requirement:** <what must be true>
+- **Acceptance:** <an observable outcome that could fail>
+- **Selected from:** <the options offered, and which one you recommended>
+- **Confirmed:** <date, if the user later confirmed it — added, never replacing the tag>
+
 ## Non-goals
 
 - <specific and tempting>
@@ -494,9 +653,11 @@ Next ID: S-007
 
 - <constraint> — imposed by <source>
 
-## How we would know this spec was wrong
+## What this spec is betting on
 
-- <the observation, three months in, that would falsify it>
+<Say whose these are: the user's, or candidates this spec wrote and the user did not rank.>
+
+- <a present-tense assumption this spec rests on, and what it damages if it is false>
 
 ## Open questions
 
@@ -508,8 +669,20 @@ Next ID: S-007
 - `yaait:tech` — <recommended | not warranted>, because <which criterion fired>
 ```
 
-Keep `Format: 1`. Other commands parse this file, and a parser that reads a changed format
-*successfully but wrongly* fails in the worst way there is: silently.
+**The keys and the tags above are the whole vocabulary.** Requirement fields are
+`Requirement`, `Acceptance`, `Assumption`, `Selected from` and `Confirmed`; tags are
+`[stated]`, `[selected]`, `[inferred]`, `[assumed]` and `[untestable]`; the section headings
+are the ones shown. Inventing another — a `[defended]` tag, an `[OPEN]` status, a second
+`Acceptance` line — is a format change, and a format change means bumping `Format:` and saying
+in `JOURNAL.md` what an older reader now gets wrong. Do not do it in passing.
+
+That rule exists because `design`, `code` and `stest` all read this file, and `stest` traces
+acceptance criteria clause by clause. A reader that parses a changed format *successfully but
+wrongly* fails in the worst way there is: silently. `Format: 2` added the `[selected]` tag, the
+`Selected from` and `Confirmed` fields, and renamed the falsifier section; it dropped
+`Next ID`, which was bookkeeping that could drift out of step with the requirements it counted
+— read the requirement headings instead. A `Format: 1` spec has no `[selected]` tag, so every
+menu-authored requirement in it is indistinguishable from one the user stated.
 
 ## Step 8 — Run the defense
 
@@ -518,7 +691,9 @@ Select 3–5 elements by the criteria above. For a spec, the productive targets 
 - The `[assumed]` requirement that is most expensive to be wrong about.
 - An acceptance criterion whose wording hides an ambiguity you resolved silently.
 - A non-goal you proposed rather than the user — those are your scope decisions, wearing
-  the user's clothes.
+  the user's clothes. **At least one of these is mandatory**, not optional, whenever any
+  non-goal in the spec is yours. Step 3 names this failure and nothing else stops it: a
+  checklist of non-goals gets ticked, listed under "not probed", and left undefended.
 - The requirement whose interaction with another requirement is not obvious.
 
 Good spec-level defense questions:

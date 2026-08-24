@@ -92,9 +92,27 @@ not run it per decision.
 new information, so an objection after verify opens a new round. Repetition is not new
 information — point at the record and carry on.
 
-The rules that follow are this loop's hardest steps in detail: how to discuss, how to verify,
-how to deliver it without a wall of text, and what to do when reality disagrees with something
-already written down. `METHODOLOGY.md` §2.
+The rules that follow are this loop's hardest steps in detail: who to ask, how to discuss, how
+to say what kind of answer you need, how to verify, how to deliver it without a wall of text,
+and what to do when reality disagrees with something already written down. `METHODOLOGY.md` §2.
+
+### Ask the right source
+
+Every question has exactly one source of truth. Route it before you ask, because a misrouted
+question does not come back empty — it comes back with a confident answer to a *different*
+question, and the record then says the point was settled.
+
+- **Only the user has it** — intent, values, what they will tolerate, their environment, who
+  else touches this, what they would do if it broke. Ask, and the answer is final.
+- **A measurement has it** — any quantity: throughput, latency, how long something takes, how
+  much it costs, how well it plays. Do not ask and do not argue; measure it. Someone asked to
+  estimate a quantity will guess, and the guess enters the record as a requirement.
+- **You have it** — consequences, mechanisms, which parts interact, whether a rule is fair.
+  Working that out is the job. Handing it over as a question buys nothing, and it costs you the
+  answer to whatever the user thought you were asking.
+- **Nobody has it** — the future. Never ask anyone to forecast. Convert it instead: name the
+  bets the artifact rests on, in the present tense, and ask which one they would be least
+  surprised to lose. That is answerable today from what they already know.
 
 ### Challenge substantively, never stylistically
 
@@ -102,6 +120,12 @@ Push back when you can name all three: **the failure mode** (specifically — no
 fragile" but "if two moves arrive in the same tick the second overwrites the first"),
 **who or what it hurts**, and **roughly what it costs**. If you cannot fill in all three,
 you have a preference rather than an objection: agree in one sentence and move on.
+
+Of the three, **"who it hurts" is the part you are least entitled to assert.** Where the harm
+lands on the user's own values or context — what they care about, what their users would mind,
+what counts as abuse in their setting — that part belongs to them, so ask it rather than
+filling it in. The three-part test checks an objection's structure, not its premises, and an
+objection resting on an assumed victim gets defeated on its own terms rather than outweighed.
 
 Agreeing quickly when the user is right is not people-pleasing, it is calibration. Never
 manufacture disagreement to seem rigorous — contrarianism on command is sycophancy with
@@ -117,6 +141,38 @@ why, let the user choose, journal who chose.
 Label your confidence: "I know this", "a pattern I have seen repeatedly", and "I am
 inferring and have not checked" are three different claims, and you sound identical in all
 three. This matters most for versions, API shapes and deprecations.
+
+### Say what kind of ask this is
+
+Nobody can tell a challenge from a confirmation from a comprehension probe unless you say
+which it is. When they cannot tell, they answer the one they guessed, you record it as an
+answer to the one you asked, and the artifact then reads as settled on grounds nobody examined.
+
+So open every ask with its kind — `**Deciding — S-011.**`, and the same for the other three.
+They differ in what a correct answer looks like and in whether the user can be wrong at all:
+
+- **Deciding** — they choose, and whatever they say becomes the artifact. They cannot be
+  wrong, and "either one, you pick" is a complete answer.
+- **Checking** — you believe something and want it confirmed or corrected. Silence means yes.
+- **Challenging** — you think something is wrong; the failure mode, who it hurts and what it
+  costs follow, and they can win.
+- **Defending** — a comprehension probe. The answer is already in the artifact, being wrong
+  costs a `DEBT` entry rather than an `APPROVAL`, and asking to have it explained is free.
+
+Then, whatever the kind:
+
+- **One question per ask, and it is the last sentence.** The quote, the file and the stake come
+  first. A question buried mid-paragraph is a question nobody answers.
+- **No rhetorical questions.** A question you already know the answer to is an assertion
+  wearing a question mark, and the reader cannot tell which one it is. Make the assertion.
+- **Anchor each ask to an identifier, never to a position in a list** — `S-008`, the file, the
+  function name — and ask for answers by identifier. An ordinal is bookkeeping you have handed
+  to the user, and when they answer three of four asks the numbering silently slides by one.
+- **The asks and the way out ship in one message.** Never spend the user's turn on how they
+  would like to answer: by the time they answer, the asks have scrolled out of view. Where the
+  instrument cannot carry both — a picker with fewer slots than you have asks — cut the number
+  of asks rather than splitting them from their escape hatch across two turns. Four elements
+  the user can navigate defend more than five they cannot.
 
 ### The defense: never ask whether they know — ask something that requires knowing
 
@@ -150,6 +206,8 @@ Four outcomes:
   Declined are both the user telling you they do not have it; a wrong answer is the case
   where neither of you knew that, which is why it is the one most worth recording. Logging
   it as an approval puts a claim of comprehension in the record that nothing established.
+  An answer to a *different* question than the one you asked is this outcome too, not a
+  defense — say which question went unanswered rather than accepting the near miss.
 - **Taught** → explain short and concrete, grounded in *this* artifact, then re-probe with
   a **different** question on the same concept. Re-asking the original only tests whether
   they remember your answer. One extra round — a gate that becomes a course gets abandoned.
@@ -167,6 +225,12 @@ increment, so without this line everything unselected is undefended *and* unreco
 is the one state Manifesto principle 4 forbids. `stest` Step 5 does the same for tests and
 calls it the reason anyone should trust the rest of the report.
 
+**Expect the defense to produce new material, not just answers.** It is the first moment the
+user engages with something concrete, so it is when they think of things — a requirement
+nobody mentioned, a constraint that reframes the artifact. That is not an interruption; it is
+the gate working. Budget for it, and re-run the steps it invalidates rather than filing the
+new material as an afterthought.
+
 ### Deliver it without a wall of text
 
 A correct defense that arrives as a wall fails as completely as no defense, and in the same
@@ -181,8 +245,9 @@ of the mechanism.
   to re-open the artifact to parse the question.
 - **Attach the stake in one clause**: "because a caller relies on this". Answering should
   feel worth it, not like an exam.
-- **Cap the surrounding prose.** The whole defense should be scannable in about fifteen
-  seconds — enough to decide where to engage. Explanation is what the next round is for.
+- **Three lines per element, hard** — where it is, what is at stake, the question. An element
+  that will not fit is too big to defend in one question: split it or choose another. This is
+  the cap that binds, and it replaces a stopwatch nobody could check.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -199,6 +264,13 @@ It cuts both ways. Sometimes the document is what is wrong, and rewriting it is 
 the document does not automatically win, which is precisely the waterfall failure. But
 never silently implement the thing that works and leave the document describing the thing
 that does not. A drifted document misleads with authority, which is worse than no document.
+
+**It also covers the user contradicting themselves.** When something they say now cannot be
+true alongside something they said earlier in the same session, the later statement wins — it
+is the more informed one — but name the contradiction before you write the file rather than
+after, and record it as a `DECISION`. Finding out at the end that half the artifact followed
+the earlier statement is a rewrite; catching it in the moment is a sentence.
+
 ## Where things go
 
 In the **user's project**, never in this plugin. Two files sit at the project root because a
@@ -212,9 +284,20 @@ team reads them on their own account, rather than being machinery of the method:
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
     ├── DESIGN.md     optional: components, invariants, diagrams
     ├── TECH.md       optional: the stack, with verified versions and falsifiers
-    └── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
-                      challenges
+    ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
+    │                 challenges
+    └── FEEDBACK.md   append-only: friction with the method itself, written only by
+                      `yaait:feedback`
 ```
+
+`FEEDBACK.md` is the one file here that is **not** an upstream artifact. It records how using
+yaait went, not anything about the thing being built, so nothing traces to it and the reconcile
+rule does not apply — a gate that finds it disagreeing with `SPEC.md` has found two different
+subjects, not a contradiction. Leave it alone unless you are `yaait:feedback`.
+
+**Each file is created by whichever gate first has content for it**, not up front. An empty
+`TECH_DEBT.md` or `EXPERIMENTS.md` is exactly the ceremony this method exists to avoid, and it
+is worse than absent: a later gate cannot tell "nothing to record" from "nobody looked".
 
 **One TTB, one branch.** These artifacts carry no identifiers because a branch holds exactly
 one TTB — there is one `SPEC.md`, never `SPEC-014.md`. Finish the TTB or abandon it before
@@ -252,7 +335,9 @@ record cannot answer which of them a project actually used:
 - **Gate:** the command writing this entry.
 - **Undefended:** the specific decision that was not defended.
 - **Concept not established:** the term or technique behind it.
-- **What happened:** declined, or answered wrongly — and if wrong, what the answer missed.
+- **What happened:** answered wrongly, and what the answer missed; or declined; or declined
+  *with reasons* — and then state them, because a decline on sound project-specific grounds
+  reads as a deficit in six months unless the grounds are in the entry.
 - **Consequence if wrong:** what actually breaks.
 - **Accepted by:** who, and whether deliberately.
 
@@ -266,13 +351,15 @@ record cannot answer which of them a project actually used:
 - **Gate:** the command writing this entry.
 - **My position:** and the failure mode it rested on.
 - **Their position:**
-- **Outcome:** who conceded, and what they had got wrong.
+- **Outcome:** who conceded and what they had got wrong — or, where neither did, that the
+  argument was defeated and what the disputed thing rests on now instead.
 - **Decided by:** who.
 ```
 
 `DEBT` and `CHALLENGE` are the entries that make the file worth keeping. Anyone can log
 decisions; logging what was not understood, and logging the arguments you lost, is what
 makes the record honest enough to be useful in six months.
+
 ## Step 0 — Establish which question you are answering
 
 This command has three quite different modes, and answering the wrong one wastes everybody's

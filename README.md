@@ -3,7 +3,7 @@
 **Yet Another AI Thing** — a software development methodology for building things with an
 LLM without generating debt nobody can pay.
 
-Six commands, one problem:
+Six gates, one problem:
 
 > Code accepted without being understood is the fastest debt generator ever built, and it
 > compounds. The bill arrives as the tenth change costing ten times the first.
@@ -39,12 +39,18 @@ does it.
 
 | Command | What it does |
 |---|---|
-| `/yaait:spec` | Discuss the thing to build (the **TTB**). Every requirement tagged `[stated]`, `[inferred]` or `[assumed]`, so invented requirements are visible. Forces non-goals, falsifiable acceptance criteria, and "how would we know this is wrong". |
+| `/yaait:spec` | Discuss the thing to build (the **TTB**). Every requirement tagged `[stated]`, `[selected]` (chosen from options the gate offered), `[inferred]` or `[assumed]`, so invented requirements are visible. Forces non-goals, falsifiable acceptance criteria, and the bets the spec is making. |
 | `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it, re-checked by a subagent that has not seen the conversation. Optional; `spec` recommends it against stated criteria. |
 | `/yaait:tech` | The stack, with every version **verified** against current docs rather than recalled, plus a falsifier and an exit cost per choice. Optional, and invocable at any point. |
 | `/yaait:code` | One increment at a time, with tests. Enforces the hardest rule: **defend the code you are about to modify, before you modify it.** |
 | `/yaait:stest` | System test traced clause by clause against the spec. **You observe the critical path yourself**, and the report must say what was *not* tested. |
 | `/yaait:debt` | Reads the accumulated receipts in `TECH_DEBT.md` and answers what an increment cannot: which debt is actually costing money, which is dormant and should be closed, and which has recurred often enough to have become a *product* problem needing a roadmap item. Triggered from `:code` and `:stest`, and invocable directly for the questions managers ask. |
+
+Plus one **instrument**, which is not a gate:
+
+| Command | What it does |
+|---|---|
+| `/yaait:feedback` | Captures what went wrong *in the gate that just ran* — friction, contradictions, questions you had no way of answering, ground covered twice, where you were annoyed — into an append-only `.yaait/FEEDBACK.md` for later forensic analysis. Asks you first and records your words verbatim before offering any account of its own, because the gate that just ran is the party under audit. It captures; it does not diagnose. Provisional, and it says so. |
 
 Nothing is mandatory except honesty about which gates you skipped.
 

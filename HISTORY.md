@@ -4,6 +4,169 @@
 
 ## 2026-08-24
 
+### `:feedback`, an instrument for the friction the artifacts never show
+
+Added `/yaait:feedback` in the same release. It captures what went wrong in the gate that just
+ran — friction, contradictions, questions the user had no way of answering, ground covered
+twice, the moments they were annoyed — into an append-only `.yaait/FEEDBACK.md`, for a later
+session to read forensically with the transcript beside it.
+
+**Why it exists.** The findings above were recovered by luck. The `spec` pass produced no
+record of its own friction; what survived was a transcript and a one-off report written on
+request afterwards, and that report — written by the session under audit — missed both of the
+user's actual complaints. It never mentioned that the questions were hard to parse, which was
+the loudest one, and it filed the split-interaction problem under smaller frictions. Every gate
+generates evidence of its own defects and discards it, so the only defects that get fixed are
+the ones an artifact happens to expose.
+
+**Four rules replace the shared block, which this command deliberately does not carry.** The
+user's account is not contestable — by the routing rule added above, their experience is in the
+class where only they hold the answer, so the ordinary challenge protocol would actively damage
+the record. It asks first and writes their words before its own, because the party under audit
+is exactly the wrong party to frame the report. It records events, never verdicts, and must not
+write a "what went well" section unless the user says what went well — a self-authored list of
+the method's strengths is what makes a reader discount the rest of the file. And it captures
+without diagnosing: root-causing its own friction would hand the later reader conclusions
+instead of raw material.
+
+**The prompts are proxies, not an emotion survey.** "Was that useful?" measures politeness, so
+every prompt asks about an event instead: where did you read something twice, where did you
+answer a different question than the one asked, where were you asked for something you had no
+way of knowing, where did the same ground get covered twice, where did you give a shorter
+answer than you had, what did you want to say and not say. The last one and "where were you
+annoyed, and at what" carry the most and get volunteered the least. That final distinction is
+load-bearing — annoyance at the *method* is a yaait defect, annoyance at the *problem* is what
+hard work feels like, and the command asks which rather than deciding for the user.
+
+**Two structural consequences.** `skills/feedback/` carries no shared rules block, so the
+byte-identity check in CLAUDE.md now spells out the six gates instead of globbing
+`skills/*/SKILL.md` — a glob reports the instrument as divergence. And `FEEDBACK.md` is in the
+artifact layout with an explicit carve-out: it is the one file there that is not an upstream
+artifact, nothing traces to it, and the reconcile rule does not apply, because a gate finding
+it disagree with `SPEC.md` has found two different subjects rather than a contradiction.
+
+**It says it is provisional, and names what retires it:** the friction it captures stopping
+changing between projects, so the file records the same three things forever; or defects
+arriving faster than they can be fixed, at which point a growing log of unactioned friction is
+just a second backlog. Either observation belongs in a `FEEDBACK.md` entry like any other.
+
+### The first dogfood answers back: yaait now says who to ask, and what kind of answer it wants
+
+`/yaait:spec` ran on a real project for the first time — a multi-player naval battle game, in a
+separate directory on another machine. It completed: 14 requirements, 6 non-goals, both
+follow-on gates recommended. It also produced two complaints that no structural check in this
+repo could have found, and both turned out to be the same missing rule. **Released 0.9.0**; the
+shared rules block changed, so every gate behaves differently.
+
+**The method said what to ask and never said who to ask.** Four questions in that session had
+the wrong addressee. Step 5 asked the user what they would observe in three months — nobody has
+the future, and "I don't have an adivination ball" is the correct answer to it. Step 1 asked
+expected lifetime at the point of least information; the real answer ("an occasional quick game
+with my 3 kids") arrived three rounds later at the defense and reframed the whole spec. A
+defense question asked the user to work out whether rotation-only ship placement is *fair*,
+which is analysis the gate should have done itself. And a challenge asserted who the harm fell
+on — a child opening devtools to see hidden fleets — when that was a claim about the user's
+values, and those values were the opposite: the answer was that a kid doing exactly that would
+be a pleasing outcome, because they would have learned something. The objection was defeated on
+its own terms rather than outweighed.
+
+So both `METHODOLOGY.md` §2 and the shared block gained **Ask the right source**: every
+question has exactly one source of truth — the user (intent, values, tolerance, environment), a
+measurement (any quantity), you (consequences, mechanism, analysis), or nobody (the future,
+which is never asked for and is instead converted into present-tense bets the user can rank).
+The failure mode it names is the one that actually happened: **a misrouted question does not
+come back empty.** It comes back with a confident answer to a different question, and the
+record then says the point was settled. `spec` Step 5 is rewritten around that — the gate names
+the bets, the user picks the shakiest — and Step 5a widens from feasibility to any load-bearing
+quantity, because the measurement that transformed this spec was tuning (how long a match runs)
+and had no slot in the method at all.
+
+**The user could not tell a challenge from a confirmation from a comprehension probe.** The
+defense had four items and they were four different kinds of request with nothing marking
+which: one comprehension probe phrased as a rhetorical question, two decision requests (one
+with no question mark in it at all), and one analysis request. Two things broke, both
+observable in the transcript. His answers came back numbered 1–3 against a list of 4 — the item
+flagged as most important got nothing, and the user said so unprompted. And the analysis got an
+answer to a different question, which the gate accepted; that requirement now reads as settled
+on grounds nobody asked about, which is an `APPROVAL` in the record where nothing was
+established.
+
+Hence **Say what kind of ask this is**: every ask opens with a literal keyword — `Deciding`,
+`Checking`, `Challenging`, `Defending` — because the four differ in what a correct answer looks
+like and in whether the user can be wrong at all. Only `Defending` carries a cost for being
+wrong, and only `Defending` has an escape hatch, so a probe misread as a challenge gets
+answered with a counter-proposal by someone who never sees that the hatch was there. Three
+structural rules came with it: one question per ask and it is the last sentence, no rhetorical
+questions (a question whose answer you already know is an assertion wearing a question mark),
+and asks are anchored to an identifier rather than a list position, because `S-008` cannot
+slide by one and "3." can. Plus: asks and their escape hatch ship in one message, and that
+outranks the element count — sending questions in prose while the way out went into a separate
+tool call is what caused the misalignment.
+
+**Why keywords rather than better advice about clarity.** In that session the structural rules
+held — 3–5 elements, a tag on every requirement, the `Gate:` line, criteria-based gate
+recommendations. Every prose principle about *delivery* drifted, and two of them could not both
+be obeyed: "scannable in about fifteen seconds" against 3–5 elements each carrying a quotation,
+a file, a stake and a question, plus a ranking line and a not-probed line. A rule set that
+cannot be satisfied is worse than a loose one, because the author silently picks which rule to
+break — here it kept the elements and blew the cap, producing exactly the wall of text the rule
+existed to prevent. That cap is now **three lines per element**, which is checkable while
+writing, and the stopwatch is gone.
+
+**`SPEC.md` is at `Format: 2`, and provenance tags no longer get rewritten.** Fifteen of about
+twenty-one decisions in that spec were the user selecting from option sets the gate composed,
+one of them marked "(Recommended)" by the harness's own convention — and all fifteen were
+tagged `[stated]`, which that file defines as "the user said it". Two changes. Tags now record
+origin and **never change**: confirmation adds a `Confirmed:` field instead of promoting
+`[assumed]` to `[stated]`, which is what Step 2 previously instructed and which erased the only
+record that a requirement had been the gate's invention. And requirements chosen from a
+generated menu in answer to an ask-first question are tagged `[selected]`, carrying a `Selected
+from:` line with the options offered and which was recommended. Scoped to ask-first questions
+deliberately: `SPEC.md` is read by `design`, `code` and `stest`, so every line is a recurring
+cost downstream, and the forensic value is entirely in the direction-setting decisions. The
+distinction earns its keep at one moment — when a requirement turns out wrong, "they were never
+offered the right option" and "they wanted this and were wrong" call for completely different
+repairs. That is not hypothetical here: the best rule in that spec, shots per turn = players −
+1, came from the user leaving the menu entirely, and none of the four options contained it.
+
+`Format: 2` also drops `Next ID` (bookkeeping that drifted out of step with the requirements it
+counted, and derivable by reading the headings), renames the falsifier section to what the spec
+is betting on, and closes the vocabulary: the key list and tag list in Step 7 are now the whole
+set, and inventing another is a format change. One session invented a `[defended]` tag, an
+`[OPEN]` status, four new bullet keys and a second `Acceptance` line.
+
+**Smaller things the run exposed.** Step 3 named the failure that all non-goals end up
+gate-authored and had no mechanism against it — all five in that spec were the gate's and none
+was defended, so one gate-proposed non-goal is now a mandatory defense target and non-goals are
+no longer offered as a closed checklist. The reconcile rule gained the intra-session case: the
+user contradicted their own invocation twenty minutes later and no rule covered it (later
+statement wins, named before the file is written, recorded as a `DECISION`). The defense is now
+said to be a second elicitation, because two of four items came back carrying new requirements
+and the spec was rewritten twice after being written. `CHALLENGE`'s outcome field gained its
+third shape — *argument defeated, the disputed thing survives on different grounds* — which is
+what actually happened and which neither concession could express. `DEBT` now distinguishes
+*declined* from *declined with reasons*. Step 5a's "in a subagent" is conditional on the
+harness allowing one, because it was forbidden mid-session and the absolute wording forced a
+silent deviation. And `TECH_DEBT.md` / `EXPERIMENTS.md` are created by whichever gate first has
+content for them, rather than standing empty.
+
+**Two judgment calls worth flagging.** R-002 stays open: one gate of six has been exercised,
+the project is not built, and the item's purpose — finding where the method gets abandoned
+mid-flow — is barely tested. It carries a progress note instead, including the observation that
+the gate did *not* get abandoned, and that the friction was of a kind the invoked/skipped
+record it was designed around would never have caught. But R-003 (negative-control the
+discussion protocol) is **unblocked ahead of R-002 finishing**, because the thing it was
+waiting for was real usage of the protocol and one gate supplied that: one challenge measured
+and won, one defeated on its premises. The new "who it hurts is not yours to assert" rule is
+now the thing under test, which makes R-003 more urgent, not less.
+
+**What this does not fix.** Nothing validates a written `SPEC.md` against its own format — the
+closed vocabulary addresses drift by instruction and cannot detect it. That is R-013, with the
+constraint recorded that the gate checking its own output is the pattern §13 rejects. And the
+speech-act keywords have been reasoned about but not observed: they were written from one
+transcript, and whether a labelled ask actually reads better to the person answering it is
+unmeasured, like everything else about this method.
+
 ### Prep for the first project: no duplicate standing rules, and a run that records itself
 
 Both changes alter what an installed copy does, so **released 0.7.0**.

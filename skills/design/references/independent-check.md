@@ -25,7 +25,9 @@ wearing a second opinion's clothes.
 ## What the checker receives
 
 - `.yaait/DESIGN.md` — the written file, not a description of it.
-- `.yaait/SPEC.md` — for requirement IDs and their `stated` / `inferred` / `assumed` tags.
+- `.yaait/SPEC.md` — for requirement IDs and their `stated` / `selected` / `inferred` /
+  `assumed` tags. A spec at `Format: 1` has no `selected` tag, so in one of those every
+  menu-authored requirement is filed under `stated`.
 - `TECH_DEBT.md` at the project root, if it exists — a boxed shortcut has one implementation
   by construction and would otherwise be flagged on every run for as long as it exists.
 - `DESIGN_GUIDELINE.md` at the project root, if it exists — a standing project decision is
@@ -57,7 +59,9 @@ Four fields. A finding missing any of them is not reported.
 - **Named event** — the dated event that would produce a second variant, or `none found`.
 - **Requirement** — the ID from `SPEC.md` this element serves and its provenance tag, or
   `serves none`. An element serving only an `assumed` requirement is two inventions stacked,
-  and that is worth saying explicitly.
+  and that is worth saying explicitly. A `selected` requirement is a weaker version of the
+  same thing: the user ratified it, but the sentence was the spec gate's, so structure built
+  on one and on nothing else is worth naming too.
 
 The fields are the mechanism. They make a finding answerable in one sentence — *"there are
 two, here they are"* — instead of arguable indefinitely, and they make an unfounded objection
