@@ -91,19 +91,31 @@ Next ID: R-012
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-007 — Surface repeated teaching of the same concept
+### R-007 — `:learn`, a command for the concepts this project keeps demanding
 
 - **Category:** Doctrine
-- **What:** The defense records which concepts triggered teaching. Nothing notices when the
-  *same* concept triggers it repeatedly across increments. Decide where that check lives and
-  what it does when it fires.
-- **Why:** The teaching loop is deliberately inside the development flow, which is efficient —
-  learning at the point of need — but it has a blind spot: a junior can be taught the same
-  concept fifteen times across fifteen increments and nobody notices there is no progression.
-  That converts the educational principle from an investment into a treadmill, and it is
-  invisible without an explicit check even though the data is already in `JOURNAL.md`.
-- **Outcome:** Repeated teaching of one concept is surfaced as a signal, with a suggestion
-  that it be learned properly outside the flow.
+- **What:** A seventh command that reads `JOURNAL.md`'s `TAUGHT` and `DEBT` entries across the
+  whole project and answers what no single increment can: which concepts have recurred, and
+  which of them this project requires the user to actually know rather than have re-explained.
+  Runs the sweep in a subagent, as `:debt` does, so the full history does not land in the
+  conversation.
+- **Why:** the teaching loop sits inside the development flow deliberately — learning at the
+  point of need, which is the only kind most people get time for. Its blind spot is that a
+  junior can be taught the same concept fifteen times across fifteen increments and nobody
+  notices there is no progression, which turns the educational principle from an investment
+  into a treadmill. The complementary need is the opposite of on-the-go: a calm later moment
+  to learn something properly, with the subject chosen by what the project actually demands
+  rather than by a curriculum. A concurrency-heavy project needs its maintainer to know
+  concurrency, and the journal is the only place that fact is visible.
+- **Outcome:** `/yaait:learn` exists and reports, for a given scope: concepts taught more than
+  once, concepts left undefended more than once, and the recurrence that has crossed from
+  "explain it again" into "this project requires this skill". Escalation mirrors `:debt`'s — a
+  recurrent item stops being an incident and becomes a standing finding.
+- **Notes:** the `TAUGHT` entry type this reads was added on 2026-08-24; journals written
+  before that carry no teaching record, so the command must state its window rather than
+  report silence as absence. Making this the seventh command touches the "six commands"
+  identity claim in `README.md`, `.claude-plugin/plugin.json` and `marketplace.json`, and
+  needs a version bump.
 - **Blocked-by:** —
 - **Enables:** —
 
