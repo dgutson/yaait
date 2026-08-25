@@ -292,24 +292,41 @@ Next ID: R-014
 - **Blocked-by:** R-002
 - **Enables:** —
 
-### R-013 — Decide whether SPEC.md needs a checkable format, and who checks it
+### R-013 — Why artifact formats drift, and what to do about it
 
-- **Category:** Tooling
-- **What:** 0.9.0 closed `SPEC.md`'s vocabulary — the key and tag lists in `spec` Step 7 are
-  now the whole set, and adding one is a format change that bumps `Format:`. Nothing verifies
-  that a written `SPEC.md` conforms. Decide whether it needs to, and where such a check would
-  live.
-- **Why:** in one session the first dogfood invented a `[defended]` tag, an `[OPEN]` status,
-  four new bullet keys and a second `Acceptance` line. `stest` traces acceptance criteria
-  clause by clause, and `design`, `code` and `debt` all read this file, so a reader that parses
-  a drifted spec *successfully but wrongly* fails silently — the worst failure available. The
-  closed list addresses drift by instruction; it cannot detect it.
-- **Outcome:** either a check that runs outside the gate that wrote the file, or a recorded
-  decision that instruction is sufficient and this closes as won't-fix.
+- **Category:** Doctrine
+- **What:** Every yaait artifact that carries a `Format:` line is in scope: `SPEC.md`,
+  `DESIGN.md`, `TECH.md`, `TECH_DEBT.md`, `EXPERIMENTS.md`, `FEEDBACK.md`, and `JOURNAL.md`'s
+  entry types. Establish why written artifacts diverge from their specified format, test the
+  cheap fix below, and only then decide whether anything needs checking mechanically.
+- **Why:** the first dogfood produced **two different failures**, in one session, with
+  `METHODOLOGY.md` available throughout.
+  - **Drift** — `SPEC.md` followed its format and then extended it: an invented `[defended]`
+    tag, an `[OPEN]` status, four new bullet keys and a second `Acceptance` line.
+    Recognisably a spec, quietly non-conforming.
+  - **Non-adoption** — `EXPERIMENTS.md` never used the format at all. No `Format:` line, no
+    experiment ID, none of §8's fields; free prose under a date heading. Nothing could cite
+    the entry, because it had nothing to cite.
+  These need different fixes, and a validator addresses only the first.
+- **The hypothesis, and it is testable:** an artifact whose template is **inline in the skill
+  that writes it** comes out recognisable; an artifact whose template lives **only in
+  `METHODOLOGY.md` §8** gets invented. `SPEC.md`, `DESIGN.md`, `TECH.md`, `JOURNAL.md` and
+  `FEEDBACK.md` all have inline templates and all came out usable. Exactly two artifacts do not
+  — `TECH_DEBT.md` and `EXPERIMENTS.md` — and `EXPERIMENTS.md` is the one that came out
+  formatless. `spec` Step 5a says only "record it in `EXPERIMENTS.md` labelled `measured`" and
+  never shows the shape.
+- **The prediction that would falsify it:** `TECH_DEBT.md` is the remaining untested case. If
+  the hypothesis holds, the first `yaait:code` receipt filed against it will also come out
+  formatless. If it comes out conforming, the hypothesis is wrong and the cause is elsewhere.
+  Watch for it rather than fixing it pre-emptively; it is a free experiment that runs itself.
+- **Outcome:** either the cheap fix lands and is shown to work — inline the two missing
+  templates at the point of writing, so no step asks the model to recall a format it was never
+  shown — or the prediction fails and this becomes a real investigation. A mechanical check is
+  the last resort, not the first, and only for drift.
 - **Note:** having the gate validate its own output is not the answer — that is the model
-  grading its own homework, which is the pattern `METHODOLOGY.md` §13 rejects. The same
-  argument says a grammar in the SKILL.md is just more prose to follow, so if the answer is a
-  check, it probably is not prose.
+  grading its own homework, the pattern `METHODOLOGY.md` §13 rejects. The same argument says
+  a grammar written into the SKILL.md is just more prose to follow, so if the answer does turn
+  out to be a check, it probably is not prose.
 - **Blocked-by:** —
 - **Enables:** —
 
