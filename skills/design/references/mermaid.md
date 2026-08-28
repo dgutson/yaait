@@ -356,6 +356,13 @@ Measured against `mmdc` 11.16.0, so it is not re-derived:
 catches the loud failures; those two it draws without comment, and a clean run is therefore not a
 clean bill of health.
 
+**The trap is specific, and it has been walked into.** The measured design carried both kinds of
+`;` at once — one in a sequence message, five in state transitions. `mmdc` exited 1 and named the
+sequence one. Changing that single `;` to a comma made it exit 0 with empty stderr and three
+green ticks, while the state diagram it had just approved still contained twenty-one states for a
+design with six. **Fixing what the tool reported is not the same as fixing the file.** When an
+error names one `;`, fix every `;` in the file, then run it again.
+
 Four behaviours to know before the second run, each of which otherwise costs one: `mmdc` reports
 **one error per run and not necessarily the first** — given two broken blocks it named the second,
 so keep going until it exits 0; a failing run **writes no output at all**, including for the blocks

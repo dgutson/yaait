@@ -1025,6 +1025,12 @@ pass it silently:
 Both are covered by the label and naming rules in `references/mermaid.md`. The tool catches the
 loud failures; those rules are why the silent ones do not ship.
 
+**The specific trap, which has been walked into:** the measured design held both kinds of `;` at
+once — one in a sequence message, five in state transitions. `mmdc` exited 1 and named the
+sequence one. Fixing that single `;` made it exit 0 with empty stderr, while the state diagram it
+had just passed still built twenty-one states for a design with six. **An error naming one `;` is
+not a list of the semicolons in the file.** Fix all of them, then run it again.
+
 ## Step 8 — Run the defense
 
 Select 3–5 elements. For a design, **one of them must be an abstraction or component you
