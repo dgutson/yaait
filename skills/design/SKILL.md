@@ -65,6 +65,16 @@ design patterns, refactorings, language idioms, error strategy, concurrency.
   the options, say which you would pick and why, teach the concept, get an answer, journal a
   `DECISION`.
 
+**Ask a branch point. Produce an elaboration and disclose it.** Where the space genuinely forks
+— how the system decomposes, where a call becomes a message, what survives a restart, what runs
+at once — ask before you produce, because once a candidate is on screen the user judges it
+instead of choosing it, and throwing away work only gets more expensive as there is more of it.
+Everything downstream of those forks is elaboration: produce the candidate, state it with its
+reason in one line, and let silence agree. A decision put to someone with nothing on screen is
+answered on intuition; the same decision put against something they can see is answered on
+evidence, and costs them less, because judging a candidate is cheaper than generating a
+position.
+
 Never skip a step in place of compressing it. A silent decision is not a cheap decision, it is
 an undisclosed one, and nobody can defend at the end what they never saw being chosen. But the
 opposite error kills the method outright: run the full loop on every identifier and the user
@@ -374,7 +384,11 @@ structure on it. A spec at `Format: 1` has no `[selected]` tag at all, so there 
 menu-authored requirements are indistinguishable from the stated ones.
 
 Read `.yaait/TECH.md` if it exists. Read `.yaait/DESIGN.md` if it exists — you are amending,
-not replacing, and the reconcile rule applies.
+not replacing, and the reconcile rule applies. A design at `Format: 1` has no `## Parts`, no
+`## Decisions` and no `## Requirement coverage`, so its components are flat and its structural
+choices were recorded only as `DECISION` entries in `JOURNAL.md`. Read the journal for them
+rather than concluding none were made, and say that you are raising the file to `Format: 2`
+rather than silently restructuring it.
 
 Read `DESIGN_GUIDELINE.md` at the project root if it exists. It holds standing structural
 decisions this project has already made, and a design that quietly contradicts one is a
@@ -389,12 +403,29 @@ If there is no `SPEC.md`, say so and offer to run `yaait:spec` first. Designing 
 verbal description is how invented requirements get baked into structure, where they are
 much more expensive to remove.
 
-## Step 1 — How every decision below is made
+## Step 1 — How every decision below is made, and when
 
-Steps 2 through 4c each produce decisions. **Every one of them runs the loop** from the rules
-above, at the weight that decision is worth: one line and silence-is-agreement for a choice
-with one plausible option, the full round for one with real alternatives or an unfamiliar
-named concept.
+Every decision in this gate runs the loop from the rules above, at the weight that decision is
+worth. **When** it runs turns on which of two kinds it is, and the steps below are ordered by
+that distinction rather than by subject matter:
+
+- **Branch-point decisions** — where the space genuinely forks, and taking the other branch
+  later means throwing the design away rather than editing it. They are asked at **Step 1d**,
+  before anything is produced, and Step 1d names the four that count.
+- **Elaboration decisions** — **Steps 2 through 4c, all of them.** These are produced as
+  candidates and disclosed against the map drawn at Step 1c: state the choice and its reason in
+  one line, and silence is agreement. Only where alternatives are real, or a named concept is
+  load-bearing and the user has not demonstrated it, does an elaboration become a question.
+
+The reason for the order is not ceremony. A decision put to someone with nothing on screen is
+answered on intuition; the same decision put against a drawn map is answered on evidence, and
+costs them less, because judging a candidate is cheaper than generating a position. But
+front-loading nothing is also wrong — after production, "throw this away" gets visibly more
+expensive — so the genuinely branching decisions stay ahead of it. `METHODOLOGY.md` §2.
+
+This must **move** questions, never add them. If this gate asks more questions than it did
+before Step 1c existed, it has been read wrong: the budget these come out of is the same one
+Step 8's defense draws on, and a user out of patience by Step 8 defends nothing.
 
 That is not in tension with writing the file before seeking approval (Step 7, Step 8), and the
 distinction matters:
@@ -407,6 +438,37 @@ What is forbidden is the third thing, which is what happens by default: producin
 design silently and presenting it finished. The defense in Step 8 samples three to five
 elements. Everything not sampled was then never disclosed at all, and the user is accountable
 for all of it.
+
+### Disclose the decision, not just the outcome
+
+Whichever kind it is, what gets said is **the choice, the alternative rejected, and why** — not
+the result on its own. A design that discloses only outcomes gives the user nothing to disagree
+with, because disagreement needs to know what the other branch was.
+
+    **Checking — Match.phase.** Chose a phase tag on Match with branching in apply, over GoF
+    State. State buys polymorphic dispatch; these phases differ only in which commands are
+    legal, so State would be four classes holding four ifs. Object now, or it goes in.
+
+Three things that shape carries. It names what was **chosen for** before it names anything —
+`METHODOLOGY.md` §2 requires the canonical name where one exists, and `references/smells.md`
+flags a pattern name that arrives before the problem it solves. It names the pattern the design
+**resembles and deliberately is not**, which is the reading a reader will otherwise arrive at
+alone. And it ends by saying silence closes it.
+
+**A disclosure must be answerable by silence, or it is a question.** That is the line that keeps
+this from reopening the ceremony problem: if an entry cannot be left unanswered, it is an ask,
+and the budget on asks applies to it. Disclose more; ask less.
+
+**Which is why a disclosure is labelled `Checking` and not `Deciding`**, even though what it
+discloses is a decision. The label names the kind of *ask*, not the kind of subject: `Deciding`
+promises the user that whatever they say becomes the artifact, and a disclosure does not promise
+that — you already chose, and they may object. `Checking` is the kind whose silence means yes.
+Label it `Deciding` and the user is told they are being handed a choice they are not being
+handed, which is the confusion the four kinds exist to remove.
+
+Every disclosure of a structural choice with a rejected alternative lands in `DESIGN.md`'s
+`## Decisions` section at Step 7 and as a `DECISION` entry at Step 8. The journal entry is not a
+substitute for the section: no reader of `DESIGN.md` opens `JOURNAL.md`.
 
 Do not restate this per step. It is one rule and it applies to all of them.
 
@@ -436,7 +498,60 @@ Without this, "what does this do today" has no recorded answer, so the defense i
 degrades into a formality — which is the state in which "I do not understand this, I will add
 a flag" passes the gate.
 
+## Step 1c — Draw the map
+
+**This step produces; it does not ask.** No loop runs here, and there is nothing in it the user
+has to answer. Its output is the referent every question after it points at, and a question with
+no referent is answered on intuition.
+
+Produce three things, in this order:
+
+1. **The parts.** Name them, one line each. Client, server and shared is the common shape, but
+   take the parts from this system rather than from that list. **Shared is a first-class part,
+   not an exception** — the component both sides call is usually the most interesting one in the
+   design, and a scheme that models only client and server forces it into a footnote.
+2. **Every component placed under exactly one part**, name and one clause each. The full
+   responsibility and ownership statements are Step 2's; here it is only the placement. A
+   component that will not sit under one part is a finding — say so rather than picking one.
+3. **The class diagram and the primary sequence diagram**, grouped by part. Use **mermaid**, not
+   PlantUML: it renders natively in GitHub, in Claude Code artifacts and in most editors with no
+   jar, no server and no toolchain. See `references/mermaid.md` for the templates, the grouping
+   conventions and the yaait conventions. These two are drawn **here** and revised at Step 5,
+   not drawn again.
+
+Say plainly that this is a first cut and that Steps 2 through 4c will change it. A map offered
+as finished invites agreement instead of correction, and correction is the whole reason it is on
+screen this early.
+
+## Step 1d — Decide the branch points, and only those
+
+The map is on screen; now run the full loop on the decisions that fork the design. **Cap this at
+the four kinds below**, and skip any this TTB does not have. This step front-loads what is
+expensive to reverse; it does not front-load everything.
+
+- **Decomposition into parts** — one process, a client and a server, or more? Every other
+  decision inherits from this one.
+- **The sync versus async boundary** — where a call becomes a message. Moving it later rewrites
+  every caller across it.
+- **The persistence model** — what survives a restart, and what a restart is allowed to lose.
+- **The concurrency model** — what runs at once and what serializes. Retrofitting this means
+  re-deriving every invariant in the design.
+
+**Do not ask an elaboration question here.** Which components exist, what each owns, whether an
+abstraction is justified, which data structure — those are Steps 2 through 4c, where they are
+produced and disclosed rather than asked cold.
+
+Where the map at 1c already settles one of these — a single-process greenfield tool has no
+sync/async boundary — say so in one line and move on. Recording that a branch point did not
+exist is not the same as never having looked, and a later gate cannot tell those apart unless
+this one says which it was.
+
 ## Step 2 — Components and responsibilities
+
+The components were named and placed under a part at Step 1c. This step fills them in, **under
+those parts and not as a flat list**, and moves one between parts where the detail turns out to
+contradict the placement — say when that happens, because a component that changes part is the
+map having been wrong about what runs where.
 
 For each component: what it is responsible for, in one sentence, and what it owns. If the
 sentence needs an "and" that joins two unrelated things, that is a Single Responsibility
@@ -576,24 +691,23 @@ changed at all.
 How far to extract is not settled here, and must not be. That is the open agenda in
 `skills/code/references/review.md` §5.
 
-## Step 5 — Diagrams
+## Step 5 — The state diagram, and reconciling the two from Step 1c
 
-Use **mermaid**, not PlantUML: it renders natively in GitHub, in Claude Code artifacts and
-in most editors with no jar, no server and no toolchain. See `references/mermaid.md` for
-the templates and the yaait conventions.
+The class diagram and the primary sequence diagram were drawn at **Step 1c**. They are not drawn
+again here. Two things happen instead.
 
-Produce, by default:
+**Produce a state diagram** (`stateDiagram-v2`) whenever anything has modes, phases or a
+lifecycle. Do this even when it feels obvious. Most bugs live in state transitions, especially
+the ones nobody drew, and the diagram is where a missing transition becomes visible rather than
+becoming a defect. It is drawn here rather than at 1c because it depends on decisions Steps 2
+through 4c only just settled. `references/mermaid.md` carries the two checks worth running on
+it; the undrawn-transition check in particular is not something to do by eye.
 
-- a **class diagram** — the structure, with dependency directions;
-- a **sequence diagram** for the one flow that matters most, usually the one the spec's
-  primary requirement describes.
-
-Produce additionally, whenever the condition holds:
-
-- a **state diagram** (`stateDiagram-v2`) whenever anything has modes, phases or a
-  lifecycle. Do this even when it feels obvious. Most bugs live in state transitions,
-  especially the ones nobody drew, and the diagram is where a missing transition becomes
-  visible rather than becoming a defect.
+**Then reconcile the 1c diagrams with what the steps since changed.** Components were renamed,
+merged, deleted and moved between parts; the map has to move with them, in this step, before the
+file is written. If diagram and prose disagree a reader believes the diagram, so a stale map is
+worse than none. Say what changed since 1c — it is the cheapest record of what the elaboration
+steps actually did.
 
 Do not draw a diagram per component. Three diagrams a reader studies beat nine a reader
 scrolls past.
@@ -624,36 +738,54 @@ will grade the intention. Do not pre-empt it by softening what you report now.
 
 ## Step 7 — Write DESIGN.md
 
+The order is the point. The document opens on the map and descends into the parts, because a
+reader who meets `geometry` before they know there is a client and a server has to hold it in
+mind unplaced. Detail before referent is the same defect in the artifact that front-loaded
+questions are in the conversation.
+
 ````markdown
 # DESIGN — <TTB name>
 
 > Pre-coding blueprint. Kept true: if the code contradicts this, one of them changes
 > deliberately and the change is journalled.
 
-Format: 1
+Format: 2
 Spec: .yaait/SPEC.md
+
+## Overview
+
+<what this system is and what it does, in one short paragraph a reader can hold>
+
+## Parts
+
+- **<part>** — <one line: what runs here, and where>
+- **shared** — <the components both sides call, if any; a first-class part, not an exception>
+
+## Structure
+
+```mermaid
+classDiagram
+    namespace Server {
+...
+    }
+```
 
 ## Components
 
-### <Name>
+### <Part>
+
+#### <Name>
 - **Responsible for:** <one sentence, no unrelated "and">
 - **Owns:** <the data or resource it is authoritative for>
 - **Depends on:** <components, direction outward>
 
 ## Invariants
 
-- <something that must always be true, checkable against code>
+- **I-1 — <name>.** <something that must always be true, checkable against code>
 
 ## The design forbids
 
 - <a move that is out of bounds, and why>
-
-## Structure
-
-```mermaid
-classDiagram
-...
-```
 
 ## <Primary flow name>
 
@@ -661,6 +793,35 @@ classDiagram
 sequenceDiagram
 ...
 ```
+
+## <Lifecycle name>          <!-- whenever anything has modes, phases or a lifecycle -->
+
+```mermaid
+stateDiagram-v2
+...
+```
+
+<the transitions you did not draw, and what each does — see references/mermaid.md>
+
+## Protocol and interfaces    <!-- whenever parts talk to each other -->
+
+The message and call *shapes*. Which serialization technology carries them is `yaait:tech`'s.
+
+- **<direction>** — <the messages or calls, and what each carries>
+- **<what is deliberately absent from the interface, and why>**
+
+## Decisions
+
+### <what was decided>
+- **Chose:** <the option taken>
+- **Over:** <the alternative rejected, by its canonical name where it has one>
+- **Why:** <what the chosen one buys here, stated as the problem before the name>
+
+## Requirement coverage
+
+| Requirement | Addressed by | How |
+|---|---|---|
+| S-007 | `Match`, `Board` | <one line> |
 
 ## Abstractions and their justification
 
@@ -700,9 +861,35 @@ sequenceDiagram
 - <spec requirements this design does not cover, and where they are handled instead>
 ````
 
-The **"deliberately not abstracted"** section is not decoration. It is the record that the
-simple choice was made on purpose rather than overlooked, and it is what stops a later
-session from "fixing" it by adding the abstraction you rejected.
+Four sections carry weight out of proportion to their length, and each fails in a specific way
+if written carelessly.
+
+**`## Parts` and the nesting under them** answer "what runs where" from the headings alone. A
+flat list of components does not, however good each entry is, and the class diagram has to group
+the same way or the two surfaces disagree — `references/mermaid.md` carries the `namespace` and
+`box` conventions and the separator to use.
+
+**`## Decisions`** holds the choices, where the rest of the document holds the outcomes. Three
+kinds belong here and have nowhere else to go: patterns **adopted**, patterns **resembled and
+deliberately not used**, and plain structural choices carrying no pattern name at all. Every
+entry states the problem before it names anything. It is written **retrospectively, from the
+decisions actually disclosed during the gate** — never as a menu to fill, because an empty
+section creates pressure to invent entries, which is the pattern-name-driven design
+`references/smells.md` forbids. When there were none: `None. Recorded so a later gate can tell
+nothing-to-record from nobody-looked.`
+
+**`## Requirement coverage`** is what makes the design checkable against `SPEC.md` rather than
+merely consistent with it. `Requirements not addressed here` is its negative counterpart and
+neither works alone: without the map, nothing catches a requirement that was silently dropped
+instead of deliberately deferred.
+
+**`## Deliberately not abstracted`** is not decoration. It is the record that the simple choice
+was made on purpose rather than overlooked, and it is what stops a later session from "fixing"
+it by adding the abstraction you rejected.
+
+Sections whose condition does not hold are dropped, not left empty — a `Protocol and interfaces`
+heading over nothing tells a reader the design is unfinished. The exception is the two that
+carry a `None. Recorded so...` line, where the absence is itself the finding.
 
 Write the file before seeking approval. The defense in Step 8 is where approval happens,
 and a wrong design on disk is editable while a lost conversation is not.

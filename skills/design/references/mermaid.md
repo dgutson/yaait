@@ -9,12 +9,15 @@ If the user prefers PlantUML, use it — the conventions below all transfer.
 
 ## What to produce
 
-**Always:** a class diagram, plus a sequence diagram for the single most important flow.
+**Always:** a class diagram, plus a sequence diagram for the single most important flow. Both
+are drawn at `design` **Step 1c**, before the elaboration questions, because a question asked
+with nothing on screen is answered on intuition. They are revised at Step 5, not drawn again.
 
 **When the condition holds:** a state diagram whenever anything has modes, phases or a
 lifecycle — even when it feels too obvious to draw. Most defects live in state transitions,
 and specifically in the transitions nobody drew. The diagram is where a missing transition
-is visible as a gap instead of arriving later as a bug.
+is visible as a gap instead of arriving later as a bug. This one is drawn at Step 5, because it
+depends on decisions the elaboration steps only just settled.
 
 **Never:** a diagram per component. Three diagrams a reader studies beat nine they scroll
 past, and the point of the diagram is to be read.
@@ -35,6 +38,59 @@ past, and the point of the diagram is to be read.
   `DESIGN.md` has an invariants section for this.
 - **Keep diagrams and prose consistent.** If they disagree, a reader believes the diagram.
   When the design changes, the diagram changes in the same edit.
+- **Group by part, the same way the document does.** `DESIGN.md` nests its components under
+  parts; a diagram that lists them flat makes the reader answer "what runs where" twice and get
+  two different answers. `namespace` in a class diagram, `box ... end` in a sequence diagram.
+- **`_` is the name separator**, as in `Server_Match`. Not `:` — it is on the list above of
+  characters that break the block or swallow the rest of the label, and quoting does not rescue
+  it.
+
+### Grouping, and the two ways it fails
+
+```mermaid
+classDiagram
+    namespace Server {
+        class Match {
+            -phase
+            +apply(seat, command) Result
+        }
+        class Registry {
+            +create(count) Match
+        }
+    }
+    namespace Shared {
+        class geometry {
+            +fits(cells) bool
+        }
+    }
+    Registry --> Match : owns
+    Match --> geometry : validates placement with
+```
+
+**Relationships go outside the namespaces.** Declare the classes in their groups, then draw
+every arrow after the last `}`. A `-->` written inside a `namespace` block is a **parse error**,
+not a missing line — checked against mermaid 11.17.2, where the arrangement above parses and the
+same diagram with `Registry --> Match : owns` moved inside the block fails on that line. Grouping
+is also newer than the rest of this file's syntax, so it is a real case for the render check at
+the end rather than a formality.
+
+In a sequence diagram the same grouping is `box ... end`:
+
+```mermaid
+sequenceDiagram
+    actor Player
+    box Server side
+    participant Match
+    participant Board
+    end
+    Player->>Match: fire(target, cell)
+```
+
+**A one-word `box` title that is a colour name disappears.** Mermaid's syntax is
+`box [colour] [description]`, so it reads the first token as a background colour when it
+recognises one: a part named `Gold`, `Silver` or `Coral` becomes a coloured box with no title,
+and it parses cleanly, so nothing tells you. Mermaid's own documented workaround is to force the
+colour: `box transparent Gold`. Two-word titles — `Server side` — sidestep it entirely.
 
 ## Class diagram
 

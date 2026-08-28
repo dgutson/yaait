@@ -7,11 +7,56 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-014
+Next ID: R-019
 
 ---
 
 ## Now
+
+### R-014 — The defense ask says what it is, in language the reader can parse
+
+- **Category:** Doctrine
+- **What:** three changes to how a defense question is written. 1. **Label every worked
+  example.** Every model defense question in the repo is unlabelled — `design` Step 8, `spec`
+  Step 8, `code` Step 6 — while sitting a few dozen lines below the rule saying "open every ask
+  with its kind, as a literal label". Rewrite them all as `**Defending — geometry.**`. The
+  examples are the mechanism; the rule alone already failed. 2. **A readability rule in
+  `METHODOLOGY.md` §3** that survives next to the three-line cap: one clause per sentence, no
+  term used untaught, the question as a plain interrogative. 3. **Name the free-text answer
+  path first** where the ask ships through a picker. In the observed run three of four options
+  were exits — teach me, show me, record `DEBT` — and the only route to an actual answer was
+  `Other`.
+- **Why:** this is the **second** arrival of this complaint. R-002's progress note records it
+  from the `spec` pass, 0.9.0 wrote a rule for it, and it recurred unchanged in `design`. A
+  rule that loses to its own neighbouring example will keep losing. The cost is not cosmetic: a
+  user who cannot parse the question records a `DEBT` entry for something they actually
+  understand, so the method's core instrument mismeasures comprehension as English fluency. §3
+  already says the defense is "not a quiz on general knowledge", and a vocabulary test is one.
+  §2 already says to teach a name the user does not have, and "isomorphic" arrived
+  parenthetically and untaught. Both rules condemn the output; neither is operationalised.
+- **The density trap, which is why this is not just sloppiness.** The only delivery rule in §3
+  is "three lines per element, hard" plus "say the actionable thing and stop". That optimises
+  **density**, and density is not simplicity — compressing to three lines is what produces
+  subordinate clauses and rare verbs. The new rule has to be checkable enough to survive the
+  cap.
+- **Version, settled from the artifacts, because it decides whether this item is real at all:**
+  `installed_plugins.json` records 0.3.0, but that is stale bookkeeping — a local-directory
+  marketplace resolves live from the clone and no explicit `install` has run since 2026-08-22.
+  The run was **at or after 0.9.0**: `DESIGN.md` carried `## Refactorings applied` and no `##
+  Budget`, neither possible under 0.3.0's template; and the ask anchored its tabs to `geometry`
+  / `view_for` / `I-6/I-7` / `I-10` rather than to ordinals, and shipped the escape hatch
+  inside the same picker as the asks. Both of those rules land in `32df76a` (0.9.0) and are
+  absent from `374c2b8` (0.7.0). So two rules from that commit were obeyed and a third, in the
+  same section of the same file, was not.
+- **The prediction that would falsify this, and it is cheap:** label the five worked examples
+  in `design` Step 8, then re-run only the defense. If the label appears, the diagnosis holds
+  and the fix is already done. If it does not, the cause is elsewhere and this becomes a real
+  investigation. Run it against a **copy** of the project — re-running the gate rewrites
+  `.yaait/DESIGN.md` and appends to `JOURNAL.md`, destroying the evidence this item rests on.
+- **Outcome:** every defense example in the repo carries its kind label, and the register rule
+  is stated as something checkable rather than as a preference.
+- **Blocked-by:** —
+- **Enables:** —
 
 ### R-001 — Resolve yaait's position on Clean Code
 
@@ -69,6 +114,25 @@ Next ID: R-014
   anyone remembering to write a report afterwards. The `spec` pass had no such file; its
   evidence exists only as a transcript and a one-off report, which is why the phrasing
   complaint nearly went unrecorded. Run it after each gate from `design` onward.
+- **Progress, `design`:** the gate ran on the same naval battle game and **completed**; it was
+  not abandoned mid-flow. It produced five findings. That discharges this item's stated outcome
+  of "at least one concrete revision to a SKILL.md driven by it": four of the five are applied —
+  the map drawn before the parts are discussed, the parts hierarchy, the decisions section and
+  the template gaps, all released as 0.11.0 — and the fifth is R-014, still open above. Four
+  gates remain: `tech`, `code`, `stest`, `debt`. **The `design` re-run has not happened**, and
+  when it does it needs a copy of the project: the gate rewrites `.yaait/DESIGN.md` and appends
+  to `JOURNAL.md`, which is the evidence those four fixes rest on.
+- **Open question to record:** was `/yaait:feedback` run after the `design` gate? The friction
+  arrived as chat and a screenshot, not as a file. Note also that four of the five complaints
+  are about the **artifact** rather than about the gate's conduct, and `feedback` is shaped to
+  capture the latter. If that is why it went uncaptured, the instrument needs widening.
+- **The version under test is not observable from the tool, and this cost real time.**
+  `installed_plugins.json` reported 0.3.0 while the run was demonstrably at or after 0.9.0 — a
+  local-directory marketplace resolves live from the clone, and that record only updates on an
+  explicit `install`. The version had to be recovered from the artifacts themselves. Every
+  future dogfood run must therefore record the **commit sha of the clone at run time**, in
+  `FEEDBACK.md` or the journal; without it a finding cannot be attributed to a version. It also
+  means every run silently uses HEAD, including unreleased commits.
 - **Blocked-by:** —
 - **Enables:** R-003, R-004
 
@@ -201,6 +265,10 @@ Next ID: R-014
   pass, but it reports as one, which is worse than having no detector at all.
 - **Outcome:** every rule in the reference files either restates in the project's own units or
   says explicitly that it does not apply. No detector reports a result it cannot compute.
+- **A concrete instance from the first `design` dogfood:** the generated `DESIGN.md` modelled a
+  pure function as `class view_for` inside a `classDiagram`, because the class diagram is the
+  only structural template that exists. The notation asserts something the design explicitly
+  denies — the file says "a function rather than a class because it holds no state".
 - **Blocked-by:** —
 - **Enables:** —
 
@@ -327,6 +395,14 @@ Next ID: R-014
   grading its own homework, the pattern `METHODOLOGY.md` §13 rejects. The same argument says
   a grammar written into the SKILL.md is just more prose to follow, so if the answer does turn
   out to be a check, it probably is not prose.
+- **New evidence, and it must not be miscounted.** The first `design` dogfood produced a
+  `DESIGN.md` carrying two sections the template does not define: `## Phases` and
+  `## Protocol shape`. This is **not** evidence for the drift hypothesis. `DESIGN.md` has an
+  inline template and followed it; the template has no slot for a state diagram that
+  `mermaid.md` separately mandates, so the author had nowhere else to put it. That is an
+  internal contradiction in the plugin, not an author inventing format, and 0.11.0 fixed it by
+  giving the template a state-diagram slot and a protocol slot.
+  The `TECH_DEBT.md` prediction above remains the untested case.
 - **Blocked-by:** —
 - **Enables:** —
 

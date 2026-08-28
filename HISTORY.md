@@ -4,6 +4,73 @@
 
 ## 2026-08-28
 
+### The design gate draws the map before it asks about the parts
+
+**Released 0.11.0.** Four findings from the first `design` dogfood, applied together because
+three of them hang off the first and splitting them leaves the skill internally inconsistent
+between commits.
+
+**Ordering.** `design` asked six steps' worth of structural questions before Step 5 drew
+anything, so every one of them was answered on intuition. Two new steps: **1c draws the map** —
+the parts, every component placed under one, and the class and sequence diagrams — and produces
+without asking; **1d asks the branch points and only those**, capped at four kinds
+(decomposition, the sync/async boundary, persistence, concurrency). Steps 2 through 4c are now
+elaboration: produced as candidates and disclosed against the map, silence agreeing, becoming
+questions only where the alternatives are real. Step 5 keeps the state diagram and reconciles
+the two drawn at 1c. The guard was that this must **move** questions rather than add a stage,
+and it does: six ask-producing steps became one, plus six that disclose.
+
+Inserted as 1c and 1d rather than renumbering, so every live citation of `design` step numbers
+survives. There is no 1b — the gap is deliberate, and cheaper than a renumber that resolves to
+the wrong target somewhere nobody opens.
+
+`METHODOLOGY.md` §2 gains the same split as a new subsection, and the shared rules block gains
+a compacted form of it in all six gates, byte-identical. It is doctrine: every gate has both
+kinds of decision, and a rule that lived only in `design` would be the divergence the invariant
+exists to prevent.
+
+**`DESIGN.md` is at `Format: 2`,** reordered so the document descends rather than climbs —
+overview, parts, structure diagram, components nested under their parts, invariants, forbids,
+flows. Detail before referent was the same defect in the artifact as in the conversation: the
+dogfood design opened on the lowest-altitude element in the system and put the class diagram
+sixth of fifteen.
+
+Three sections are new. **`## Parts`** with components nested under them, so a reader answers
+"what runs where" from the headings — the dogfood listed seven components flat and nothing said
+which ran on the server. **`## Decisions`**, holding what was chosen, what was rejected and why:
+the dogfood named seven patterns and every one was a rejection, so a reader learned what it was
+not and never what it was, and its central choice — a phase tag with branching, which is a state
+machine and not GoF State — was read as State with nothing in the artifact to correct it.
+**`## Requirement coverage`**, the missing positive counterpart to `Requirements not addressed
+here`; without it nothing catches a requirement silently dropped rather than deliberately
+deferred. Plus the two slots whose absence made the dogfood invent `## Phases` and `## Protocol
+shape`: a state diagram and a protocol section.
+
+Decisions are also disclosed **live**, as they are made, rather than surfacing only as
+`DECISION` entries in `JOURNAL.md` at Step 8 where no reader of `DESIGN.md` finds them. The
+disclosure is labelled **`Checking`, not `Deciding`** — the roadmap item specified `Deciding`,
+and that contradicts the taxonomy already in the shared block, where `Deciding` promises the
+user that whatever they say becomes the artifact. A disclosure promises no such thing: you
+already chose and they may object, and its silence means yes, which is `Checking`. The
+constraint that makes more disclosure compatible with fewer questions is that a disclosure must
+be **answerable by silence** — one that is not is an ask, and the budget on asks applies.
+
+`smells.md`'s pattern-count tell is scoped to patterns a design **adopts**. Counting names would
+have made a `## Decisions` section trip the gate for recording its own rejections, which teaches
+the author to stop recording them. The half that carries the weight — the pattern name arriving
+before the problem it solves — is untouched.
+
+**Grouping conventions in `mermaid.md`, checked rather than assumed.** `namespace` for class
+diagrams, `box ... end` for sequence diagrams, `_` as the separator because `:` is already on
+the list of characters that swallow a label. Two claims were tested against mermaid 11.17.2 and
+one of them was wrong on the first pass. A relation written inside a `namespace` block is a
+**parse error**, not a missing arrow — verified both ways. The assertion that grouping needs
+mermaid v10 was not verified and is gone; what replaced it is that grouping is newer than the
+rest of the file's syntax, so the render check is a real step there. And a one-word `box` title
+that is a colour name is eaten as the colour and parses clean, so nothing tells you — mermaid's
+own documented workaround is `box transparent Gold`.
+
+
 ### Mermaid label punctuation
 
 A design run emitted `Node on X: does A; then B`; `;` is a statement separator and the block

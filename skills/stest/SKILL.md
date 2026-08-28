@@ -60,6 +60,16 @@ design patterns, refactorings, language idioms, error strategy, concurrency.
   the options, say which you would pick and why, teach the concept, get an answer, journal a
   `DECISION`.
 
+**Ask a branch point. Produce an elaboration and disclose it.** Where the space genuinely forks
+— how the system decomposes, where a call becomes a message, what survives a restart, what runs
+at once — ask before you produce, because once a candidate is on screen the user judges it
+instead of choosing it, and throwing away work only gets more expensive as there is more of it.
+Everything downstream of those forks is elaboration: produce the candidate, state it with its
+reason in one line, and let silence agree. A decision put to someone with nothing on screen is
+answered on intuition; the same decision put against something they can see is answered on
+evidence, and costs them less, because judging a candidate is cheaper than generating a
+position.
+
 Never skip a step in place of compressing it. A silent decision is not a cheap decision, it is
 an undisclosed one, and nobody can defend at the end what they never saw being chosen. But the
 opposite error kills the method outright: run the full loop on every identifier and the user

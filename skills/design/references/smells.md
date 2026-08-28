@@ -353,8 +353,15 @@ Repository — rather than because the problem has that shape. You are extremely
 pattern vocabulary, which makes this worse for you than for a human: you can produce the
 justification as fluently as the pattern.
 
-*Tell:* the pattern name appears in the design before the problem it solves does. Also: any
-design containing three or more named GoF patterns for a problem under a thousand lines.
+*Tell:* the pattern name appears in the design before the problem it solves does. That is the
+half of this tell that carries the weight, and it is a property of each mention rather than of
+the document.
+
+The raw count — three or more named GoF patterns for a problem under a thousand lines — applies
+only to patterns the design **adopts**. A `## Decisions` section names patterns it considered and
+rejected, and naming what a design deliberately is not is the opposite of this failure: count
+those and the gate flags itself for documenting its own reasoning, which teaches the author to
+stop recording rejections. Count adoptions.
 
 ### Phantom dependency
 The design assumes a library, module, class or method that does not exist, was removed, or

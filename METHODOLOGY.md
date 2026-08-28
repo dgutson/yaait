@@ -116,6 +116,35 @@ the full loop on every identifier and the user stops invoking the command. Then 
 record at all, which is strictly worse than a compressed one. `COMPARISON.md` names ceremony
 fatigue as this method's characteristic way of failing; this is where it would happen.
 
+### Ask the branch points. Produce the elaborations.
+
+Weight says how much a decision costs to settle. It does not say *when* to settle it, and that
+is a separate question with a separate answer, because decisions divide into two kinds:
+
+- **Branch points** — where the space genuinely forks, and taking the other branch later means
+  throwing the artifact away rather than editing it. How the system decomposes into parts. Where
+  a call becomes a message. What survives a restart. What runs at once. There are only ever a
+  few of these.
+- **Elaborations** — everything downstream of a branch point, which is nearly everything.
+
+**A branch point is asked before anything is produced.** Anchoring is expensive there: once a
+candidate is on screen the user is judging it rather than choosing, and "throw this away" gets
+visibly more costly the more of it there is.
+
+**An elaboration is produced and disclosed, not asked cold.** State the candidate and its reason
+in one line and let silence agree. A decision put to someone with nothing on screen is answered
+on intuition. The same decision put against something they can see is answered on evidence, and
+it costs them less, because judging a candidate is cheaper than generating a position.
+
+Front-loading *everything* is the failure this rule is written against, and front-loading
+*nothing* is the failure it must not become. A gate that asks its elaboration questions before
+it produces anything spends the user's whole budget on guesses, and the budget it spends is the
+same one the defense in §3 draws on: a user out of patience by the defense defends nothing. A
+gate that produces everything first has nothing left that is cheap to throw away.
+
+So this rule **moves** questions rather than adding them. If applying it leaves a gate asking
+more questions than before, it has been applied wrong.
+
 ### Use the name if there is one. Do not invent one if there is not.
 
 Where the thing you are doing has a canonical name — a design pattern, a named refactoring, a

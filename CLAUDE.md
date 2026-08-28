@@ -70,7 +70,7 @@ fresh session and a separate directory (ROADMAP R-002).
 ## Invariants that are easy to break
 
 - **The shared rules block is byte-identical in all six gate `SKILL.md` files** — everything
-  from `## The rules that are the method` through the end of `## Where things go` (~305 lines,
+  from `## The rules that are the method` through the end of `## Where things go` (~330 lines,
   covering the loop, question routing, the discussion protocol, how to mark what kind of ask
   something is, the defense, the reconcile rule and the artifact layout). A rule changed in one
   gate must be changed in all six, identically, in one commit. Skills are loaded one at a time,
@@ -98,7 +98,6 @@ fresh session and a separate directory (ROADMAP R-002).
 
 ## Writing conventions
 
-- Prose wraps at ~95 columns; tables and long links are exempt.
 - **Every rule states the failure mode it prevents.** A rule without a named consequence gets
   skipped by the model reading it, exactly as it would by a person.
 - **The method itself is unmeasured, and the documents say so.** Numbers in `COMPARISON.md`
