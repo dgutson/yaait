@@ -4,6 +4,48 @@
 
 ## 2026-08-28
 
+### Runs are stable; models are not — and two roadmap items were built on a mis-measurement
+
+**Three `design` runs at one commit** (`9f9c434`), `claude-opus-5`, same SPEC, same prompt, graded
+mechanically. A fourth died on the box's session limit.
+
+**Result 1 — no run-to-run variance.** All three identical on all five rules, 3 of 3 diagrams
+rendering, six states built in each. Each also self-reported `Produced by: Claude Opus 5
+(claude-opus-5)`, matching the transcript. **So n=1 is usable evidence** — the opposite of what
+this experiment was launched to confirm.
+
+**Result 2 — the flip that prompted the experiment was a measurement artifact, and so was the
+finding underneath it.** Re-grading with a check that reads the document whitespace-collapsed
+rather than line by line, `mnb-opus/DESIGN.md` line 194 reads *"**Owns:** the `phase`, a term this
+design coins, ranging over `WAITING`, `PLACEMENT`, `FIRING` and `ENDED`"*. That is a pass. It was
+recorded as a FAIL — in `ROADMAP.md`, in this file, and in commit `847b4da` — because the sentence
+wrapped across two source lines. The same re-grade reproduces every other recorded result for that
+file exactly, so it is one wrong cell rather than a new method.
+
+**Corrected, both disputed rules are model-dependence results wearing mechanism clothing:**
+
+| | Opus | everything else |
+|---|---|---|
+| coined term states its range | **4 of 4** | 0 of 2 |
+| a `## Decisions` entry names a pattern | **4 of 4** | 0 of 1 |
+
+R-021's observation was accurate about its own artifact — `DESIGN-rerun.md` really does have eight
+entries and no pattern name — but its title said *ever*, and a counter-example was already on disk
+when it was filed: `mnb-opus` carries *"### `phase` as a tagged field on `Match`, not the State
+pattern"*. Neither rule needed the machinery being planned for it. R-020 would have specified a
+`GLOSSARY.md` to repair a rule that has never failed on Opus; R-021 would have widened Step 1d's
+disclosure scope to recover an entry that four runs produce unprompted.
+
+**The lesson is about the ruler, not the rule.** Two independent mechanical checks of the same rule
+were both wrong, in opposite directions — an earlier grep gave a false PASS, a per-line window gave
+a false FAIL. Both reached `ROADMAP.md` as findings and one shaped a release. The measurement is
+apparatus and is being re-derived every session; **R-025** files where it should live, against this
+repo's "prose all the way down" rule and yaait's own `experiments/` convention, which cannot both
+hold here.
+
+R-022 is answered for `design` and no longer urgent. What remains of it is the model comparison at
+n>1 — every Sonnet figure is still n=1, headless, self-answering the defense.
+
 ### Run `design` on the strongest model you have, and record which one ran — 0.17.2
 
 **The user's call**, on an argument that does not need the measurement to be conclusive: `code`

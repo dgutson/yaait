@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-025
+Next ID: R-026
 
 ---
 
@@ -320,7 +320,18 @@ Next ID: R-025
 - **Measured 2026-08-28, and half the near half does not work.** Three runs of the gate on the
   naval project, checked mechanically. The *spec's-word* rule half fired on Opus — `find(join_code)`
   landed, `-by_code` leaked on the same class — and did not fire at all on Sonnet. The
-  *coined-term-states-its-range* rule failed in all three, Opus included.
+  *coined-term-states-its-range* rule was recorded as failing in all three, Opus included.
+
+  **That record was wrong, and the error is now located.** Re-graded 2026-08-28 with a check that
+  reads the document whitespace-collapsed instead of line by line, `mnb-opus/DESIGN.md` line 194
+  says: *"**Owns:** the `phase`, a term this design coins, ranging over `WAITING`, `PLACEMENT`,
+  `FIRING` and `ENDED`"*. That is a pass. The statement wrapped across two source lines, and a
+  per-line window could not see it. The corrected record is **Opus 4 of 4, everything else 0 of 2**
+  — the rule has never failed on Opus. The same re-grade reproduces every *other* recorded result
+  for that same file exactly (namespace PASS, participant PASS, five `join_code` uses with a
+  `-by_code` leak, six semicolons, 0 of 3 rendering), so it is one wrong cell, not a new method.
+  **This rule is not broken and never was**; 0.16.0's decision to leave it alone was right for the
+  wrong reason.
 
   **A fourth run on 2026-08-28 passed both, and that changes what this item is about.** 0.16.0's
   spec's-word tightening is now verified: the design wrote `-by_join_code` on a **private** field
@@ -492,6 +503,28 @@ Next ID: R-025
 - **Blocked-by:** —
 - **Enables:** —
 
+### R-025 — Where the measurement apparatus lives, given that this repo is prose
+
+- **Category:** Doctrine
+- **What:** decide where the script that grades a `DESIGN.md` against `design`'s own rules is kept,
+  or decide deliberately that it is not kept.
+- **Why, and it has already cost twice.** Every doctrine change here is justified by measuring a
+  gate's output. That measurement has been re-derived from scratch each session and got the same
+  rule wrong twice, in opposite directions — a grep that gave a false PASS, then a per-line window
+  that gave a false FAIL on a sentence that wrapped. Both errors reached `ROADMAP.md` as findings
+  and one of them shaped a release. A checked-in grader would have caught the second against the
+  first.
+- **The conflict to resolve rather than step around:** this repo's `CLAUDE.md` says yaait is prose
+  all the way down, with no source code — while yaait's own methodology says apparatus worth
+  keeping lives in `experiments/` at the project root, named by its experiment ID, with nothing in
+  the product importing from it. Both cannot hold here. The grader is not product; it never runs at
+  gate time and no skill references it, which is exactly the `experiments/` shape.
+- **Outcome:** the grader is checked in under a named experiment id and `CLAUDE.md` says what that
+  directory is and why it is not product — or this file records why re-deriving it each time is
+  preferable, which is a claim that now has two counter-examples to answer.
+- **Blocked-by:** —
+- **Enables:** —
+
 ### R-023 — One place that installs what yaait can use
 
 - **Category:** Tooling
@@ -536,8 +569,17 @@ Next ID: R-025
   manufacture them. A trigger anchored to something already on the page — a drawn state diagram
   means an FSM-versus-State choice was taken — cannot fire where there is nothing to record. Do
   not pick between these before the cause is known.
-- **The 2026-08-28 run produced the missing entry, unprompted, and the hypothesis above does not
-  survive it.** The `## Decisions` section contains *"The phase is a field on Match, with branching
+- **The observation is accurate for its own artifact and wrong as a general claim, and a
+  counter-example was already on disk when this was filed.** `DESIGN-rerun.md` — the Sonnet run
+  this item was written from — does have exactly those eight entries and zero pattern names. But
+  `mnb-opus/DESIGN.md`, the Opus run measured in the same session, carries
+  *"### `phase` as a tagged field on `Match`, not the State pattern"* with *"**Over:** GoF State,
+  with a class per phase"*. So the title's **"ever"** was never true, and the hypothesis — that
+  Step 1d's disclosure scope makes a pattern choice unrecoverable — is refuted by an artifact that
+  existed before the item did. Counting every run: **Opus 4 of 4 produce a pattern entry, Sonnet
+  0 of 1.** This is the same shape as R-020's coined-term rule: a model-dependence result written
+  down as a mechanism defect.
+- **The 2026-08-28 runs produced the entry unprompted, three times.** The `## Decisions` section contains *"The phase is a field on Match, with branching
   in apply — **Over:** the GoF State pattern, one class per phase"*, with the reasoning that State
   buys polymorphic dispatch these four phases do not need. That is a kind-2 entry, naming the exact
   pattern this item says is never named, on the exact decision it cites as the one that went
@@ -552,11 +594,34 @@ Next ID: R-025
 - **Blocked-by:** R-022 — it is now the same question.
 - **Enables:** —
 
-### R-022 — Is a single run evidence? The noise floor of yaait's own measurements
+### R-022 — Conformance tracks the model, and the runs themselves are stable
 
 - **Category:** Validation
-- **The product half is settled and shipped in 0.17.2**, so this item is now only the measurement
-  half. `README.md` recommends the strongest available model and the highest effort for `design`,
+- **ANSWERED 2026-08-28 for `design`, on the five rules below. Two results, and the second was
+  not the one this item expected.**
+  1. **There is no run-to-run variance to speak of.** Three runs at one commit (`9f9c434`),
+     `claude-opus-5`, same SPEC, same prompt: **identical on all five rules, 3 of 3 diagrams,
+     six states built in each.** A fourth run died on the box's session limit. So **n=1 is usable
+     evidence** for these rules at this model — which is the opposite of what the flipping
+     coined-term result suggested, and it holds because that flip was a measurement artifact.
+  2. **The variation that does exist is between models, not between runs.** Re-grading every
+     artifact with the corrected check: the coined-term rule is **Opus 4 of 4, others 0 of 2**;
+     a pattern-naming `## Decisions` entry is **Opus 4 of 4, Sonnet 0 of 1**. Both had been
+     written into the roadmap as broken mechanisms needing new machinery.
+- **What this cost, and it is the lesson worth keeping:** two roadmap items — R-020's
+  `GLOSSARY.md` and R-021's disclosure-scope change — were built on failures that a correct
+  measurement does not show. **Two independent mechanical checks of the same rule were both wrong,
+  in opposite directions**: an earlier grep gave a false PASS, and a per-line window gave a false
+  FAIL because the sentence wrapped. The fragile thing was never the rule; it was the ruler.
+- **Therefore: a rule's measurement is apparatus and has to be kept and re-runnable**, not
+  re-derived per session. Where it is cheap, move the check off prose entirely — Step 7b is the
+  existence proof: the namespace rule went FAIL/FAIL/PASS across three runs and is now caught by
+  `mmdc` every time at zero variance. See R-025.
+- **What is left of this item:** the model comparison at n>1. Everything so far is n=1 per model
+  for Sonnet, all headless, all self-answering the defense, so it may still be measuring the
+  harness. It is no longer urgent: the product answer shipped in 0.17.2 and nothing in the
+  evidence points the other way.
+- **The product half shipped in 0.17.2.** `README.md` recommends the strongest available model and the highest effort for `design`,
   on the cost-of-defect argument — `code` traces every increment back to `DESIGN.md`, so a wrong
   decomposition costs a reconcile per increment — and `DESIGN.md` carries a `Produced by:` line so
   a design that turns out wrong can be attributed. Effort is flagged there as unmeasured.
