@@ -4,6 +4,46 @@
 
 ## 2026-08-28
 
+### A diagram constraint renamed the design's components, which is the failure it was meant to prevent
+
+**Released 0.16.0, and the three changes in it are UNVERIFIED** — no run confirms them. Verification
+is deliberately deferred to the tooling session R-019 describes, because that tool is the verifier
+and re-running the gate twice to check the same edits would pay for the same evidence twice.
+
+**What measurement established, before the edits.** Three runs of `design` on the naval project,
+checked mechanically rather than by eye, one plugin commit throughout. The `mermaid.md` rules
+added in 0.14.0 **worked on Opus** — the structure diagram renders and the sequence diagram draws
+one shape per kind of participant — and **failed completely on Sonnet 5 at high effort**, which
+is now R-022. So "prose rules do not move this gate" was wrong, and the honest split is narrower:
+rules about *what to draw* landed, rules about *how to phrase text* did not.
+
+**The bug this release fixes is one 0.14.0 introduced.** The namespace rule stated a constraint —
+a namespace must not share a class name — and then prescribed a remedy that cannot be followed:
+"name the namespace for the part, not for the component", when the part **is** called `server`.
+Opus obeyed the constraint, discarded the unfollowable remedy, and cleared the collision the other
+way: it renamed the components, `Server` to `Hub` and `Client` to `ClientApp`. `SPEC.md` says
+*server* nine times, including S-008. So a diagram constraint silently dropped a spec term and
+substituted a coinage the design never explains — the same failure as abbreviating `join code` to
+`code`, reached from the opposite direction, and harder to catch because the new name looks
+deliberate. The remedy is now imperative (rename the namespace, append ` side`, leave every class
+alone), the component rename is named as forbidden with the observed case attached, and Step 2
+carries the reciprocal: a notation constraint never renames anything the design is about.
+
+**The spec's-word rule now covers private fields.** The same Opus run wrote `find(join_code)`
+correctly and kept `-by_code` on the same class in the same diagram. A private name is read by
+exactly the people who have to change the code, so it is the last place the spec's word should be
+dropped.
+
+**What was deliberately not touched.** The coined-term rule has now failed in all three runs
+including Opus — `Match` still owns "the phase" with no range beside it. Three failures on one
+mechanism is a reason to rethink where that definition belongs, not to reword the same line a
+second time. And the label-punctuation rule is left alone because prose cannot carry it: it failed
+on both models and **got worse on the better one**, since a stronger model writes richer labels and
+every `;` is locally correct English. Its cost is now measured — an Opus state diagram that parses
+clean and renders clean, which mermaid builds as 21 states of which 15 are garbage, with five
+transition labels losing everything after the semicolon. That measurement is R-019's acceptance
+test, and it disqualifies every candidate tool that only wraps parse or render.
+
 ### A design that renames the spec's terms hands the reader an undefined word
 
 **Released 0.15.0.** The near half of R-020; the item survives as the `GLOSSARY.md` question

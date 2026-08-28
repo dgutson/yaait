@@ -116,10 +116,20 @@ Checked against mermaid 11.17.2.
 
 It bites precisely where `DESIGN.md` nests components under parts, because a part is usually named
 after the component that defines it — a `Server` part holding a `Server` class is the common
-shape, not a curiosity. **Name the namespace for the part, not for the component:** `Server side`,
-`Client side`. A bare space in a namespace name is legal; quoting it — `namespace "Server side"` —
-is a **parse error**, so do not reach for quotes when the space looks wrong. Two-word part names
-also sidestep the colour trap above, so one habit covers both diagram types.
+shape, not a curiosity. **Rename the namespace, never the component.** Append ` side` to the
+namespace and leave every class alone: `namespace Server side` holding `class Server`. A bare
+space in a namespace name is legal; quoting it — `namespace "Server side"` — is a **parse error**,
+so do not reach for quotes when the space looks wrong. Two-word part names also sidestep the
+colour trap above, so one habit covers both diagram types.
+
+**The other way out is forbidden, and it is the one that looks cleverer.** Renaming the *component*
+also clears the collision — `class Server` becomes `class Hub`, `class Client` becomes
+`class ClientApp` — and it costs the design its vocabulary: where `SPEC.md` says *server*, the
+reader now meets a `Hub` the spec never mentions and the design never explains. That is the same
+failure as abbreviating a spec term, arrived at from the other direction. This is observed
+behaviour, not a hypothetical: a design gate given only the constraint above took exactly this
+route. **A notation constraint never renames anything the design is about.** If the diagram cannot
+draw a name, the diagram changes.
 
 ## Class diagram
 

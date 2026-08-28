@@ -595,6 +595,10 @@ and has no way to look it up:
   Shortening it here is how a term that *was* defined upstream reaches the reader as an undefined
   one: they cannot find the definition, because the word they were given is not the word that was
   defined. Box width is not a reason — the long form fits.
+  **This is every occurrence, not the public ones only.** The observed leak is a private field: a
+  design wrote `find(join_code)` correctly and kept `-by_code` on the same class, in the same
+  diagram. A private name is read by exactly the people who have to change the code, so it is the
+  last place the spec's word should be dropped, not the first.
 - **A term this design coins is defined by the component that owns it.** `phase` is not in the
   spec; it is a name this design invented, for a set of values it also invented. So the `Owns:`
   line says what it ranges over — `the phase, one of WAITING, PLACEMENT, FIRING, ENDED` — rather
@@ -604,6 +608,12 @@ and has no way to look it up:
 Neither is a matter of taste, and the check is mechanical rather than aesthetic: for every name in
 the design, either `SPEC.md` uses that exact word, or this document says what it means before
 anything depends on the answer.
+
+**A notation constraint is never a reason to rename a component.** Diagram syntax has its own
+limits — `references/mermaid.md` carries them — and the fix for every one of them is in the
+diagram, not in what the design calls things. A component renamed to make a diagram parse is a
+spec term silently dropped, and it is harder to catch than an abbreviation because the new name
+looks deliberate.
 
 ## Step 3 — Invariants, and what the design forbids
 

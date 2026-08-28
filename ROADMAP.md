@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-022
+Next ID: R-023
 
 ---
 
@@ -317,6 +317,14 @@ Next ID: R-022
   from elsewhere gets invented, so this applies that finding rather than re-testing it.
   `mermaid.md`'s conventions carry the short form, because the diagram is where the abbreviation
   actually happened. **What is still open is only the glossary question.**
+- **Measured 2026-08-28, and half the near half does not work.** Three runs of the gate on the
+  naval project, checked mechanically. The *spec's-word* rule half fired on Opus — `find(join_code)`
+  landed, `-by_code` leaked on the same class — and did not fire at all on Sonnet. The
+  *coined-term-states-its-range* rule **failed in all three runs**, Opus included: `Match` still
+  owns "the phase" with no range beside it. Three failures on one mechanism is a reason to rethink
+  where that definition belongs, not to reword the `Owns:` line again. 0.16.0 tightened the
+  spec's-word half to cover private fields; **that change is unverified** — see R-019, whose tool
+  is the intended verifier.
 - **Outcome:** either `GLOSSARY.md` is specified and added everywhere it has to be, or this file
   records why not.
 - **Blocked-by:** —
@@ -487,6 +495,17 @@ Next ID: R-022
   `getBBox is not a function`: that is the missing layout engine, **not** a diagram error, so
   "reached getBBox" is the pass condition. The collision error fires before layout, so it is still
   detectable in a headless harness.
+- **The acceptance test, measured 2026-08-28 — a renderer alone fails it.** An Opus run of the
+  design gate emitted a `stateDiagram-v2` that **parses clean and renders clean**, and which
+  mermaid builds as **21 states, 15 of them garbage**: `";"`, `"that"`, `"seat"`, `"is"`,
+  `"vacated"`, `"allowance"`, `"remains"`, `"turn"`, `"passes"`, `"to"`, `"next"`, `"living"`,
+  `"the"`, `"match"`, `"disposed"`. Five transition labels lost everything after a `;` —
+  `a seat drops` dropped *that seat is vacated*, `allowance spent` dropped *turn passes to next
+  living seat*, and three more. **A candidate tool must flag that diagram.** Everything that only
+  wraps parse or render — `@mermaid-js/mermaid-cli`, `mcp-mermaid-validator`, the mermaid.ai MCP
+  server — passes it, so the evaluation's real question is not "which renders mermaid" but "which
+  catches silent corruption", and the answer may be a linter *beside* a renderer rather than one
+  tool. Artifacts: `dfg@192.168.68.71:/home/dfg/src/mnb-opus/.yaait/DESIGN.md`.
 - **Outcome:** either `design` runs a named check whose cost is stated, or `mermaid.md` records in
   writing why it does not and what the reader is expected to do instead. Its "Checking that it
   renders" section is rewritten either way — it still leads with parse failures.
@@ -521,5 +540,29 @@ Next ID: R-022
   not pick between these before the cause is known.
 - **Outcome:** the cause is named in writing, and either a change lands or this file records why
   the gap is acceptable.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-022 — The gate obeys its own rules differently on different models
+
+- **Category:** Validation
+- **What:** decide what yaait does about the fact that conformance to its own written rules is a
+  function of the model running it. Options range from stating a minimum model in `README.md`, to
+  making the rules that degrade mechanical rather than prose, to accepting it and recording it.
+- **The measurement, 2026-08-28.** One plugin commit (`b4fa995`), one project, one prompt, one
+  variable changed — the model. Five rules checked mechanically:
+  - `claude-sonnet-5` at `effortLevel: high` — **0 of 5**. One diagram rendered of three.
+  - `claude-opus-5` — **2 of 5 pass, 1 partial, 2 fail**. Two diagrams rendered of three.
+  The two that passed on Opus and failed on Sonnet are both rules about **what to draw**. The three
+  that failed on Opus are rules about **how to phrase text** — term choice and punctuation. That
+  split is the finding worth testing again rather than assuming.
+- **Why:** the plugin ships to whoever installs it and says nothing about which model it needs. A
+  user on Sonnet gets a gate that emits a structure diagram which does not render and a design
+  whose names have quietly drifted from the spec — and nothing in the run tells them the method
+  was degraded rather than satisfied. That is the same shape as R-011's undecidable detector: a
+  rule that cannot land is not a pass, but it reports as one.
+- **The counter-argument to answer, not skip:** n=1 per model, both headless, both self-answering
+  the defense. Headless runs have no picker and no human, so this may measure the harness as much
+  as the model. Re-measure before acting on it.
 - **Blocked-by:** —
 - **Enables:** —
