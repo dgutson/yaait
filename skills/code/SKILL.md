@@ -187,12 +187,20 @@ Never "are you familiar with X?": self-rated understanding is known to be inflat
 collapses only when someone is asked to *explain*. So — "which line stops `balance` going
 negative?", not "do you know what an invariant is?"
 
-Then offer the way out as **selectable options**, generated from the artifact:
-`I'll explain it` / `Explain <concept>` — one per concept you actually used, named / `Show
-me where this bites` / `Record as debt and move on`. Options rather than prose for two
-reasons that both matter: choosing "Explain RAII" costs nothing while typing "I don't know
-what RAII is" is a confession in writing, and naming the concepts discloses exactly what
-jargon the user is about to approve.
+Then offer the way out as **selectable options**, generated from the artifact. **The first
+option is answering the question** — `Answer in my own words` — and it comes before every exit.
+The exits follow: `Explain <concept>`, one per concept you actually used and named / `Show me
+where this bites` / `Record as debt and move on`. Drop a generic `I'll explain it` wherever
+named concept options exist; it is the same offer twice and the slots are scarce.
+
+**Name the answer path even when the instrument has a free-text slot**, because that slot is
+not a visible answer. Where free text arrives through a generic `Other`, a list of three exits
+above an unlabelled `Other` reads as four ways to avoid the question, and the user picks an exit
+they did not need. The escape hatch is there to be cheap, not to be the only labelled route.
+
+Options rather than prose for two reasons that both matter: choosing "Explain RAII" costs
+nothing while typing "I don't know what RAII is" is a confession in writing, and naming the
+concepts discloses exactly what jargon the user is about to approve.
 
 Four outcomes:
 
@@ -243,6 +251,17 @@ of the mechanism.
 - **Three lines per element, hard** — where it is, what is at stake, the question. An element
   that will not fit is too big to defend in one question: split it or choose another. This is
   the cap that binds, and it replaces a stopwatch nobody could check.
+- **One clause per sentence, and the question is a plain interrogative.** "Which of those two
+  lines breaks, and what does the design instruct you to do then?" is two questions joined by
+  `and`, which the one-question rule above already forbade. It happens anyway because the cap
+  rewards compression, and compression is what produces subordinate clauses and rare verbs.
+  **Density is not simplicity.** Three lines is a budget, not a target: split the sentence
+  rather than shortening it.
+- **No term the user has not been taught, and that includes inside the options.** A word like
+  "isomorphic" arriving in a parenthesis turns a comprehension probe into a vocabulary test, and
+  the `DEBT` entry then records that they did not know a word rather than that they could not
+  defend the design. Teach the name in the same breath where it is load-bearing; delete it where
+  it is not.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -626,15 +645,24 @@ The most productive targets in code, in rough order:
 4. Anything concurrent, ordered, or timing-dependent.
 5. The abstraction you added that the design did not ask for.
 
-Good code-level defense questions:
+Good code-level defense questions. **Each one opens with its kind and its anchor**, states the
+stake, and ends on a single plain question — the label is what tells the user this is the one
+kind of ask they can be wrong about:
 
-- "Which line stops the board from being half-updated if `apply` throws?"
-- "What input makes this function return the wrong answer rather than raising?"
-- "This is called from the render loop and from the network handler. What happens if both
-  arrive in the same tick?"
-- "The design says the renderer never mutates state. What in this code actually prevents it?"
-- "If the save fails here, what does the player see, and what is on disk?"
-- "Why three retries? What is the failure this is shaped around?"
+- **Defending — `apply`.** It writes four fields. Which line stops the board being left
+  half-updated if it throws?
+- **Defending — the return path.** What input makes this function return a wrong answer instead
+  of raising?
+- **Defending — the shared handler.** It is called from the render loop and from the network
+  handler. What happens if both arrive in the same tick?
+- **Defending — the renderer prohibition.** `DESIGN.md` says the renderer never mutates state.
+  What in this code prevents it?
+- **Defending — the save failure path.** The write can fail here. What does the player see?
+- **Defending — the retry count.** It is three, not one and not ten. What failure is that
+  number shaped around?
+
+Note what none of them do: use a word the user has not been given, or join two questions with
+"and". Both are cheap to write and both cost the answer.
 
 Then journal: `APPROVAL` for what was defended, `DEBT` for what was not, `CHALLENGE` for
 anything argued about, `DECISION` for judgment calls with rejected alternatives.

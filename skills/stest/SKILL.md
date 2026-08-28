@@ -191,12 +191,20 @@ Never "are you familiar with X?": self-rated understanding is known to be inflat
 collapses only when someone is asked to *explain*. So — "which line stops `balance` going
 negative?", not "do you know what an invariant is?"
 
-Then offer the way out as **selectable options**, generated from the artifact:
-`I'll explain it` / `Explain <concept>` — one per concept you actually used, named / `Show
-me where this bites` / `Record as debt and move on`. Options rather than prose for two
-reasons that both matter: choosing "Explain RAII" costs nothing while typing "I don't know
-what RAII is" is a confession in writing, and naming the concepts discloses exactly what
-jargon the user is about to approve.
+Then offer the way out as **selectable options**, generated from the artifact. **The first
+option is answering the question** — `Answer in my own words` — and it comes before every exit.
+The exits follow: `Explain <concept>`, one per concept you actually used and named / `Show me
+where this bites` / `Record as debt and move on`. Drop a generic `I'll explain it` wherever
+named concept options exist; it is the same offer twice and the slots are scarce.
+
+**Name the answer path even when the instrument has a free-text slot**, because that slot is
+not a visible answer. Where free text arrives through a generic `Other`, a list of three exits
+above an unlabelled `Other` reads as four ways to avoid the question, and the user picks an exit
+they did not need. The escape hatch is there to be cheap, not to be the only labelled route.
+
+Options rather than prose for two reasons that both matter: choosing "Explain RAII" costs
+nothing while typing "I don't know what RAII is" is a confession in writing, and naming the
+concepts discloses exactly what jargon the user is about to approve.
 
 Four outcomes:
 
@@ -247,6 +255,17 @@ of the mechanism.
 - **Three lines per element, hard** — where it is, what is at stake, the question. An element
   that will not fit is too big to defend in one question: split it or choose another. This is
   the cap that binds, and it replaces a stopwatch nobody could check.
+- **One clause per sentence, and the question is a plain interrogative.** "Which of those two
+  lines breaks, and what does the design instruct you to do then?" is two questions joined by
+  `and`, which the one-question rule above already forbade. It happens anyway because the cap
+  rewards compression, and compression is what produces subordinate clauses and rare verbs.
+  **Density is not simplicity.** Three lines is a budget, not a target: split the sentence
+  rather than shortening it.
+- **No term the user has not been taught, and that includes inside the options.** A word like
+  "isomorphic" arriving in a parenthesis turns a comprehension probe into a vocabulary test, and
+  the `DEBT` entry then records that they did not know a word rather than that they could not
+  defend the design. Teach the name in the same breath where it is load-bearing; delete it where
+  it is not.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -482,17 +501,19 @@ sentence. "Testing was not exhaustive" is not.
 ## Step 6 — Run the defense
 
 3–5 elements, and the productive targets here are different from the other commands, because
-what is being defended is the *verdict* rather than the artifact:
+what is being defended is the *verdict* rather than the artifact. **Each ask opens with its kind
+and its anchor** and ends on a single plain question:
 
-- **A criterion the user marked as passing.** "You saw the board resume after the restart —
-  what would you have seen if only the move log had been saved and not the turn?"
-- **An untested path that matters.** "Nothing here exercised a corrupt save file. What do you
-  think happens, and are you content to ship not knowing?"
-- **A `DEBT` entry that survived into the shipped system.** Name it, say what it means now
+- **A criterion the user marked as passing.** `**Defending — AC-3.** You saw the board resume
+  after the restart. What would you have seen if the move log had been saved and the turn had
+  not?`
+- **An untested path that matters.** `**Defending — the corrupt save path.** Nothing here
+  exercised it. What do you think happens when it is hit?`
+- **A `DEBT` entry that survived into the shipped system.** Name it, and ask what it means now
   that the thing is running.
-- **The gap between what the tests prove and what the spec claims.** This is the most useful
-  question in the command: *"the suite passes. Which requirement do you think is least
-  actually guaranteed by it?"*
+- **The gap between what the tests prove and what the spec claims.** The most useful question in
+  the command: `**Defending — the suite as a whole.** It passes. Which requirement is least
+  actually guaranteed by it?`
 
 Journal `APPROVAL`, `DEBT` and `CHALLENGE` as usual.
 

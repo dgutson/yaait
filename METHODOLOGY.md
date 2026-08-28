@@ -414,11 +414,21 @@ demonstrated it).
 Ask the questions, then offer the way out as **choices**, generated from the artifact:
 
 ```
-I'll explain it
+Answer in my own words                  ← first, always: this is the one that is not an exit
 Explain <the specific concept>          ← one option per concept you actually used
 Show me where this bites
 Record as debt and move on
 ```
+
+**The answer path is named first, and it is named.** Every other option is a way out, and a
+list that shows only ways out tells the user that answering is the unlisted option. Where the
+instrument routes free text through a generic `Other`, that is exactly what happens: three
+exits above an unlabelled slot reads as four ways to avoid the question, and a user who could
+have answered takes an exit instead. Then the `DEBT` entry records comprehension debt that was
+never there, which corrupts the one record this method runs on.
+
+Where slots are scarce, drop a generic "I'll explain it" — the named concept options already
+carry that offer, and repeating it costs the slot the answer path needs.
 
 Offer these as selectable options rather than as prose, and always include the concept
 options by name. Two reasons, both load-bearing:
@@ -524,6 +534,23 @@ questions are not the whole job — the delivery is.
   plus a ranking line and a not-probed line, is not a fifteen-second read. A rule set that
   cannot be satisfied is worse than a loose one, because the author has to pick which rule to
   break silently, and the one that gets broken is the cap.
+- **One clause per sentence, and the question is a plain interrogative.** "Which of those two
+  lines breaks, and what does the design itself instruct you to do at that point?" is two
+  questions joined by `and`, and the one-question rule above already forbade it. It happened
+  anyway, in a real run, and the reason is the rule directly above this one: the three-line cap
+  optimises **density**, and density is not simplicity. Compressing a stake, a quotation and a
+  question into three lines is precisely what produces subordinate clauses, nominalisations and
+  rare verbs. So the cap is a budget rather than a target — an ask that comes in under it has
+  spent nothing. Split the sentence; do not shorten it.
+- **No term the user has not been taught, and that includes inside the options.** A word like
+  "isomorphic" arriving parenthetically in an option description turns a comprehension probe
+  into a vocabulary test. The user then cannot parse a question whose subject they understand
+  perfectly well, and the outcome recorded is `DEBT` — so the method's core instrument
+  mismeasures comprehension as English fluency, and the record says the wrong thing about a
+  person. Teach the name in the same breath where it is load-bearing; delete it where it is not.
+  This is the operational form of two rules stated elsewhere and obeyed by neither: that the
+  defense is "not a quiz on general knowledge", and that a name the user does not have gets
+  taught rather than used.
 - **No recap of what you just did.** They watched you do it.
 
 The general rule: everything you write is competing for attention with the work itself. Say
@@ -1097,7 +1124,11 @@ inheritance, GoF pattern names. That is a dialect, not a requirement, and much o
 directly: most architectural smells are properties of a dependency graph and read the same
 whatever the nodes are.
 
-Some of it does not restate, and **that translation has not been done yet**. Where a rule is
+Some of it does not restate, and **that translation has largely not been done yet**. One piece
+of it has: the structure diagram no longer requires a class diagram unconditionally, and a
+`flowchart` over modules is documented as the form it takes where the units are modules and
+functions. What remains untranslated is the smell catalogue and the code review criteria, and
+the review criteria are the worse gap because they run on every increment. Where a rule is
 stated in terms the project does not have, translate it to the equivalent property of the
 project's own units and say that you did. Where it has no equivalent, say that instead. Do not
 apply a detector that cannot fire and report a clean result: an OO tell that is structurally

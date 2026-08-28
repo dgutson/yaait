@@ -9,9 +9,19 @@ If the user prefers PlantUML, use it — the conventions below all transfer.
 
 ## What to produce
 
-**Always:** a class diagram, plus a sequence diagram for the single most important flow. Both
-are drawn at `design` **Step 1c**, before the elaboration questions, because a question asked
-with nothing on screen is answered on intuition. They are revised at Step 5, not drawn again.
+**Always:** a **structure diagram**, plus a sequence diagram for the single most important flow.
+Both are drawn at `design` **Step 1c**, before the elaboration questions, because a question
+asked with nothing on screen is answered on intuition. They are revised at Step 5, not drawn
+again.
+
+**The structure diagram takes the shape the code takes.** In an OO design that is a
+`classDiagram`. Where the units are modules and functions rather than classes — C, Lua, Rust
+without much trait machinery, anything functional — it is a `flowchart` over modules, below.
+
+**Do not draw a function as a class to fit the template.** A `class` box asserts state and
+identity, so a design that says "a function, because it holds no state" and then draws
+`class view_for` contradicts itself in the notation, and a reader believes the diagram. If the
+only structural template that fits forces that, the template is what is wrong.
 
 **When the condition holds:** a state diagram whenever anything has modes, phases or a
 lifecycle — even when it feels too obvious to draw. Most defects live in state transitions,
@@ -122,6 +132,35 @@ classDiagram
 Note what that last line encodes: `..>` for a read-only dependency, matching a `DESIGN.md`
 prohibition that the renderer never mutates state. A diagram that can express a rule is
 doing work.
+
+## Module structure diagram
+
+The non-OO form of the structure diagram. Same job as the class diagram — the units, what each
+holds, and above all the direction of dependency — with modules and functions as the boxes.
+
+```mermaid
+flowchart LR
+    subgraph shared[Shared]
+        geometry[geometry - fits, footprint, orientations]
+    end
+    subgraph server[Server side]
+        match[match - apply, ranking]
+        board[board - place, fire]
+    end
+    match -->|owns one per seat| board
+    board -->|placement rules from| geometry
+```
+
+`subgraph <id>[<Title>]` is how a part gets a readable name without the id having to carry it,
+and it is the flowchart equivalent of `namespace`. Checked against mermaid 11.17.2, as is the
+label form above: keep the same punctuation discipline here, and a hyphen reads perfectly well
+as the separator between a module and what it exports.
+
+Two things this form does *not* try to reproduce, deliberately. It has no visibility markers,
+because `-` and `+` mean nothing in a language without them. And it has no `..>` for a read-only
+dependency, so where a design forbids mutation across an edge, say it in the invariants and in
+the edge label — `reads only` — rather than encoding it in an arrowhead that this diagram type
+does not carry.
 
 ## Sequence diagram
 

@@ -196,12 +196,20 @@ Never "are you familiar with X?": self-rated understanding is known to be inflat
 collapses only when someone is asked to *explain*. So — "which line stops `balance` going
 negative?", not "do you know what an invariant is?"
 
-Then offer the way out as **selectable options**, generated from the artifact:
-`I'll explain it` / `Explain <concept>` — one per concept you actually used, named / `Show
-me where this bites` / `Record as debt and move on`. Options rather than prose for two
-reasons that both matter: choosing "Explain RAII" costs nothing while typing "I don't know
-what RAII is" is a confession in writing, and naming the concepts discloses exactly what
-jargon the user is about to approve.
+Then offer the way out as **selectable options**, generated from the artifact. **The first
+option is answering the question** — `Answer in my own words` — and it comes before every exit.
+The exits follow: `Explain <concept>`, one per concept you actually used and named / `Show me
+where this bites` / `Record as debt and move on`. Drop a generic `I'll explain it` wherever
+named concept options exist; it is the same offer twice and the slots are scarce.
+
+**Name the answer path even when the instrument has a free-text slot**, because that slot is
+not a visible answer. Where free text arrives through a generic `Other`, a list of three exits
+above an unlabelled `Other` reads as four ways to avoid the question, and the user picks an exit
+they did not need. The escape hatch is there to be cheap, not to be the only labelled route.
+
+Options rather than prose for two reasons that both matter: choosing "Explain RAII" costs
+nothing while typing "I don't know what RAII is" is a confession in writing, and naming the
+concepts discloses exactly what jargon the user is about to approve.
 
 Four outcomes:
 
@@ -252,6 +260,17 @@ of the mechanism.
 - **Three lines per element, hard** — where it is, what is at stake, the question. An element
   that will not fit is too big to defend in one question: split it or choose another. This is
   the cap that binds, and it replaces a stopwatch nobody could check.
+- **One clause per sentence, and the question is a plain interrogative.** "Which of those two
+  lines breaks, and what does the design instruct you to do then?" is two questions joined by
+  `and`, which the one-question rule above already forbade. It happens anyway because the cap
+  rewards compression, and compression is what produces subordinate clauses and rare verbs.
+  **Density is not simplicity.** Three lines is a budget, not a target: split the sentence
+  rather than shortening it.
+- **No term the user has not been taught, and that includes inside the options.** A word like
+  "isomorphic" arriving in a parenthesis turns a comprehension probe into a vocabulary test, and
+  the `DEBT` entry then records that they did not know a word rather than that they could not
+  defend the design. Teach the name in the same breath where it is load-bearing; delete it where
+  it is not.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -513,11 +532,15 @@ Produce three things, in this order:
 2. **Every component placed under exactly one part**, name and one clause each. The full
    responsibility and ownership statements are Step 2's; here it is only the placement. A
    component that will not sit under one part is a finding — say so rather than picking one.
-3. **The class diagram and the primary sequence diagram**, grouped by part. Use **mermaid**, not
-   PlantUML: it renders natively in GitHub, in Claude Code artifacts and in most editors with no
-   jar, no server and no toolchain. See `references/mermaid.md` for the templates, the grouping
-   conventions and the yaait conventions. These two are drawn **here** and revised at Step 5,
-   not drawn again.
+3. **The structure diagram and the primary sequence diagram**, grouped by part. Use **mermaid**,
+   not PlantUML: it renders natively in GitHub, in Claude Code artifacts and in most editors
+   with no jar, no server and no toolchain. See `references/mermaid.md` for the templates, the
+   grouping conventions and the yaait conventions. These two are drawn **here** and revised at
+   Step 5, not drawn again.
+
+   **The structure diagram takes the shape the code takes** — a `classDiagram` for an OO design,
+   a `flowchart` over modules where the units are modules and functions. Do not draw a function
+   as a class to fit the template: the notation would assert state the design is denying.
 
 Say plainly that this is a first cut and that Steps 2 through 4c will change it. A map offered
 as finished invites agreement instead of correction, and correction is the whole reason it is on
@@ -693,8 +716,8 @@ How far to extract is not settled here, and must not be. That is the open agenda
 
 ## Step 5 — The state diagram, and reconciling the two from Step 1c
 
-The class diagram and the primary sequence diagram were drawn at **Step 1c**. They are not drawn
-again here. Two things happen instead.
+The structure diagram and the primary sequence diagram were drawn at **Step 1c**. They are not
+drawn again here. Two things happen instead.
 
 **Produce a state diagram** (`stateDiagram-v2`) whenever anything has modes, phases or a
 lifecycle. Do this even when it feels obvious. Most bugs live in state transitions, especially
@@ -769,6 +792,7 @@ classDiagram
 ...
     }
 ```
+<!-- or a flowchart over modules, where the units are not classes -->
 
 ## Components
 
@@ -932,15 +956,23 @@ Other productive targets: the component boundary that would be most expensive to
 invariant, asked about from the code's side; a dependency direction you chose; the state
 transition you drew that nobody mentioned.
 
-Good design-level defense questions:
+Good design-level defense questions. **Each one opens with its kind and its anchor**, states
+the stake, and ends on a single plain question — the label is not decoration here, it is what
+tells the user this is the one kind of ask they can be wrong about:
 
-- "Which component would you change to add a second storage backend? What if the answer is
-  'three of them'?"
-- "The renderer never mutates game state — which part of this structure actually stops it?"
-- "I added a `MoveValidator` separate from `Board`. What breaks if I merge them?"
-- "This sequence assumes the save completes before the next move is accepted. What happens
-  if it does not?"
-- "Which invariant does the state diagram's `paused → ended` transition threaten?"
+- **Defending — `Store`.** Every component that writes goes through it today. Which components
+  would you change to add a second storage backend?
+- **Defending — the renderer prohibition.** The design forbids the renderer from mutating game
+  state. Which part of this structure stops it?
+- **Defending — `MoveValidator`.** I added it separately from `Board`; the spec did not ask for
+  it. What breaks if the two are merged?
+- **Defending — the save ordering.** This sequence assumes the save finishes before the next
+  move is accepted. What happens if it does not?
+- **Defending — `paused` to `ended`.** Nobody asked for that transition; I drew it. Which
+  invariant does it threaten?
+
+Note what none of them do: use a word the user has not been given, or join two questions with
+"and". Both are cheap to write and both cost the answer.
 
 Then journal: `APPROVAL`, `DEBT`, `CHALLENGE`, and a `DECISION` entry for each structural
 choice with a rejected alternative.

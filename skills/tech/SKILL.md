@@ -199,12 +199,20 @@ Never "are you familiar with X?": self-rated understanding is known to be inflat
 collapses only when someone is asked to *explain*. So — "which line stops `balance` going
 negative?", not "do you know what an invariant is?"
 
-Then offer the way out as **selectable options**, generated from the artifact:
-`I'll explain it` / `Explain <concept>` — one per concept you actually used, named / `Show
-me where this bites` / `Record as debt and move on`. Options rather than prose for two
-reasons that both matter: choosing "Explain RAII" costs nothing while typing "I don't know
-what RAII is" is a confession in writing, and naming the concepts discloses exactly what
-jargon the user is about to approve.
+Then offer the way out as **selectable options**, generated from the artifact. **The first
+option is answering the question** — `Answer in my own words` — and it comes before every exit.
+The exits follow: `Explain <concept>`, one per concept you actually used and named / `Show me
+where this bites` / `Record as debt and move on`. Drop a generic `I'll explain it` wherever
+named concept options exist; it is the same offer twice and the slots are scarce.
+
+**Name the answer path even when the instrument has a free-text slot**, because that slot is
+not a visible answer. Where free text arrives through a generic `Other`, a list of three exits
+above an unlabelled `Other` reads as four ways to avoid the question, and the user picks an exit
+they did not need. The escape hatch is there to be cheap, not to be the only labelled route.
+
+Options rather than prose for two reasons that both matter: choosing "Explain RAII" costs
+nothing while typing "I don't know what RAII is" is a confession in writing, and naming the
+concepts discloses exactly what jargon the user is about to approve.
 
 Four outcomes:
 
@@ -255,6 +263,17 @@ of the mechanism.
 - **Three lines per element, hard** — where it is, what is at stake, the question. An element
   that will not fit is too big to defend in one question: split it or choose another. This is
   the cap that binds, and it replaces a stopwatch nobody could check.
+- **One clause per sentence, and the question is a plain interrogative.** "Which of those two
+  lines breaks, and what does the design instruct you to do then?" is two questions joined by
+  `and`, which the one-question rule above already forbade. It happens anyway because the cap
+  rewards compression, and compression is what produces subordinate clauses and rare verbs.
+  **Density is not simplicity.** Three lines is a budget, not a target: split the sentence
+  rather than shortening it.
+- **No term the user has not been taught, and that includes inside the options.** A word like
+  "isomorphic" arriving in a parenthesis turns a comprehension probe into a vocabulary test, and
+  the `DEBT` entry then records that they did not know a word rather than that they could not
+  defend the design. Teach the name in the same breath where it is load-bearing; delete it where
+  it is not.
 - **No recap of what you just did.** They watched you do it.
 
 Everything you write competes for attention with the work itself. Say the actionable thing
@@ -550,14 +569,23 @@ the first thing the user should read.
 asymmetry is the point. Users defend their own choices readily and inherit yours without
 noticing.
 
-Good tech-level defense questions:
+Good tech-level defense questions. **Each one opens with its kind and its anchor**, states the
+stake, and ends on a single plain question — the label is what tells the user this is the one
+kind of ask they can be wrong about:
 
-- "You picked SQLite. What happens the first time two processes write at once?"
-- "I chose async here. What is the actual concurrency, and what is it for?"
-- "This says pinned to 2.5.x. What breaks if someone runs `pip install -U`?"
-- "The exit cost on the data store is 'high'. What specifically makes it high?"
-- "We are depending on this library for one function. What does it cost us if it is
-  abandoned next year?"
+- **Defending — SQLite.** You picked it over a server database. What happens the first time two
+  processes write at once?
+- **Defending — the async choice.** I chose it; nothing upstream asked for it. What is the
+  concurrency here actually for?
+- **Defending — the 2.5.x pin.** It is pinned rather than floating. What breaks if someone runs
+  `pip install -U`?
+- **Defending — the data store exit cost.** `TECH.md` records it as high. What specifically
+  makes it high?
+- **Defending — the one-function dependency.** We take the whole library for one call. What
+  does it cost us if it is abandoned next year?
+
+Note what none of them do: use a word the user has not been given, or join two questions with
+"and". Both are cheap to write and both cost the answer.
 
 Then journal a `DECISION` per real choice with its rejected alternatives, plus `APPROVAL`,
 `DEBT` and `CHALLENGE` as they arise.

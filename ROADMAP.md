@@ -13,51 +13,6 @@ Next ID: R-019
 
 ## Now
 
-### R-014 — The defense ask says what it is, in language the reader can parse
-
-- **Category:** Doctrine
-- **What:** three changes to how a defense question is written. 1. **Label every worked
-  example.** Every model defense question in the repo is unlabelled — `design` Step 8, `spec`
-  Step 8, `code` Step 6 — while sitting a few dozen lines below the rule saying "open every ask
-  with its kind, as a literal label". Rewrite them all as `**Defending — geometry.**`. The
-  examples are the mechanism; the rule alone already failed. 2. **A readability rule in
-  `METHODOLOGY.md` §3** that survives next to the three-line cap: one clause per sentence, no
-  term used untaught, the question as a plain interrogative. 3. **Name the free-text answer
-  path first** where the ask ships through a picker. In the observed run three of four options
-  were exits — teach me, show me, record `DEBT` — and the only route to an actual answer was
-  `Other`.
-- **Why:** this is the **second** arrival of this complaint. R-002's progress note records it
-  from the `spec` pass, 0.9.0 wrote a rule for it, and it recurred unchanged in `design`. A
-  rule that loses to its own neighbouring example will keep losing. The cost is not cosmetic: a
-  user who cannot parse the question records a `DEBT` entry for something they actually
-  understand, so the method's core instrument mismeasures comprehension as English fluency. §3
-  already says the defense is "not a quiz on general knowledge", and a vocabulary test is one.
-  §2 already says to teach a name the user does not have, and "isomorphic" arrived
-  parenthetically and untaught. Both rules condemn the output; neither is operationalised.
-- **The density trap, which is why this is not just sloppiness.** The only delivery rule in §3
-  is "three lines per element, hard" plus "say the actionable thing and stop". That optimises
-  **density**, and density is not simplicity — compressing to three lines is what produces
-  subordinate clauses and rare verbs. The new rule has to be checkable enough to survive the
-  cap.
-- **Version, settled from the artifacts, because it decides whether this item is real at all:**
-  `installed_plugins.json` records 0.3.0, but that is stale bookkeeping — a local-directory
-  marketplace resolves live from the clone and no explicit `install` has run since 2026-08-22.
-  The run was **at or after 0.9.0**: `DESIGN.md` carried `## Refactorings applied` and no `##
-  Budget`, neither possible under 0.3.0's template; and the ask anchored its tabs to `geometry`
-  / `view_for` / `I-6/I-7` / `I-10` rather than to ordinals, and shipped the escape hatch
-  inside the same picker as the asks. Both of those rules land in `32df76a` (0.9.0) and are
-  absent from `374c2b8` (0.7.0). So two rules from that commit were obeyed and a third, in the
-  same section of the same file, was not.
-- **The prediction that would falsify this, and it is cheap:** label the five worked examples
-  in `design` Step 8, then re-run only the defense. If the label appears, the diagnosis holds
-  and the fix is already done. If it does not, the cause is elsewhere and this becomes a real
-  investigation. Run it against a **copy** of the project — re-running the gate rewrites
-  `.yaait/DESIGN.md` and appends to `JOURNAL.md`, destroying the evidence this item rests on.
-- **Outcome:** every defense example in the repo carries its kind label, and the register rule
-  is stated as something checkable rather than as a preference.
-- **Blocked-by:** —
-- **Enables:** —
-
 ### R-001 — Resolve yaait's position on Clean Code
 
 - **Category:** Doctrine
@@ -118,8 +73,8 @@ Next ID: R-019
   not abandoned mid-flow. It produced five findings. That discharges this item's stated outcome
   of "at least one concrete revision to a SKILL.md driven by it": four of the five are applied —
   the map drawn before the parts are discussed, the parts hierarchy, the decisions section and
-  the template gaps, all released as 0.11.0 — and the fifth is R-014, still open above. Four
-  gates remain: `tech`, `code`, `stest`, `debt`. **The `design` re-run has not happened**, and
+  the template gaps, all released as 0.11.0 — and the fifth, the unparseable defense ask, in
+  0.12.0. Four gates remain: `tech`, `code`, `stest`, `debt`. **The `design` re-run has not happened**, and
   when it does it needs a copy of the project: the gate rewrites `.yaait/DESIGN.md` and appends
   to `JOURNAL.md`, which is the evidence those four fixes rest on.
 - **Open question to record:** was `/yaait:feedback` run after the `design` gate? The friction
@@ -265,10 +220,21 @@ Next ID: R-019
   pass, but it reports as one, which is worse than having no detector at all.
 - **Outcome:** every rule in the reference files either restates in the project's own units or
   says explicitly that it does not apply. No detector reports a result it cannot compute.
-- **A concrete instance from the first `design` dogfood:** the generated `DESIGN.md` modelled a
-  pure function as `class view_for` inside a `classDiagram`, because the class diagram is the
-  only structural template that exists. The notation asserts something the design explicitly
-  denies — the file says "a function rather than a class because it holds no state".
+- **A concrete instance from the first `design` dogfood, and it is now fixed:** the generated
+  `DESIGN.md` modelled a pure function as `class view_for` inside a `classDiagram`, because the
+  class diagram was the only structural template that existed. The notation asserted something
+  the design explicitly denies — the file says "a function rather than a class because it holds
+  no state".
+- **Progress, 0.12.0 — the diagram half is done.** `mermaid.md:12`'s unconditional "**Always:**
+  a class diagram" is now "a **structure diagram**", whose form follows the units the code
+  actually has, and a `flowchart`-over-modules template is documented beside the class diagram
+  and checked against mermaid 11.17.2. `design` Step 1c and Step 5 say the same, and
+  `METHODOLOGY.md` §11 records what is left. **What remains is the whole detector half**, which
+  is the more damaging one: `smells.md` §9's missing mappings — Polymorphism, Creator,
+  Controller, Pure Fabrication and every §7 tell; `review.md` having no non-OO section at all
+  despite running on every increment; the `Manager`-with-no-data tell being undecidable in C;
+  pattern-name-driven design detected by counting GoF names, which cannot fire in C; and error
+  masking's C shape, an ignored return code, missing from the most-measured check in the method.
 - **Blocked-by:** —
 - **Enables:** —
 

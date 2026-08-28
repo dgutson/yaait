@@ -4,6 +4,54 @@
 
 ## 2026-08-28
 
+### The defense ask says what it is, and says it in language the reader can parse
+
+**Released 0.12.0.** The second arrival of the same complaint. The `spec` pass produced it,
+0.9.0 wrote a rule for it, and it recurred unchanged in `design` — a rule that loses to its own
+neighbouring example will keep losing, so this time the examples were changed.
+
+**Every worked defense question in the repo now carries its kind**, in all six gates: `design`,
+`spec`, `code`, `tech`, `stest` and `debt`. They were unlabelled while sitting a few dozen lines
+below the rule that says to open every ask with its kind as a literal label. Rewriting them also
+meant obeying the rules they sit under, which several did not: "Which component would you change
+to add a second storage backend? What if the answer is 'three of them'?" is two questions, which
+the one-question rule already forbade.
+
+**A readability rule that is checkable rather than a preference**, in `METHODOLOGY.md` §3 and in
+the shared block. One clause per sentence, the question as a plain interrogative, and no term
+the user has not been taught — *including inside the option descriptions*, which is where
+"isomorphic" arrived, parenthetically and untaught, in the run that prompted this.
+
+The diagnosis worth keeping is why a competent gate wrote an unparseable question. §3's only
+delivery rule was "three lines per element, hard" plus "say the actionable thing and stop". That
+optimises **density**, and density is not simplicity: compressing a quotation, a stake and a
+question into three lines is exactly what produces subordinate clauses and rare verbs. The cap
+is now stated as a budget rather than a target — an ask under it has spent nothing — and "split
+the sentence, do not shorten it" is the operational form.
+
+**The answer path is named first, and named.** In the observed run the picker offered three
+exits — teach me, show me, record `DEBT` — and the only route to an actual answer was the
+instrument's generic `Other`. A list of three exits above an unlabelled slot reads as four ways
+to avoid the question, so a user who could have answered takes an exit, and the `DEBT` entry
+then records comprehension debt that was never there. `Answer in my own words` now comes first;
+a generic "I'll explain it" is dropped wherever named concept options exist, because it is the
+same offer twice and the slot is what the answer path needs.
+
+### The structure diagram takes the shape the code takes
+
+A slice of the OO-vocabulary translation, not the whole of it. `mermaid.md`'s only unconditional
+artifact requirement — "**Always:** a class diagram" — is now a **structure diagram**, and a
+`flowchart`-over-modules template sits beside the class diagram as the form for modules and
+functions, checked against mermaid 11.17.2. The dogfood design drew `class view_for` for
+something its own prose calls "a function rather than a class because it holds no state": the
+notation asserted what the design denied, because the class diagram was the only template that
+existed.
+
+The detector half of that item is untouched and is the more damaging half — `review.md` still
+has no non-OO section at all, and it runs on every increment while the smell catalogue runs once
+per design. `METHODOLOGY.md` §11 records what is left rather than implying the translation is
+done.
+
 ### The design gate draws the map before it asks about the parts
 
 **Released 0.11.0.** Four findings from the first `design` dogfood, applied together because
