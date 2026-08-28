@@ -538,9 +538,11 @@ Produce three things, in this order:
    grouping conventions and the yaait conventions. These two are drawn **here** and revised at
    Step 5, not drawn again.
 
-   **The structure diagram takes the shape the code takes** — a `classDiagram` for an OO design,
-   a `flowchart` over modules where the units are modules and functions. Do not draw a function
-   as a class to fit the template: the notation would assert state the design is denying.
+   **The structure diagram takes the shape the code takes** — a `classDiagram` where anything is
+   a class, a `flowchart` over modules where nothing is. Do not draw a function or a module as a
+   class to fit the template: the notation would assert state and identity the design is denying.
+   In the usual mixed case — mostly classes, plus a module and a free function — keep the class
+   diagram and annotate those boxes `<<module>>` and `<<function>>`.
 
 Say plainly that this is a first cut and that Steps 2 through 4c will change it. A map offered
 as finished invites agreement instead of correction, and correction is the whole reason it is on

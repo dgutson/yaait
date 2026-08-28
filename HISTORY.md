@@ -4,6 +4,48 @@
 
 ## 2026-08-28
 
+### The first fix for `class view_for` was aimed at the wrong thing
+
+**Released 0.13.0.** Found by running the re-fixed `design` gate on the naval battle project
+rather than by re-reading the change. 0.12.0 made the structure diagram's form follow the
+project's paradigm — `classDiagram` for OO, `flowchart` for not-OO. The re-run still emitted
+`class view_for`, and correctly so under that rule: the design has five classes plus one module
+and one free function, so `classDiagram` was right and nothing in the notation could say "this
+box is not a class".
+
+The defect was a property of the **unit**, not of the project. Fixed with stereotype
+annotations — `<<module>>`, `<<function>>` — verified to parse inside a `namespace` against
+mermaid 11.17.2, and `mermaid.md` now says plainly that reaching for the whole-diagram
+`flowchart` because two of seven units are not classes throws away notation that was working.
+
+**What the re-run confirmed, on a copy of the project so the original evidence survived.** The
+document came out `Format: 2`, ordered overview → parts → structure → components, with the
+components nested under `Shared` / `Server` / `Client` and `geometry` under `Shared` as a
+first-class part. The class diagram used `namespace` with every relation outside the blocks, and
+all three diagrams parse. `## Decisions` came out with eight entries, `## Requirement coverage`
+with a row per requirement, and the state diagram and the protocol section filled their template
+slots instead of being invented — the `## Phases` heading is now the `## <Lifecycle name>` slot
+being used, not a section with nowhere else to go. Step 0's new instruction fired: a `DECISION`
+entry records the raise from `Format: 1` to `Format: 2`.
+
+**What the run could not test, and this is worth stating rather than implying coverage.** The
+run was headless, so there was no picker and no options list: R-014's ask phrasing and the
+"answer in my own words" ordering are untested and need a human at the keyboard. One labelled
+disclosure appeared in the artifact — `**Checking — decomposition.**`, with "Silence leaves it
+as stated" — but disclosures belong to the conversation, so their frequency is not measurable
+this way either. The gate filed a `DEBT` entry saying all four Step 8 answers were supplied by
+the model standing in for the user, which is the honest record of a self-answered defense.
+
+**And the version question is settled, mechanically.** On that machine
+`installed_plugins.json` reports 0.7.0 at commit `374c2b8`, and there is a matching 0.7.0
+snapshot under `~/.claude/plugins/cache/`. Neither is what runs. `known_marketplaces.json`
+records the marketplace `source` as `directory` with `installLocation` pointing at the clone, and
+a probe run confirmed the CLI reads the working tree: it reported `## Step 1c — Draw the map`,
+which exists only on the branch checked out there. So a `directory` marketplace resolves live
+from the clone, the recorded version and the cache copy are both stale bookkeeping, and the
+commit sha of the clone at run time is the only thing worth recording. The first dogfood
+therefore ran at `5353329`, not at the 0.7.0 the tooling claims.
+
 ### The defense ask says what it is, and says it in language the reader can parse
 
 **Released 0.12.0.** The second arrival of the same complaint. The `spec` pass produced it,

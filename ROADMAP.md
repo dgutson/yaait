@@ -81,13 +81,18 @@ Next ID: R-019
   arrived as chat and a screenshot, not as a file. Note also that four of the five complaints
   are about the **artifact** rather than about the gate's conduct, and `feedback` is shaped to
   capture the latter. If that is why it went uncaptured, the instrument needs widening.
-- **The version under test is not observable from the tool, and this cost real time.**
-  `installed_plugins.json` reported 0.3.0 while the run was demonstrably at or after 0.9.0 — a
-  local-directory marketplace resolves live from the clone, and that record only updates on an
-  explicit `install`. The version had to be recovered from the artifacts themselves. Every
-  future dogfood run must therefore record the **commit sha of the clone at run time**, in
-  `FEEDBACK.md` or the journal; without it a finding cannot be attributed to a version. It also
-  means every run silently uses HEAD, including unreleased commits.
+- **The version under test is not observable from the obvious place, and now the mechanism is
+  confirmed rather than inferred.** `installed_plugins.json` is stale bookkeeping and so is the
+  version-numbered copy under `~/.claude/plugins/cache/`: on the dogfood machine both said 0.7.0
+  at commit `374c2b8`, complete with a matching snapshot on disk. Neither is what ran.
+  `known_marketplaces.json` records the marketplace `source` as `directory` with
+  `installLocation` pointing at the **clone**, and a probe run confirmed the CLI reads the
+  working tree — it reported a step heading that exists only on the branch checked out there. So:
+  read `known_marketplaces.json`, not `installed_plugins.json`; every run silently uses whatever
+  the clone's HEAD is, including unreleased and uncommitted work; and the **commit sha of the
+  clone at run time** is the only thing worth recording, in `FEEDBACK.md` or the journal. The
+  first `design` dogfood therefore ran at `5353329`, which the earlier artifact forensics had
+  guessed correctly as "at or after 0.9.0".
 - **Blocked-by:** —
 - **Enables:** R-003, R-004
 
@@ -225,6 +230,14 @@ Next ID: R-019
   class diagram was the only structural template that existed. The notation asserted something
   the design explicitly denies — the file says "a function rather than a class because it holds
   no state".
+- **Progress, 0.13.0 — the mixed case, found by testing 0.12.0 rather than by reading it.** The
+  0.12.0 slice below only covered designs where *nothing* is a class. Re-running `design` on the
+  naval project still emitted `class view_for`, because that design is mixed — five classes plus
+  one module and one free function — so a `classDiagram` was the correct choice and the notation
+  still had no way to say "not a class". Fixed with stereotype annotations, `<<module>>` and
+  `<<function>>`, verified inside a `namespace` against mermaid 11.17.2. The lesson worth keeping
+  is that the first fix addressed the paradigm of the *project* when the defect was a property of
+  the *unit*.
 - **Progress, 0.12.0 — the diagram half is done.** `mermaid.md:12`'s unconditional "**Always:**
   a class diagram" is now "a **structure diagram**", whose form follows the units the code
   actually has, and a `flowchart`-over-modules template is documented beside the class diagram

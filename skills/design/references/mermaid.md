@@ -14,14 +14,16 @@ Both are drawn at `design` **Step 1c**, before the elaboration questions, becaus
 asked with nothing on screen is answered on intuition. They are revised at Step 5, not drawn
 again.
 
-**The structure diagram takes the shape the code takes.** In an OO design that is a
-`classDiagram`. Where the units are modules and functions rather than classes — C, Lua, Rust
-without much trait machinery, anything functional — it is a `flowchart` over modules, below.
+**The structure diagram takes the shape the code takes.** Where **nothing** in the design is a
+class — C, Lua, anything functional — it is a `flowchart` over modules, below. Where some things
+are, it stays a `classDiagram`: a mixed design should not lose its class notation to accommodate
+two boxes.
 
 **Do not draw a function as a class to fit the template.** A `class` box asserts state and
 identity, so a design that says "a function, because it holds no state" and then draws
-`class view_for` contradicts itself in the notation, and a reader believes the diagram. If the
-only structural template that fits forces that, the template is what is wrong.
+`class view_for` contradicts itself in the notation, and a reader believes the diagram. The
+mixed case is the common one and it has its own answer — annotate the box, "A unit that is not a
+class says so" below — not a whole-diagram change.
 
 **When the condition holds:** a state diagram whenever anything has modes, phases or a
 lifecycle — even when it feels too obvious to draw. Most defects live in state transitions,
@@ -132,6 +134,40 @@ classDiagram
 Note what that last line encodes: `..>` for a read-only dependency, matching a `DESIGN.md`
 prohibition that the renderer never mutates state. A diagram that can express a rule is
 doing work.
+
+### A unit that is not a class says so
+
+Most designs are mixed: several classes, a module of pure functions, one free function. The
+diagram stays a `classDiagram`; what changes is that each non-class box states what it is.
+
+```mermaid
+classDiagram
+    namespace Shared {
+        class geometry {
+            <<module>>
+            +fits(cells) bool
+        }
+    }
+    namespace Server {
+        class Board {
+            -fired
+            +fire(cell) Outcome
+        }
+        class view_for {
+            <<function>>
+            +view_for(match, seat) View
+        }
+    }
+    Board --> geometry : validates placement with
+    view_for ..> Board : reads only
+```
+
+`<<module>>`, `<<function>>`, `<<record>>` — a stereotype annotation, first line of the body.
+Checked against mermaid 11.17.2, including inside a `namespace`.
+
+This is the case the rule in *What to produce* is actually for, and it is worth being blunt
+about which fix applies: reaching for the `flowchart` form because two of seven units are not
+classes throws away the notation that was working. Annotate those two.
 
 ## Module structure diagram
 
