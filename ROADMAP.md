@@ -485,7 +485,8 @@ Next ID: R-025
   already improvised around the same step once.
 - **How to run it so it is a real test:** a machine or container with `node` present and no
   `mermaid-cli` anywhere on it, because `npx` alone is enough for the gate to route around the
-  absence.
+  absence. **The 192.168.68.71 box is no longer that machine** — `mmdc` 11.16.0 was installed
+  there permanently on 2026-08-28 at `/home/dfg/.local/bin/mmdc`.
 - **Outcome:** the absent-tool path is confirmed, or Step 7b needs something stronger than a
   prohibition.
 - **Blocked-by:** —
@@ -535,9 +536,20 @@ Next ID: R-025
   manufacture them. A trigger anchored to something already on the page — a drawn state diagram
   means an FSM-versus-State choice was taken — cannot fire where there is nothing to record. Do
   not pick between these before the cause is known.
+- **The 2026-08-28 run produced the missing entry, unprompted, and the hypothesis above does not
+  survive it.** The `## Decisions` section contains *"The phase is a field on Match, with branching
+  in apply — **Over:** the GoF State pattern, one class per phase"*, with the reasoning that State
+  buys polymorphic dispatch these four phases do not need. That is a kind-2 entry, naming the exact
+  pattern this item says is never named, on the exact decision it cites as the one that went
+  unrecorded. `## Deliberately not abstracted` carries a second — *"No rule, validator or strategy
+  object"*. **Nothing changed in the disclosure scope**, so "a pattern choice is never disclosed at
+  Step 1d, therefore there is nothing to recover retrospectively" is contradicted: it was recovered
+  anyway. What is left of this item is a different and smaller question — why three runs produced
+  none and the fourth produced two — and that question is R-022's, not this one's. **Do not design
+  a disclosure-scope change against the old premise.**
 - **Outcome:** the cause is named in writing, and either a change lands or this file records why
   the gap is acceptable.
-- **Blocked-by:** —
+- **Blocked-by:** R-022 — it is now the same question.
 - **Enables:** —
 
 ### R-022 — The gate obeys its own rules differently on different models
@@ -553,6 +565,17 @@ Next ID: R-025
   The two that passed on Opus and failed on Sonnet are both rules about **what to draw**. The three
   that failed on Opus are rules about **how to phrase text** — term choice and punctuation. That
   split is the finding worth testing again rather than assuming.
+- **A fourth run, `claude-opus-5` at 0.17.0, scored 5 of 5 and 3 of 3 diagrams** — including the
+  two rules 0.16.0 deliberately did **not** touch. Doctrine changed between the runs, so this is
+  not a clean comparison; what it does establish is that this item has stopped being background.
+  **Two roadmap items were filed on failures that one current-doctrine Opus run did not reproduce**
+  — R-020's coined-term rule and R-021's missing pattern entry — and both now carry a note saying
+  so. Until this is settled, rules get written against evidence of unknown provenance, and items
+  get filed and unfiled on n=1.
+- **The experiment that would settle it**, and it is cheap now that grading is mechanical: one
+  plugin commit (0.17.1), one project, `/home/dfg/design-prompt.txt`, **n=2 per model** so
+  run-to-run variance is separable from model, graded with `mmdc` plus the five rule checks.
+  Confirm the model from the transcript, not the flag.
 - **Why:** the plugin ships to whoever installs it and says nothing about which model it needs. A
   user on Sonnet gets a gate that emits a structure diagram which does not render and a design
   whose names have quietly drifted from the spec — and nothing in the run tells them the method
