@@ -56,6 +56,10 @@ past, and the point of the diagram is to be read.
 - **`_` is the name separator**, as in `Server_Match`. Not `:` — it is on the list above of
   characters that break the block or swallow the rest of the label, and quoting does not rescue
   it.
+- **The diagram uses the spec's words.** A name shortened to fit a box — `find(code)` where
+  `SPEC.md` defines a *join code* — reaches the reader as a term with no definition anywhere, and
+  they cannot look it up, because the word they were given is not the word that was defined.
+  `find(join_code)` fits.
 
 ### Grouping, and the three ways it fails
 

@@ -586,6 +586,25 @@ State the **dependency direction** for every relationship. Most architectural sm
 properties of the dependency graph rather than of any single component, and they are only
 visible once the arrows exist.
 
+**Name things with the spec's words, and define the words the spec does not have.** Two different
+failures, and both end the same way — a reader who cannot say what an element of the design means
+and has no way to look it up:
+
+- **A term `SPEC.md` already defines keeps the spec's name.** If the spec says *join code*, the
+  field is `join_code` and the operation is `find(join_code)`, never `code` or `by_code`.
+  Shortening it here is how a term that *was* defined upstream reaches the reader as an undefined
+  one: they cannot find the definition, because the word they were given is not the word that was
+  defined. Box width is not a reason — the long form fits.
+- **A term this design coins is defined by the component that owns it.** `phase` is not in the
+  spec; it is a name this design invented, for a set of values it also invented. So the `Owns:`
+  line says what it ranges over — `the phase, one of WAITING, PLACEMENT, FIRING, ENDED` — rather
+  than naming it and leaving the reader to infer the range from a state diagram much further
+  down, which is where they meet it second, not first.
+
+Neither is a matter of taste, and the check is mechanical rather than aesthetic: for every name in
+the design, either `SPEC.md` uses that exact word, or this document says what it means before
+anything depends on the answer.
+
 ## Step 3 — Invariants, and what the design forbids
 
 Two sections that LLM-generated designs almost always omit, and which do most of the work
@@ -802,7 +821,8 @@ classDiagram
 
 #### <Name>
 - **Responsible for:** <one sentence, no unrelated "and">
-- **Owns:** <the data or resource it is authoritative for>
+- **Owns:** <the data or resource it is authoritative for; a term coined here
+  states what it ranges over>
 - **Depends on:** <components, direction outward>
 
 ## Invariants

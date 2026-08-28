@@ -4,6 +4,42 @@
 
 ## 2026-08-28
 
+### A design that renames the spec's terms hands the reader an undefined word
+
+**Released 0.15.0.** The near half of R-020; the item survives as the `GLOSSARY.md` question
+alone. The staging was load-bearing rather than tidy-minded, because the two complaints that
+produced this item have **different causes and different fixes**, and a glossary only answers one
+of them.
+
+**`find(code)`.** The naval `DESIGN.md` gave `MatchRegistry` a `-by_code` field and a
+`find(code)` operation, and the user needed several passes to work out that `code` meant the code
+you type to join a match. `SPEC.md` S-002 defines it — as a *join code*, with an acceptance
+criterion. So nothing upstream was missing: the design shortened a term that had already been
+defined, and shortening is what made it undefined, since a reader cannot look up a word that is
+not the word the definition uses. A `GLOSSARY.md` would have held "join code" and the design would
+still have written `find(code)`. The rule is therefore that a term `SPEC.md` defines keeps the
+spec's name, and it is checkable rather than aesthetic: for every name in the design, either the
+spec uses that exact word, or the design says what it means.
+
+**`phase`.** The opposite case, and the user still could not say what it was. `phase` is not in
+the spec; the design coined it, along with the four values it ranges over. It appears as
+`Match -phase` in the structure diagram and is not pinned down until the state diagram some 240
+lines later — the reader meets it first as a bare word and second as a definition. The fix is to
+make the owning component state the range on its `Owns:` line, which moves the definition into the
+section immediately after the map instead of adding noise to the diagram, and keeps `mermaid.md`'s
+"show only what the design decides" intact.
+
+**The template says it, not only the prose.** The `Owns:` placeholder now reads "a term coined
+here states what it ranges over". That is R-013's own hypothesis being *applied* rather than
+retested: a template inline at the point of writing gets followed, and a format that has to be
+recalled from elsewhere gets invented.
+
+**What this deliberately does not do.** It changes nothing in `spec`. Whether the definitions
+should live in an artifact of their own is the question R-020 still holds, and it is not cheap —
+a seventh artifact reaches the `## Where things go` block, which is byte-identical across all six
+gates, plus `METHODOLOGY.md` §8 and every gate's Step 0. Now that the naming rule exists, that
+discussion can be about what is actually left over rather than about the whole problem.
+
 ### A diagram that parses is not a diagram that renders
 
 **Released 0.14.0.** Two conventions added to `mermaid.md`, both found by the user reading the

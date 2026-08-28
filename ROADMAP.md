@@ -286,15 +286,10 @@ Next ID: R-022
 ### R-020 — Vocabulary continuity: a design uses the words the spec used
 
 - **Category:** Doctrine
-- **What:** two halves, deliberately staged.
-  - **Near half, concrete:** a design does not abbreviate a term the spec defined, and does not
-    use a term it coined before defining it. Lands in `yaait:design` — Step 2 names components,
-    Step 7 writes them down — and in `references/mermaid.md`, because the diagram is where the
-    abbreviation actually happened.
-  - **Far half, needs a discussion:** whether yaait grows a `GLOSSARY.md` — which gate writes it,
-    which gates read it, and whether it is a file in `.yaait/` or a section of `SPEC.md`. Settle
-    the near half **first**: what it does not fix is exactly what the glossary would have to carry,
-    and that is not knowable in advance.
+- **What, and the near half is done — this item is now the far half only:** whether yaait grows a
+  `GLOSSARY.md`, which gate writes it, which gates read it, and whether it is a file in `.yaait/`
+  or a section of `SPEC.md`. The staging was the point: what the naming rule does *not* fix is
+  exactly what a glossary would have to carry, and that was not knowable before the rule existed.
 - **Why, and the evidence splits cleanly in two.** Reading the naval `DESIGN.md`, the user could
   not tell what `code` meant in `MatchRegistry.find(code)` and `-by_code` — he worked it out after
   several passes — and still cannot say what `Match.-phase` is. These are **different failures**
@@ -313,8 +308,17 @@ Next ID: R-022
   content is worse than absent: a later gate cannot tell "nothing to record" from "nobody looked".
   A `GLOSSARY.md` mandated at `spec` time is a candidate for precisely that failure. This is an
   argument to answer, not a reason to skip the far half.
-- **Outcome:** the naming rule is in `design` and shown working on a re-run; and either
-  `GLOSSARY.md` is specified and added everywhere it has to be, or this file records why not.
+- **Progress, 0.15.0 — the near half landed.** `design` Step 2 now carries both rules: a term
+  `SPEC.md` defines keeps the spec's name (`find(join_code)`, never `find(code)`), and a term the
+  design coins is defined by the component that owns it, on the `Owns:` line, which moves `phase`'s
+  range from the state diagram to the section immediately after the map. The `DESIGN.md` template's
+  `Owns:` placeholder says so inline rather than leaving it to Step 2's prose — R-013's own
+  hypothesis is that a template inline at the point of writing gets followed and a format recalled
+  from elsewhere gets invented, so this applies that finding rather than re-testing it.
+  `mermaid.md`'s conventions carry the short form, because the diagram is where the abbreviation
+  actually happened. **What is still open is only the glossary question.**
+- **Outcome:** either `GLOSSARY.md` is specified and added everywhere it has to be, or this file
+  records why not.
 - **Blocked-by:** —
 - **Enables:** —
 
