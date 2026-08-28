@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-019
+Next ID: R-022
 
 ---
 
@@ -93,6 +93,14 @@ Next ID: R-019
   clone at run time** is the only thing worth recording, in `FEEDBACK.md` or the journal. The
   first `design` dogfood therefore ran at `5353329`, which the earlier artifact forensics had
   guessed correctly as "at or after 0.9.0".
+- **Progress, reading the `design` output rather than running the gate.** A second pass over the
+  produced `DESIGN.md` found four more problems, and the source matters: none of them came from
+  the gate misbehaving in the conversation, so none would have been caught by `feedback`, which is
+  shaped for conduct. **Two are fixed** in 0.14.0 — a structure diagram that parses and does not
+  render, and players drawn two different ways in one sequence diagram. **Two are filed**, as R-021
+  and the far half of R-020. This strengthens the open question above: the complaints this dogfood
+  generates are overwhelmingly about the **artifact**, and the instrument built to catch them
+  watches the wrong surface.
 - **Blocked-by:** —
 - **Enables:** R-003, R-004
 
@@ -275,6 +283,41 @@ Next ID: R-019
 - **Blocked-by:** —
 - **Enables:** —
 
+### R-020 — Vocabulary continuity: a design uses the words the spec used
+
+- **Category:** Doctrine
+- **What:** two halves, deliberately staged.
+  - **Near half, concrete:** a design does not abbreviate a term the spec defined, and does not
+    use a term it coined before defining it. Lands in `yaait:design` — Step 2 names components,
+    Step 7 writes them down — and in `references/mermaid.md`, because the diagram is where the
+    abbreviation actually happened.
+  - **Far half, needs a discussion:** whether yaait grows a `GLOSSARY.md` — which gate writes it,
+    which gates read it, and whether it is a file in `.yaait/` or a section of `SPEC.md`. Settle
+    the near half **first**: what it does not fix is exactly what the glossary would have to carry,
+    and that is not knowable in advance.
+- **Why, and the evidence splits cleanly in two.** Reading the naval `DESIGN.md`, the user could
+  not tell what `code` meant in `MatchRegistry.find(code)` and `-by_code` — he worked it out after
+  several passes — and still cannot say what `Match.-phase` is. These are **different failures**
+  with different fixes, which is the whole reason for staging:
+  - `join code` **is defined in `SPEC.md` S-002**, with an acceptance criterion. The design
+    dropped the qualifier. A glossary would have held the term and the design would still have
+    written `find(code)`, so the glossary does not fix this one; the naming rule does.
+  - `phase` is the opposite: a term of art the **design coined**, first used in the structure
+    diagram and not defined until the state diagram some 240 lines later. Nothing upstream could
+    have carried it, so the naming rule only half fixes this one; a glossary or a
+    define-at-first-use rule is what closes it.
+- **The cost of the far half, so it is not discovered halfway in:** a seventh artifact touches the
+  `## Where things go` block — which is inside the byte-identical shared rules block in **all six**
+  gates — plus `METHODOLOGY.md` §8 and Step 0 of every gate. And that block's own rule is that each
+  file is created by whichever gate first has content for it, because a file created before it has
+  content is worse than absent: a later gate cannot tell "nothing to record" from "nobody looked".
+  A `GLOSSARY.md` mandated at `spec` time is a candidate for precisely that failure. This is an
+  argument to answer, not a reason to skip the far half.
+- **Outcome:** the naming rule is in `design` and shown working on a re-run; and either
+  `GLOSSARY.md` is specified and added everywhere it has to be, or this file records why not.
+- **Blocked-by:** —
+- **Enables:** —
+
 ## Next
 
 ### R-012 — The independent check on a diff, and what "needless verbosity" is
@@ -404,5 +447,75 @@ Next ID: R-019
   which pushes it toward exactly the invented names the rule exists to prevent.
 - **Outcome:** a reference file both `design` and `code` can read on demand. Must **not**
   settle how far to extract — that belongs to R-008's guideline.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-019 — Whether `design` checks that the mermaid it emits actually renders
+
+- **Category:** Doctrine
+- **What:** decide whether the gate verifies its own diagrams, and if so how. **The crux is
+  already settled and must not be re-derived: `mermaid.parse` is not the check.** The
+  namespace/class collision the naval design shipped parses clean and fails only under
+  `mermaid.render`; a colour-named `box` title fails silently under both. A validator built on
+  `parse` — the obvious one to build — would have passed the exact diagram the user could not
+  render.
+- **Why:** `references/mermaid.md` says it itself: a diagram that fails to render is *worse* than
+  no diagram, because it reads as an error in the design rather than in the syntax. All three
+  render-time failures now documented in that file were found by a human hitting them, and one of
+  them reached the user, who fixed it by hand.
+- **The constraint that has to be answered rather than stepped around:** `mermaid.md` argues for
+  mermaid over PlantUML on "no jar, no server, no Graphviz and no toolchain", and commit `1c61b90`
+  declined a validator on exactly that ground. A mandatory node/npm check contradicts the file's
+  own argument. Two options do not: **publishing `DESIGN.md` as a Claude Code artifact**, which
+  renders mermaid natively and is already suggested at the end of that file; and **a static
+  rule-list the gate applies by reading** — no namespace shares a class name, no one-word
+  colour-word `box` title — which costs no toolchain and catches every known failure, but by
+  construction cannot catch the next unknown one. That last property is the trade to decide, not
+  to hide.
+- **Related:** R-013's note already predicts the shape of the answer — "if the answer does turn
+  out to be a check, it probably is not prose". This is the concrete case where that prediction
+  can be tested, and unlike R-013's subject it is not the model grading its own homework: whether
+  a diagram renders is decided by mermaid, not by the gate's opinion of it.
+- **Apparatus, verified 2026-08-28 against mermaid 11.17.2 / node 24 / jsdom 22, so it is not
+  re-derived:** copy **every** own-property of a JSDOM window onto `globalThis` — `render` needs
+  far more globals than `parse` — and set `navigator` with `Object.defineProperty`, because node
+  24 makes it a getter and plain assignment throws. `mermaid.render` under jsdom ends at
+  `getBBox is not a function`: that is the missing layout engine, **not** a diagram error, so
+  "reached getBBox" is the pass condition. The collision error fires before layout, so it is still
+  detectable in a headless harness.
+- **Outcome:** either `design` runs a named check whose cost is stated, or `mermaid.md` records in
+  writing why it does not and what the reader is expected to do instead. Its "Checking that it
+  renders" section is rewritten either way — it still leads with parse failures.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-021 — Why no `## Decisions` entry ever names a pattern
+
+- **Category:** Validation
+- **What:** establish the cause before choosing a fix. `DESIGN.md`'s `## Decisions` section asks
+  for three kinds of entry — patterns **adopted**, patterns **resembled and deliberately not
+  used**, and plain structural choices carrying no pattern name. The naval re-run produced eight
+  entries, all of the third kind, and none of the first two.
+- **The evidence, and it is a real decision that went unrecorded:** `Match` holds a `-phase` field
+  and an `apply(seat, command)` that dispatches on it, with a four-state lifecycle drawn as a
+  `stateDiagram-v2`. That is a finite state machine chosen over the State pattern — a genuine fork
+  with a genuine alternative — and nothing in the artifact says it was chosen. The eight entries
+  that did appear are the shared placement rule, the shot allowance, reversible placement, no rule
+  for a stalled turn, the drop-during-placement behaviour, snapshots over events, the two board
+  projections, and `fits` taking no size argument.
+- **The leading hypothesis, testable and cheap to discard:** Step 7 says the section is written
+  **retrospectively, from the decisions actually disclosed during the gate**, and the disclosure
+  machinery belongs to Step 1, whose scope Step 1d caps at four branch points — decomposition,
+  the sync/async boundary, persistence, concurrency. A pattern choice is none of those, so it is
+  never disclosed, so there is nothing for a retrospective section to recover. If that holds, the
+  fix is in the **disclosure scope**, and changing the Decisions section would do nothing.
+- **The guard any fix has to respect:** `references/smells.md` names pattern-name-driven design as
+  an LLM failure mode, and Step 7 already warns that an empty Decisions section creates pressure
+  to invent entries. A general "walk the design for patterns" prompt is the shape most likely to
+  manufacture them. A trigger anchored to something already on the page — a drawn state diagram
+  means an FSM-versus-State choice was taken — cannot fire where there is nothing to record. Do
+  not pick between these before the cause is known.
+- **Outcome:** the cause is named in writing, and either a change lands or this file records why
+  the gap is acceptable.
 - **Blocked-by:** —
 - **Enables:** —

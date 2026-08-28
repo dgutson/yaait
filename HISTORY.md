@@ -4,6 +4,49 @@
 
 ## 2026-08-28
 
+### A diagram that parses is not a diagram that renders
+
+**Released 0.14.0.** Two conventions added to `mermaid.md`, both found by the user reading the
+`design` gate's output rather than by anything in the gate noticing.
+
+**The structure diagram did not render, and nothing said so.** The naval re-run nested components
+under parts and emitted `namespace Server { class Server ... }` and
+`namespace Client { class Client ... }`. That **parses clean** — `mermaid.parse` accepts it — and
+fails at render, because a namespace becomes a cluster and a class becomes a node in the same
+graph: `Setting Server as parent of Server would create a cycle`, and the block comes out as text.
+The user hit it and fixed it by renaming the namespaces to `NServer` and `NClient`. Checked
+against mermaid 11.17.2, along with the two facts the rule needs: a bare space in a namespace name
+is legal, so `namespace Server side` is the readable fix, and quoting it — `namespace "Server
+side"` — is a parse error, which is where the instinct leads. So the rule is to **name the
+namespace for the part, not for the component**, and it is stated with where it bites: a part is
+usually named after the component that defines it, so this is the common shape rather than a
+curiosity, and it only appeared once `DESIGN.md` started nesting components under parts in 0.11.0.
+
+**One shape per kind of participant.** The same run drew `actor Ana` beside
+`participant Others as Beto, Caro, Dani` — a stick figure next to a box, for four people who are
+all players. `actor` and `participant` differ visually, so a reader takes the difference as a
+difference in kind, and here there was none. An aggregated lifeline keeps the shape of what it
+aggregates: `actor Others as Beto, Caro, Dani` parses and renders.
+
+**What this does not fix, and it is the more interesting half.** Three of the failures now
+documented in that file — the colour-named `box` title, this collision, and the stranded state
+transition from `1c61b90` — raise **no parse error at all**. `mermaid.md`'s "Checking that it
+renders" section still opened on parse failures, so it now says plainly that "it parsed" is not
+the check. Whether the gate should mechanically verify its own diagrams is filed as **R-019**,
+with the crux recorded so it is not re-derived: a validator built on `mermaid.parse` would have
+passed the exact diagram the user could not render, and `mermaid.md`'s own "no jar, no server, no
+toolchain" argument is a constraint that answer has to satisfy rather than ignore.
+
+**Two further findings from the same read were filed rather than fixed.** **R-020** — the design
+wrote `find(code)` for a term `SPEC.md` S-002 defines as a *join* code, and coined `phase` in the
+structure diagram without defining it until 240 lines later. Those are two different failures: a
+glossary would have held the first term and the design would still have abbreviated it, which is
+why the naming rule is staged ahead of the `GLOSSARY.md` question. **R-021** — `## Decisions`
+produced eight entries and named no pattern, though `Match`'s `-phase` field with dispatch is an
+FSM chosen over the State pattern. Filed as an investigation, not a fix: the section is written
+retrospectively from what Step 1 disclosed, and Step 1d caps disclosure at four branch points that
+do not include pattern choices, so the cause may not be in the section at all.
+
 ### The first fix for `class view_for` was aimed at the wrong thing
 
 **Released 0.13.0.** Found by running the re-fixed `design` gate on the naval battle project

@@ -57,7 +57,7 @@ past, and the point of the diagram is to be read.
   characters that break the block or swallow the rest of the label, and quoting does not rescue
   it.
 
-### Grouping, and the two ways it fails
+### Grouping, and the three ways it fails
 
 ```mermaid
 classDiagram
@@ -103,6 +103,19 @@ sequenceDiagram
 recognises one: a part named `Gold`, `Silver` or `Coral` becomes a coloured box with no title,
 and it parses cleanly, so nothing tells you. Mermaid's own documented workaround is to force the
 colour: `box transparent Gold`. Two-word titles — `Server side` — sidestep it entirely.
+
+**A namespace must not share its name with a class, and this one does not announce itself.**
+`namespace Server { class Server ... }` **parses clean** — `mermaid.parse` accepts it — and fails
+at render: a namespace becomes a cluster and a class becomes a node in the same graph, so mermaid
+raises `Setting Server as parent of Server would create a cycle` and the block comes out as text.
+Checked against mermaid 11.17.2.
+
+It bites precisely where `DESIGN.md` nests components under parts, because a part is usually named
+after the component that defines it — a `Server` part holding a `Server` class is the common
+shape, not a curiosity. **Name the namespace for the part, not for the component:** `Server side`,
+`Client side`. A bare space in a namespace name is legal; quoting it — `namespace "Server side"` —
+is a **parse error**, so do not reach for quotes when the space looks wrong. Two-word part names
+also sidestep the colour trap above, so one habit covers both diagram types.
 
 ## Class diagram
 
@@ -203,6 +216,17 @@ does not carry.
 Draw the flow the spec's primary requirement describes. Include the failure branch — the
 happy path is rarely where the design is wrong.
 
+**One shape per kind of participant.** `actor` draws a stick figure and `participant` draws a box,
+and a reader takes the difference as a difference in kind. `actor Ana` beside
+`participant Others as Beto, Caro, Dani` says Ana is a person and the other three are a component,
+when all four are players. Decide by what the thing is — people are `actor`, components are
+`participant` — and then apply it to every one of them.
+
+**An aggregated lifeline keeps the shape of what it aggregates.** Collapsing the other players
+into one lifeline is a fair way to keep a diagram readable, and it is still players, so it is
+still `actor Others as Beto, Caro, Dani`, which parses and renders. A box there invents a
+component the design does not have.
+
 ```mermaid
 sequenceDiagram
     actor Player
@@ -278,6 +302,11 @@ Malformed mermaid fails as a code block full of text, which is worse than no dia
 because it looks like an error in the design rather than in the syntax. Common causes:
 punctuation in a label (above — quoting it is not the fix), a stray blank line inside the
 block, participant names with spaces, and `-->` used where the diagram type wants `->>`.
+
+**"It parsed" is not the check.** Two of the three grouping failures above raise no parse error at
+all: a colour-named `box` title parses and silently loses the title, and a namespace sharing a
+class name parses and then fails at render. Only something that actually renders the block finds
+those.
 
 If a diagram is non-trivial, render it once before finishing — Claude Code artifacts render
 mermaid natively, so publishing the design as an artifact is a cheap check as well as a
