@@ -122,6 +122,30 @@ claude plugin marketplace add /path/to/yaait
 claude plugin install yaait@yaait-marketplace
 ```
 
+### Run `design` on the strongest model you have
+
+```bash
+claude --model claude-opus-5      # and the highest effort level available
+```
+
+A design defect is not one fix. `code` traces every increment back to `DESIGN.md`, so a wrong
+decomposition costs a reconcile per increment that inherits it — which is the expense yaait exists
+to avoid, arriving through the gate meant to prevent it.
+
+**The model measurably changes what the gate produces.** One project, one prompt, one plugin
+commit, model as the only variable, five of `design`'s own rules checked mechanically:
+`claude-sonnet-5` at high effort obeyed **none** of them and emitted one renderable diagram of
+three; `claude-opus-5` obeyed two, and a later run at 0.17.0 obeyed all five with three of three
+diagrams. n is small and the runs were headless — see `ROADMAP.md` R-022 — but nothing in the
+evidence points the other way.
+
+**Effort level is a recommendation, not a finding.** No run has varied it: the Sonnet run above was
+already at high effort. Raise it because a design is the cheapest place to spend compute, not
+because this has been measured.
+
+The other gates are not exempt, they are just unmeasured. `design` is where it has been looked at,
+and where a defect is worth the most.
+
 ## Technical debt is first-class
 
 Ward Cunningham meant something specific by "technical debt": deliberate borrowing, understood

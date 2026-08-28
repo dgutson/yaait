@@ -552,12 +552,38 @@ Next ID: R-025
 - **Blocked-by:** R-022 — it is now the same question.
 - **Enables:** —
 
-### R-022 — The gate obeys its own rules differently on different models
+### R-022 — Is a single run evidence? The noise floor of yaait's own measurements
 
 - **Category:** Validation
-- **What:** decide what yaait does about the fact that conformance to its own written rules is a
-  function of the model running it. Options range from stating a minimum model in `README.md`, to
-  making the rules that degrade mechanical rather than prose, to accepting it and recording it.
+- **The product half is settled and shipped in 0.17.2**, so this item is now only the measurement
+  half. `README.md` recommends the strongest available model and the highest effort for `design`,
+  on the cost-of-defect argument — `code` traces every increment back to `DESIGN.md`, so a wrong
+  decomposition costs a reconcile per increment — and `DESIGN.md` carries a `Produced by:` line so
+  a design that turns out wrong can be attributed. Effort is flagged there as unmeasured.
+- **The question this item now owns, and it is about developing yaait rather than using it:**
+  **do repeated runs of the same commit, same model, same project and same prompt agree with each
+  other?** Every doctrine change here is justified by a measurement, almost always n=1. If two
+  identical runs disagree, then n=1 is not evidence and rules are being written against noise.
+- **Why it cannot be skipped:** prose tuned against a metric whose noise floor is unknown is prose
+  fitted to noise, and 0.14.0 is the worked example — a rule written to fix an observed failure,
+  which caused a worse one. **Two items were nearly built on n=1 failures that run 4 did not
+  reproduce**: R-020 would have specified a `GLOSSARY.md` to repair a working rule, R-021 would
+  have widened Step 1d's disclosure scope to recover an entry that already appears.
+- **The evidence is thinner than the 5-of-5 headline**, and the item should not pretend otherwise.
+  Of those five passes, the namespace and semicolon rules are plausibly the new `mmdc` check
+  rather than the prose, the spec's-word rule was directly targeted by 0.16.0, and the participant
+  rule already passed before it. **Only the coined-term rule is unexplained** — nothing targeted
+  it and no tool can see it. So the case for variance rests on **one rule flipping on one run**.
+- **The experiment:** three runs of `design` at one commit (0.17.1 or later), `claude-opus-5`,
+  `/home/dfg/src/multi-naval-battle`'s SPEC, `/home/dfg/design-prompt.txt`, graded mechanically on
+  the same five rules plus `mmdc`. Confirm the model from the transcript, not the flag. If they
+  agree, n=1 is usable and R-020 and R-021 get re-read as genuinely fixed. If they disagree, no
+  rule may be filed as failing on n=1 again — **and the better response is to move what can be
+  mechanised out of prose entirely**, the way Step 7b did: the namespace rule went FAIL/FAIL/PASS
+  across three runs and is now simply caught by `mmdc` every time, at zero variance.
+- **Only if runs agree** does the model comparison become worth its cost — Sonnet versus Opus,
+  n=2 each — and by then it is a curiosity, since the recommendation has already shipped.
+- **What this item no longer needs to decide:** what to tell users. That is done.
 - **The measurement, 2026-08-28.** One plugin commit (`b4fa995`), one project, one prompt, one
   variable changed — the model. Five rules checked mechanically:
   - `claude-sonnet-5` at `effortLevel: high` — **0 of 5**. One diagram rendered of three.

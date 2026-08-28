@@ -4,6 +4,37 @@
 
 ## 2026-08-28
 
+### Run `design` on the strongest model you have, and record which one ran — 0.17.2
+
+**The user's call**, on an argument that does not need the measurement to be conclusive: `code`
+traces every increment back to `DESIGN.md`, so a wrong decomposition costs a reconcile per
+increment that inherits it. A design defect is the most expensive kind yaait can emit, so it is
+where compute is worth spending. `README.md` now says so under Install.
+
+Two qualifications kept in the text rather than smoothed over. **Effort level is unmeasured** — no
+run has varied it, and the Sonnet run that obeyed none of the five rules was already at high
+effort, so raising it is a recommendation and is labelled one. And **the other gates are not
+exempt, they are unmeasured**; `design` is simply where anyone has looked.
+
+**`DESIGN.md` gains `Produced by:`** — the model and, if visible, the effort level. A record, not
+a gate: advice in a README does nothing for the population that gets a degraded design, and a
+design that turns out wrong is read months later by someone who otherwise cannot tell whether the
+method failed or the model did. `Format: 2` stands, on the precedent already set here — the field
+is additive and nothing validates it.
+
+**R-022 is narrowed to what is left.** Its product half is answered, so it now owns one question:
+*do repeated runs of the same commit, model, project and prompt agree with each other?* Every
+doctrine change in this repo is justified by a measurement, almost always n=1, and prose tuned
+against a metric with an unknown noise floor is prose fitted to noise — 0.14.0 being the worked
+example. The item also now states its own evidence honestly: of the 5-of-5 run, the namespace and
+semicolon passes are plausibly the new `mmdc` check, the spec's-word pass was directly targeted by
+0.16.0, and the participant rule already passed before it. **Only the coined-term rule is
+unexplained**, so the case for variance rests on one rule flipping on one run.
+
+And the answer if runs do disagree is recorded there too, because it is the structural one:
+**move what can be mechanised out of prose.** The namespace rule went FAIL/FAIL/PASS across three
+runs and is now caught by `mmdc` every time, at zero variance. Step 7b is the existence proof.
+
 ### 0.16.0's three edits verified at last, and the gate installed software nobody asked for — 0.17.1
 
 One `design` run on a copy of the naval SPEC, `/home/dfg/src/mnb-verify`, plugin at 0.17.0.

@@ -798,6 +798,12 @@ reader who meets `geometry` before they know there is a client and a server has 
 mind unplaced. Detail before referent is the same defect in the artifact that front-loaded
 questions are in the conversation.
 
+**`Produced by:` is a record, not a gate.** Name the model you are, and its effort level if you
+can see it; write `unknown` rather than guessing, since a wrong provenance line is worse than an
+absent one. How well this gate obeys its own rules varies with the model running it — measured,
+`README.md` — and a design that turns out wrong is read months later by someone who cannot
+otherwise tell whether the method failed or the model did.
+
 ````markdown
 # DESIGN — <TTB name>
 
@@ -806,6 +812,7 @@ questions are in the conversation.
 
 Format: 2
 Spec: .yaait/SPEC.md
+Produced by: <the model that ran this gate, and its effort level if you know it>
 
 ## Overview
 
