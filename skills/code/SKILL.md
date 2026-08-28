@@ -500,7 +500,9 @@ contradiction, not a cosmetic lag, and it is the one most likely to be skipped: 
 sentence is cheap and redrawing a diagram is work. It is also the most damaging kind of drift,
 because a diagram is the most authoritative-looking artifact in `.yaait/` and the first thing
 a new reader trusts. If a transition disappeared from the state machine, delete it from the
-state diagram in the same edit.
+state diagram in the same edit. A redrawn label obeys the same constraint as a written one —
+keep punctuation out of it; the rule and its failure modes are in
+`skills/design/references/mermaid.md`.
 
 Watch specifically for **sedimentary interface** here, because increment-by-increment work
 is what produces it: if this increment's natural move is to add one more optional parameter

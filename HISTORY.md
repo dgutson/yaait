@@ -2,6 +2,17 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-08-28
+
+### Mermaid label punctuation
+
+A design run emitted `Node on X: does A; then B`; `;` is a statement separator and the block
+failed to render. `mermaid.md` blamed *unquoted* labels, but quoting rescues neither `;` nor
+`:` there — checked against mermaid 11, along with `#`, which truncates a sequence note
+silently. Now one Conventions rule: keep punctuation out of labels, rephrase rather than
+escape. `code` redraws diagrams on the reconcile path and never loads that file, so it gets a
+pointer to it — the repo's first cross-skill reference.
+
 ## 2026-08-24
 
 ### Experiment apparatus gets a home, and `.yaait/` stops accepting code

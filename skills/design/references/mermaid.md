@@ -25,6 +25,10 @@ past, and the point of the diagram is to be read.
   diagram with the right boxes and vague arrows says nothing.
 - **Label every relationship.** An unlabelled line between two boxes is a decoration.
   `Board --> Store : persists via` carries the design; `Board --> Store` does not.
+- **Label text is not free text.** Keep every label, note and message to letters, digits,
+  spaces, commas and hyphens. Mermaid parses them: `;` `:` `#` `(` `"` variously break the
+  block or silently swallow the rest of the label, and quoting is not a reliable escape.
+  Rephrase — a comma, or two labels.
 - **Show only what the design decides.** Getters, setters, trivial constructors and fields
   the reader can infer all cost attention and add nothing.
 - **Name the invariant near the diagram, not in it.** Mermaid notes get unreadable fast;
@@ -141,8 +145,8 @@ erDiagram
 
 Malformed mermaid fails as a code block full of text, which is worse than no diagram
 because it looks like an error in the design rather than in the syntax. Common causes:
-unquoted labels containing `:` or `(`, a stray blank line inside the block, participant
-names with spaces, and `-->` used where the diagram type wants `->>`.
+punctuation in a label (above — quoting it is not the fix), a stray blank line inside the
+block, participant names with spaces, and `-->` used where the diagram type wants `->>`.
 
 If a diagram is non-trivial, render it once before finishing — Claude Code artifacts render
 mermaid natively, so publishing the design as an artifact is a cheap check as well as a
