@@ -1013,6 +1013,14 @@ round:
 Record in `DESIGN.md` that the diagrams were not machine-checked, because a later reader otherwise
 cannot tell an unchecked diagram from a checked one.
 
+**Do not install it yourself, and do not route around its absence** — no `npm i` into a temp
+directory, no `npx`, no fetching it to run once. A machine without the tool is a machine whose
+owner did not install it, and an unchecked diagram is the risk they chose; putting packages on
+someone's disk to close your own step is not that choice being honoured. This is observed
+behaviour, not a hypothesis: given this step and no `mmdc`, a gate created `/tmp/mnb-mmdc`, ran
+`npm i @mermaid-js/mermaid-cli` and used the local binary — the check passed and nobody had agreed
+to the install.
+
 **What the command does not see.** A clean run is not a clean bill of health. Two known failures
 pass it silently:
 

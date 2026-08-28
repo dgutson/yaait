@@ -4,6 +4,52 @@
 
 ## 2026-08-28
 
+### 0.16.0's three edits verified at last, and the gate installed software nobody asked for — 0.17.1
+
+One `design` run on a copy of the naval SPEC, `/home/dfg/src/mnb-verify`, plugin at 0.17.0.
+**Model confirmed from the transcript, not the flag: 64 of 64 `"model":"claude-opus-5"`.**
+
+**0.16.0's three claims, unverified since it shipped, all hold.**
+
+| claim | result |
+|---|---|
+| the namespace remedy is imperative | `namespace Client side`, `namespace Server side` |
+| renaming the component is forbidden | 0 × `Hub`, 0 × `ClientApp`; `class Server` and `class Client` intact |
+| the spec's word reaches private fields | `-by_join_code` on a private field, `find(join_code)` beside it |
+
+**The rule scoreboard, against the three runs already measured.** Best previous result was 2 pass,
+1 partial, 2 fail.
+
+| rule | 0.13.0 | Sonnet 5 | Opus 5 @0.16.0-pre | **Opus 5 @0.17.0** |
+|---|---|---|---|---|
+| namespace must not share a class name | FAIL | FAIL | PASS | **PASS** |
+| one shape per kind of participant | FAIL | FAIL | PASS | **PASS** |
+| keep the spec's word | FAIL | FAIL | PARTIAL | **PASS** |
+| coined term states its range | FAIL | FAIL | FAIL | **PASS** |
+| no semicolons in diagram labels | PASS | FAIL ×1 | FAIL ×6 | **PASS** |
+| blocks that render | 2 of 3 | 1 of 3 | 2 of 3 | **3 of 3** |
+
+Checked here independently, not taken from the run's own summary: `mmdc` exit 0, empty stderr,
+three charts, and the state diagram built **six states — exactly the six written**, where the
+previous Opus design built 21 for a design with six.
+
+**The coined-term result is the one that changes a plan.** 0.16.0 deliberately did *not* touch
+that rule, on the argument that three failures meant the mechanism was wrong and R-020 should
+rethink where the definition belongs. It passed on the fourth run with no rule change. So 3 of 4,
+not 3 of 3, and R-020 now says re-measure before specifying a `GLOSSARY.md` to repair a rule that
+may work. Caveat recorded there too: n=1, and not a clean experiment.
+
+**The finding that cost 0.17.1.** The box had no `mmdc`, which was the point — the run was
+supposed to exercise the absent-tool path. It did not. The gate created `/tmp/mnb-mmdc`, ran
+`npm i @mermaid-js/mermaid-cli`, used `./node_modules/.bin/mmdc`, and reported the check as
+passing. Nobody agreed to put those packages on that disk, and the documented branch went untested
+while appearing tested. The user's position on the dependency is explicit — a missing tool means
+the design ships unchecked and that is the owner's risk — and installing it for them is not that
+choice being honoured. Step 7b and `mermaid.md` now forbid self-installing, `npx` included, and
+name the observed case. **That prohibition is prose aimed at a model that already improvised
+around this exact step, so it is unverified: filed as R-024**, with the note that a real test needs
+a machine where `npx` cannot reach `mermaid-cli` either.
+
 ### The design gate now runs mermaid over its own diagrams — R-019 closed, 0.17.0
 
 `design` gained **Step 7b**: run `@mermaid-js/mermaid-cli` over `DESIGN.md`, read the exit code.

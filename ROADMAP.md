@@ -320,11 +320,18 @@ Next ID: R-025
 - **Measured 2026-08-28, and half the near half does not work.** Three runs of the gate on the
   naval project, checked mechanically. The *spec's-word* rule half fired on Opus — `find(join_code)`
   landed, `-by_code` leaked on the same class — and did not fire at all on Sonnet. The
-  *coined-term-states-its-range* rule **failed in all three runs**, Opus included: `Match` still
-  owns "the phase" with no range beside it. Three failures on one mechanism is a reason to rethink
-  where that definition belongs, not to reword the `Owns:` line again. 0.16.0 tightened the
-  spec's-word half to cover private fields; **that change is unverified** — see R-024, which now
-  owns that verification and has the tool to do it.
+  *coined-term-states-its-range* rule failed in all three, Opus included.
+
+  **A fourth run on 2026-08-28 passed both, and that changes what this item is about.** 0.16.0's
+  spec's-word tightening is now verified: the design wrote `-by_join_code` on a **private** field
+  with `find(join_code)` beside it. The coined-term rule passed as well — `Owns: the phase, one of
+  WAITING, PLACEMENT, FIRING, ENDED` — and **nothing in 0.16.0 touched that rule**, which had been
+  left alone precisely on the argument that three failures meant the mechanism was wrong. So it is
+  3 of 4, not 3 of 3, and one clean pass with no rule change looks like variance rather than a
+  mechanism that cannot work. **Re-measure before rethinking where the definition belongs** — a
+  `GLOSSARY.md` specified to repair a rule that already works is the wrong artifact built for the
+  wrong reason. Caveat on the fourth run: n=1, and it is not a clean experiment, since the same
+  run also carried 0.17.0's diagram check.
 - **Outcome:** either `GLOSSARY.md` is specified and added everywhere it has to be, or this file
   records why not.
 - **Blocked-by:** —
@@ -462,26 +469,25 @@ Next ID: R-025
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-024 — Verify 0.16.0's three design edits, which have never been run
+### R-024 — The absent-tool path in `design` Step 7b has never run
 
 - **Category:** Validation
-- **What:** one run of `design` on a copy of the naval SPEC, `--model claude-opus-5`, using
-  `/home/dfg/design-prompt.txt` so it compares with the three runs already measured. Then check
-  three claims that 0.16.0 asserted and nothing has tested:
-  - the namespace remedy is now imperative, so the gate appends ` side` to the **namespace**;
-  - renaming the **component** to clear the collision is forbidden, so `Server` and `Client`
-    survive as the spec's words rather than becoming `Hub` and `ClientApp`;
-  - the spec's-word rule reaches private fields, so `-by_join_code` rather than `-by_code`.
-- **Why:** 0.16.0 shipped unverified on purpose, deferring to the tooling item that has now
-  closed. Left here, three doctrine edits stay in the product on the strength of an argument, and
-  the bug 0.14.0 introduced was itself an edit that read correctly and behaved wrongly.
-- **Now unblocked, and the attempt that failed:** `mmdc` is the verifier and it exists as of
-  0.17.0. A run was launched on 2026-08-28 and died at once — `You've hit your session limit`
-  on the test box. Nothing was produced. The copy is staged at `/home/dfg/src/mnb-verify` with
-  only `SPEC.md` in `.yaait/`; re-launch it there.
-- **Check what actually ran.** The box defaults to `claude-sonnet-5`; grep the session transcript
-  under `~/.claude/projects/<munged-cwd>/*.jsonl` for `"model":"..."` rather than trusting the flag.
-- **Outcome:** the three edits are confirmed, or the failure is recorded and the doctrine changes.
+- **What:** run `design` on a machine with no `mmdc` and confirm the step does what it now says —
+  names the install, records in `DESIGN.md` that the diagrams were not machine-checked, closes
+  without stalling, and **installs nothing**.
+- **Why, and this is observed rather than feared.** The 2026-08-28 run was meant to exercise
+  exactly this: the box had no `mmdc`. The gate did not take the path. It created `/tmp/mnb-mmdc`,
+  ran `npm i @mermaid-js/mermaid-cli`, used `./node_modules/.bin/mmdc` and reported the check as
+  passing. Nobody had agreed to put those packages on that disk, and the branch the doctrine
+  documents went untested while looking like it had been tested.
+- **What changed since:** 0.17.0 forbids self-installing, in Step 7b and in `mermaid.md`, naming
+  the observed case. **That prohibition is itself unverified** — it is prose aimed at a model that
+  already improvised around the same step once.
+- **How to run it so it is a real test:** a machine or container with `node` present and no
+  `mermaid-cli` anywhere on it, because `npx` alone is enough for the gate to route around the
+  absence.
+- **Outcome:** the absent-tool path is confirmed, or Step 7b needs something stronger than a
+  prohibition.
 - **Blocked-by:** —
 - **Enables:** —
 

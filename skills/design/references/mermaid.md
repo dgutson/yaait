@@ -340,7 +340,10 @@ mmdc -i .yaait/DESIGN.md -o <scratch>/design.svg > <scratch>/mmdc.out 2> <scratc
 
 **Exit 0 with empty stderr is the pass.** Write the output to a scratch directory, never into the
 project — nothing here belongs in `.yaait/`. The tool is optional: without it, say so, say the
-design ships unchecked, and close. That is the user's risk to take, not a reason to stall.
+design ships unchecked, and close. That is the user's risk to take, not a reason to stall — and
+not a reason to install it for them. A gate given this step on a machine without `mmdc` ran
+`npm i` into a temp directory and used that instead; the step passed and nobody had agreed to put
+those packages on the disk.
 
 Measured against `mmdc` 11.16.0, so it is not re-derived:
 
