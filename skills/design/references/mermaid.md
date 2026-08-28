@@ -5,6 +5,11 @@ natively in GitHub, in Claude Code artifacts, in most editors and in every markd
 with no jar, no server, no Graphviz and no toolchain. PlantUML is more expressive and it is
 not worth a dependency the reader has to install before they can see the design.
 
+**That argument is about the reader, and it still holds.** It says nothing about the author, who
+does install a tool to check a diagram before it ships — *Checking that it renders*, at the end.
+Collapsing the two is how a diagram check was once declined on this file's own argument: the
+reader's cost and the author's cost are not the same cost.
+
 If the user prefers PlantUML, use it — the conventions below all transfer.
 
 ## What to produce
@@ -43,7 +48,10 @@ past, and the point of the diagram is to be read.
 - **Label text is not free text.** Keep every label, note and message to letters, digits,
   spaces, commas and hyphens. Mermaid parses them: `;` `:` `#` `(` `"` variously break the
   block or silently swallow the rest of the label, and quoting is not a reliable escape.
-  Rephrase — a comma, or two labels.
+  Rephrase — a comma, or two labels. **Which of the two you get depends on the diagram type,
+  and the quiet one is the dangerous one:** a `;` in a sequence message or note is a hard parse
+  error that stops the render, and the same `;` in a state transition label is silent. See
+  *State diagram* below for what silent costs.
 - **Show only what the design decides.** Getters, setters, trivial constructors and fields
   the reader can infer all cost attention and add nothing.
 - **Name the invariant near the diagram, not in it.** Mermaid notes get unreadable fast;
@@ -278,6 +286,12 @@ stateDiagram-v2
     Ended --> [*]
 ```
 
+**A `;` in a transition label is silent here.** Mermaid truncates the label at the `;` and turns
+each remaining word into its own state, raising no error and rendering happily — `mmdc` exits 0.
+A measured design with six states shipped as twenty-one: fifteen one-word boxes named `that`,
+`seat`, `is`, `vacated`, `turn`, `passes`, `disposed`. Use a comma. This is the one notation
+failure in this file that no tool catches, which is why the label rule is a rule.
+
 Two checks worth running on every state diagram, because they catch most of what these
 diagrams are for:
 
@@ -317,11 +331,37 @@ because it looks like an error in the design rather than in the syntax. Common c
 punctuation in a label (above — quoting it is not the fix), a stray blank line inside the
 block, participant names with spaces, and `-->` used where the diagram type wants `->>`.
 
-**"It parsed" is not the check.** Two of the three grouping failures above raise no parse error at
-all: a colour-named `box` title parses and silently loses the title, and a namespace sharing a
-class name parses and then fails at render. Only something that actually renders the block finds
-those.
+**"It parsed" is not the check**, and neither is reading it. Run the real mermaid over the whole
+file — `mmdc` is `@mermaid-js/mermaid-cli`, installed with `npm i -g @mermaid-js/mermaid-cli`:
 
-If a diagram is non-trivial, render it once before finishing — Claude Code artifacts render
-mermaid natively, so publishing the design as an artifact is a cheap check as well as a
-readable deliverable.
+```bash
+mmdc -i .yaait/DESIGN.md -o <scratch>/design.svg > <scratch>/mmdc.out 2> <scratch>/mmdc.err
+```
+
+**Exit 0 with empty stderr is the pass.** Write the output to a scratch directory, never into the
+project — nothing here belongs in `.yaait/`. The tool is optional: without it, say so, say the
+design ships unchecked, and close. That is the user's risk to take, not a reason to stall.
+
+Measured against `mmdc` 11.16.0, so it is not re-derived:
+
+| in the file | what `mmdc` does |
+|---|---|
+| any hard parse error | exit 1, message and line number on stderr |
+| `namespace Server` holding `class Server` | exit 1, `Setting Server as parent of Server would create a cycle` |
+| a `;` in a **state transition** label | **exit 0, stderr empty** |
+| a one-word colour-name `box` title | **exit 0, stderr empty** |
+| nothing wrong | exit 0, stderr empty, one `✅` per block |
+
+**The two silent rows are the whole reason the label and naming rules above are rules.** The tool
+catches the loud failures; those two it draws without comment, and a clean run is therefore not a
+clean bill of health.
+
+Four behaviours to know before the second run, each of which otherwise costs one: `mmdc` reports
+**one error per run and not necessarily the first** — given two broken blocks it named the second,
+so keep going until it exits 0; a failing run **writes no output at all**, including for the blocks
+that were fine; the `✅` lines come back in **render order, not document order**, so find a
+reported error by its message and line, not by counting them; and **stdout has to be redirected
+too**, because `mmdc` reads its colour setting from stdout and applies it to stderr — leave stdout
+on a terminal and the error file arrives full of ANSI escape codes, which neither `NO_COLOR=1` nor
+`--quiet` prevents. That is why the command above redirects both streams and not just the one it
+reads.

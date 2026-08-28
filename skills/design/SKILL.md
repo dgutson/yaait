@@ -533,10 +533,11 @@ Produce three things, in this order:
    responsibility and ownership statements are Step 2's; here it is only the placement. A
    component that will not sit under one part is a finding — say so rather than picking one.
 3. **The structure diagram and the primary sequence diagram**, grouped by part. Use **mermaid**,
-   not PlantUML: it renders natively in GitHub, in Claude Code artifacts and in most editors
-   with no jar, no server and no toolchain. See `references/mermaid.md` for the templates, the
-   grouping conventions and the yaait conventions. These two are drawn **here** and revised at
-   Step 5, not drawn again.
+   not PlantUML: **the reader** installs no jar, no server and no toolchain, because it renders
+   natively in GitHub, in Claude Code artifacts and in most editors. Whether the *author* has a
+   way to check the diagram is a different question with a different answer, at Step 7b. See
+   `references/mermaid.md` for the templates, the grouping conventions and the yaait conventions.
+   These two are drawn **here** and revised at Step 5, not drawn again.
 
    **The structure diagram takes the shape the code takes** — a `classDiagram` where anything is
    a class, a `flowchart` over modules where nothing is. Do not draw a function or a module as a
@@ -976,6 +977,53 @@ quietly stops working:
 
 Findings that survive feed Step 8 — an element the checker flagged and the user kept is a
 strong candidate for the abstraction that step requires you to probe.
+
+## Step 7b — Check the diagrams against mermaid
+
+`DESIGN.md` exists now, so the mermaid in it can be checked by mermaid instead of by eye.
+Malformed mermaid reaches the reader as a code block full of text, which reads as an error in the
+design rather than in the syntax — and the author never sees it, because the author reads the
+source.
+
+**The check is one command**, writing into a scratch directory and never into the project:
+
+```bash
+mmdc -i .yaait/DESIGN.md -o <scratch>/design.svg > <scratch>/mmdc.out 2> <scratch>/mmdc.err
+```
+
+**Exit 0 with empty stderr is the pass.** Anything else: read `mmdc.err`, fix the diagram in
+`DESIGN.md`, run it again. Three things about how `mmdc` behaves, each of which otherwise costs a
+round:
+
+- **It reports one error per run, and not necessarily the first broken block.** Given two broken
+  diagrams it named the second. Do not read "one error" as "one problem" — keep going until it
+  exits 0.
+- **A failing run writes no output at all**, not even for the blocks that were fine. There is no
+  partial result to inspect.
+- **The chart numbers in stdout do not follow document order**; the blocks are rendered
+  concurrently. Find a reported error by its message and line number, not by counting `✅` lines.
+- **Redirect stdout as well, not just stderr.** `mmdc` takes its colour setting from **stdout**
+  and then applies it to stderr, so with stdout left on a terminal the error text arrives wrapped
+  in ANSI escape codes. Neither `NO_COLOR=1` nor `--quiet` turns that off — only redirecting
+  stdout does, which is what the command above is doing. If you are handed a stderr file that has
+  them anyway, strip with `sed 's/\x1b\[[0-9;]*m//g'` rather than reading around them.
+
+**If `mmdc` is not installed**, say so in one line, name the install — `npm i -g
+@mermaid-js/mermaid-cli` — and close the step. It is optional and the gate does not stall on it.
+Record in `DESIGN.md` that the diagrams were not machine-checked, because a later reader otherwise
+cannot tell an unchecked diagram from a checked one.
+
+**What the command does not see.** A clean run is not a clean bill of health. Two known failures
+pass it silently:
+
+- A `;` in a **state transition** label truncates the label and scatters the remainder as new
+  states. `mmdc` exits 0 and draws them. A measured case built **21 states where the design had
+  six**, fifteen of them one-word garbage.
+- A one-word colour-name `box` title — `box Gold` — is read as a background colour, and the title
+  disappears. `mmdc` exits 0.
+
+Both are covered by the label and naming rules in `references/mermaid.md`. The tool catches the
+loud failures; those rules are why the silent ones do not ship.
 
 ## Step 8 — Run the defense
 
