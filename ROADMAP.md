@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-023
+Next ID: R-025
 
 ---
 
@@ -323,8 +323,8 @@ Next ID: R-023
   *coined-term-states-its-range* rule **failed in all three runs**, Opus included: `Match` still
   owns "the phase" with no range beside it. Three failures on one mechanism is a reason to rethink
   where that definition belongs, not to reword the `Owns:` line again. 0.16.0 tightened the
-  spec's-word half to cover private fields; **that change is unverified** — see R-019, whose tool
-  is the intended verifier.
+  spec's-word half to cover private fields; **that change is unverified** — see R-024, which now
+  owns that verification and has the tool to do it.
 - **Outcome:** either `GLOSSARY.md` is specified and added everywhere it has to be, or this file
   records why not.
 - **Blocked-by:** —
@@ -462,53 +462,44 @@ Next ID: R-023
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-019 — Whether `design` checks that the mermaid it emits actually renders
+### R-024 — Verify 0.16.0's three design edits, which have never been run
 
-- **Category:** Doctrine
-- **What:** decide whether the gate verifies its own diagrams, and if so how. **The crux is
-  already settled and must not be re-derived: `mermaid.parse` is not the check.** The
-  namespace/class collision the naval design shipped parses clean and fails only under
-  `mermaid.render`; a colour-named `box` title fails silently under both. A validator built on
-  `parse` — the obvious one to build — would have passed the exact diagram the user could not
-  render.
-- **Why:** `references/mermaid.md` says it itself: a diagram that fails to render is *worse* than
-  no diagram, because it reads as an error in the design rather than in the syntax. All three
-  render-time failures now documented in that file were found by a human hitting them, and one of
-  them reached the user, who fixed it by hand.
-- **The constraint that has to be answered rather than stepped around:** `mermaid.md` argues for
-  mermaid over PlantUML on "no jar, no server, no Graphviz and no toolchain", and commit `1c61b90`
-  declined a validator on exactly that ground. A mandatory node/npm check contradicts the file's
-  own argument. Two options do not: **publishing `DESIGN.md` as a Claude Code artifact**, which
-  renders mermaid natively and is already suggested at the end of that file; and **a static
-  rule-list the gate applies by reading** — no namespace shares a class name, no one-word
-  colour-word `box` title — which costs no toolchain and catches every known failure, but by
-  construction cannot catch the next unknown one. That last property is the trade to decide, not
-  to hide.
-- **Related:** R-013's note already predicts the shape of the answer — "if the answer does turn
-  out to be a check, it probably is not prose". This is the concrete case where that prediction
-  can be tested, and unlike R-013's subject it is not the model grading its own homework: whether
-  a diagram renders is decided by mermaid, not by the gate's opinion of it.
-- **Apparatus, verified 2026-08-28 against mermaid 11.17.2 / node 24 / jsdom 22, so it is not
-  re-derived:** copy **every** own-property of a JSDOM window onto `globalThis` — `render` needs
-  far more globals than `parse` — and set `navigator` with `Object.defineProperty`, because node
-  24 makes it a getter and plain assignment throws. `mermaid.render` under jsdom ends at
-  `getBBox is not a function`: that is the missing layout engine, **not** a diagram error, so
-  "reached getBBox" is the pass condition. The collision error fires before layout, so it is still
-  detectable in a headless harness.
-- **The acceptance test, measured 2026-08-28 — a renderer alone fails it.** An Opus run of the
-  design gate emitted a `stateDiagram-v2` that **parses clean and renders clean**, and which
-  mermaid builds as **21 states, 15 of them garbage**: `";"`, `"that"`, `"seat"`, `"is"`,
-  `"vacated"`, `"allowance"`, `"remains"`, `"turn"`, `"passes"`, `"to"`, `"next"`, `"living"`,
-  `"the"`, `"match"`, `"disposed"`. Five transition labels lost everything after a `;` —
-  `a seat drops` dropped *that seat is vacated*, `allowance spent` dropped *turn passes to next
-  living seat*, and three more. **A candidate tool must flag that diagram.** Everything that only
-  wraps parse or render — `@mermaid-js/mermaid-cli`, `mcp-mermaid-validator`, the mermaid.ai MCP
-  server — passes it, so the evaluation's real question is not "which renders mermaid" but "which
-  catches silent corruption", and the answer may be a linter *beside* a renderer rather than one
-  tool. Artifacts: `dfg@192.168.68.71:/home/dfg/src/mnb-opus/.yaait/DESIGN.md`.
-- **Outcome:** either `design` runs a named check whose cost is stated, or `mermaid.md` records in
-  writing why it does not and what the reader is expected to do instead. Its "Checking that it
-  renders" section is rewritten either way — it still leads with parse failures.
+- **Category:** Validation
+- **What:** one run of `design` on a copy of the naval SPEC, `--model claude-opus-5`, using
+  `/home/dfg/design-prompt.txt` so it compares with the three runs already measured. Then check
+  three claims that 0.16.0 asserted and nothing has tested:
+  - the namespace remedy is now imperative, so the gate appends ` side` to the **namespace**;
+  - renaming the **component** to clear the collision is forbidden, so `Server` and `Client`
+    survive as the spec's words rather than becoming `Hub` and `ClientApp`;
+  - the spec's-word rule reaches private fields, so `-by_join_code` rather than `-by_code`.
+- **Why:** 0.16.0 shipped unverified on purpose, deferring to the tooling item that has now
+  closed. Left here, three doctrine edits stay in the product on the strength of an argument, and
+  the bug 0.14.0 introduced was itself an edit that read correctly and behaved wrongly.
+- **Now unblocked, and the attempt that failed:** `mmdc` is the verifier and it exists as of
+  0.17.0. A run was launched on 2026-08-28 and died at once — `You've hit your session limit`
+  on the test box. Nothing was produced. The copy is staged at `/home/dfg/src/mnb-verify` with
+  only `SPEC.md` in `.yaait/`; re-launch it there.
+- **Check what actually ran.** The box defaults to `claude-sonnet-5`; grep the session transcript
+  under `~/.claude/projects/<munged-cwd>/*.jsonl` for `"model":"..."` rather than trusting the flag.
+- **Outcome:** the three edits are confirmed, or the failure is recorded and the doctrine changes.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-023 — One place that installs what yaait can use
+
+- **Category:** Tooling
+- **What:** a script and/or a skill that knows which external tools yaait's gates can use, reports
+  which are present, and installs the missing ones. `mmdc` is the first; it will not be the last.
+- **Why:** `design` Step 7b now carries an install line in its prose. The second gate that wants a
+  tool will carry its own, the two will drift, and a user with none of them installed has no single
+  place to look. An optional dependency explained inline is re-explained everywhere and maintained
+  nowhere.
+- **The question it must answer rather than skip:** whether this is a seventh skill, a script the
+  skills call, or a documented one-liner in the README. yaait is prose all the way down today, and
+  shipping an executable is a change to what the plugin *is* — decide it deliberately, in writing,
+  not by adding a file.
+- **Outcome:** a user runs one thing and the gates stop carrying install instructions; or this file
+  records why a one-liner in the README was enough.
 - **Blocked-by:** —
 - **Enables:** —
 

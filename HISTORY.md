@@ -4,6 +4,54 @@
 
 ## 2026-08-28
 
+### The design gate now runs mermaid over its own diagrams — R-019 closed, 0.17.0
+
+`design` gained **Step 7b**: run `@mermaid-js/mermaid-cli` over `DESIGN.md`, read the exit code.
+Optional — absent, the step names the install, records in `DESIGN.md` that the diagrams were not
+machine-checked, and closes. It never blocks.
+
+**Measured before anything was written**, `mmdc` 11.16.0:
+
+| in the file | mmdc |
+|---|---|
+| any hard parse error | exit 1, message and line |
+| `namespace Server` holding `class Server` | exit 1, `would create a cycle` |
+| `;` in a **state transition** label | **exit 0, stderr empty** |
+| one-word colour-name `box` title | **exit 0, stderr empty** |
+| well-formed file | exit 0, one tick per block |
+
+**The finding that shaped the doctrine.** `mnb-opus/DESIGN.md` carried both kinds of `;` at once —
+one in a sequence message, five in state transitions. `mmdc` exits 1 and names the sequence one.
+Changing that single `;` to a comma makes it exit 0 with empty stderr and three green ticks, while
+the state diagram it just approved still holds **21 states for a design with six**. So the obvious
+workflow — fix what it reported, re-run, see green, ship — produces exactly the corrupted diagram
+the check was added to prevent. Both files now say an error naming one `;` is not a census of them.
+
+**Rejected.** `merman-cli`, on the user's ground that a from-scratch reimplementation can disagree
+with the renderer that actually matters. `mermaider` and the MCP validators wrap parse;
+`mermaid-lint`'s eight semantic rules have no orphan-node rule; all pass the acceptance case.
+
+**Four `mmdc` behaviours are recorded** because each otherwise costs a round: one error per run and
+not necessarily the first; a failing run writes no output at all; ticks come back in render order,
+not document order; and **stdout has to be redirected too** — `mmdc` reads its colour setting from
+stdout and applies it to stderr, which neither `NO_COLOR=1` nor `--quiet` overrides. That last one
+had two people running "the same" command get different files and briefly disagree about what the
+tool detects; it cost most of the session and it is why it is written down.
+
+**The "no toolchain" argument was kept and its subject made explicit.** It is about the *reader*,
+who still installs nothing to see a design on GitHub. The *author* installing a checker is a
+different cost. Conflating them is how a diagram check was once declined on that file's own
+argument.
+
+**What did not happen, and it is the second half of the job.** 0.16.0's three edits are **still
+unverified**. The run was launched and died immediately — `You've hit your session limit` on the
+test box — producing nothing. Filed as **R-024** with the staged copy and the re-launch recipe, so
+it is not lost with R-019. **0.17.0 therefore ships carrying 0.16.0's unverified edits**, exactly
+as 0.16.0 did, and for a different reason.
+
+Also filed **R-023**: one place that installs what yaait can use. Step 7b carries an install line
+in its prose; the second gate that wants a tool will carry its own and the two will drift.
+
 ### A diagram constraint renamed the design's components, which is the failure it was meant to prevent
 
 **Released 0.16.0, and the three changes in it are UNVERIFIED** — no run confirms them. Verification
