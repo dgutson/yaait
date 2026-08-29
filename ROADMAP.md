@@ -503,28 +503,6 @@ Next ID: R-026
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-025 — Where the measurement apparatus lives, given that this repo is prose
-
-- **Category:** Doctrine
-- **What:** decide where the script that grades a `DESIGN.md` against `design`'s own rules is kept,
-  or decide deliberately that it is not kept.
-- **Why, and it has already cost twice.** Every doctrine change here is justified by measuring a
-  gate's output. That measurement has been re-derived from scratch each session and got the same
-  rule wrong twice, in opposite directions — a grep that gave a false PASS, then a per-line window
-  that gave a false FAIL on a sentence that wrapped. Both errors reached `ROADMAP.md` as findings
-  and one of them shaped a release. A checked-in grader would have caught the second against the
-  first.
-- **The conflict to resolve rather than step around:** this repo's `CLAUDE.md` says yaait is prose
-  all the way down, with no source code — while yaait's own methodology says apparatus worth
-  keeping lives in `experiments/` at the project root, named by its experiment ID, with nothing in
-  the product importing from it. Both cannot hold here. The grader is not product; it never runs at
-  gate time and no skill references it, which is exactly the `experiments/` shape.
-- **Outcome:** the grader is checked in under a named experiment id and `CLAUDE.md` says what that
-  directory is and why it is not product — or this file records why re-deriving it each time is
-  preferable, which is a claim that now has two counter-examples to answer.
-- **Blocked-by:** —
-- **Enables:** —
-
 ### R-023 — One place that installs what yaait can use
 
 - **Category:** Tooling

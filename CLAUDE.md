@@ -4,11 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-yaait is a Claude Code **plugin** and it is prose all the way down — there is no source
-code, no build, no test suite and no lint. Every file is either doctrine (root `*.md`) or an
+yaait is a Claude Code **plugin** and **what ships is prose all the way down** — no source code,
+no build, no test suite and no lint. Every file that ships is either doctrine (root `*.md`) or an
 instruction set that an LLM executes at runtime (`skills/*/SKILL.md`). Editing here means
 editing text that becomes another session's behaviour, so the review standard is "would a
 model follow this and get the intended result", not "does it compile".
+
+**`experiments/` is the one exception, and it is deliberately not product.** It holds apparatus for
+measuring whether a gate obeyed its own rules, named by the roadmap item it came from, and it has
+skipped every gate the product goes through. **Nothing in `skills/` may reference or run it** — an
+import from it is a review finding, not a judgment call. It exists because the same measurement was
+re-derived in three separate sessions and got the same rule wrong twice, in opposite directions,
+and both errors reached `ROADMAP.md` as findings; one of them stood for two releases. This repo has
+no `EXPERIMENTS.md` — `HISTORY.md` carries what a spike established.
 
 The plugin exposes six method gates — `spec`, `design`, `tech`, `code`, `stest`, `debt` —
 invoked as `/yaait:<name>`. There is also one **instrument**, `feedback`, which is not a gate:
@@ -18,8 +26,8 @@ block — see below.
 
 ## Commands
 
-There is nothing to build or run. The only real verification loop is installing the plugin
-from a local clone and exercising a skill in a **separate directory**:
+Nothing in the product builds or runs. The verification loop is installing the plugin from a local
+clone and exercising a skill in a **separate directory**:
 
 ```bash
 claude plugin marketplace add /home/daniel/src/yaait
@@ -35,6 +43,13 @@ for f in skills/{spec,design,tech,code,stest,debt}/SKILL.md; do
   printf '%s  %s\n' "$(sed -n '/^## The rules that are the method/,/^## Step 0/p' "$f" \
     | sed '$d' | md5sum | cut -c1-32)" "$f"
 done
+```
+
+To grade a `DESIGN.md` a run produced, against `design`'s own rules, use the apparatus rather than
+writing the check again — that is what got the same rule wrong twice:
+
+```bash
+experiments/R-022-rule-conformance/grade.sh path/to/DESIGN.md "label"
 ```
 
 Releasing is a one-line version bump in `.claude-plugin/plugin.json` with a commit message
