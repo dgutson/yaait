@@ -334,8 +334,9 @@ team reads them on their own account, rather than being machinery of the method:
 ├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
     │                 challenges
     └── FEEDBACK.md   append-only: friction with the method itself, written only by

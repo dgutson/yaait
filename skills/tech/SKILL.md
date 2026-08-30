@@ -7,12 +7,18 @@ description: >
   rather than recalled, plus a falsifier ("what would make this the wrong choice") and an
   exit cost. Built specifically against training-data staleness: the deprecated library, the
   superseded idiom, the API that was renamed, the package that was dominant at training
-  time and is now unmaintained. Separates inherited constraints from real decisions, since
-  you are only accountable for the latter. Use whenever the user runs /yaait:tech, or says
-  things like "what should we build this in", "which framework", "pick a test library",
-  "what database", "is this dependency still maintained", "should we use X or Y". Invocable
-  at any point — before or after design — because a stack is usually a constraint on the
-  spec rather than a consequence of the design.
+  time and is now unmaintained. Surveys what actually occupies each slot today, from live
+  sources, BEFORE offering any option — verifying a shortlist you recalled cannot surface
+  the option the shortlist never had. Presents every option with pros, cons, a recommendation
+  and the reasoning behind it, and offers to teach any of it before you choose. Separates
+  inherited constraints from real decisions, since you are only accountable for the latter,
+  and takes your own stated stack and proficiency ("expert in C++, proficient in Python,
+  newbie in Rust") as assertive input to be priced rather than tested. Use whenever the user
+  runs /yaait:tech, or says things like "what should we build this in", "which framework",
+  "pick a test library", "what database", "is this dependency still maintained", "should we
+  use X or Y", "build it in C++ with Qt and ZeroMQ". Runs BEFORE yaait:design on a greenfield
+  TTB, because the stack settles the paradigm and the four branch points design would
+  otherwise decide against a stack nobody has named.
 ---
 
 # yaait:tech — the stack, verified rather than recalled
@@ -28,6 +34,13 @@ that you *guess* — it is that a stale recollection and a current fact are prod
 exactly the same confident register, so the user has no way to tell them apart. This command
 exists to make you check instead of remember, and to say which you did.
 
+**And the staleness is in the shortlist, not only in the versions on it.** Checking that the
+three libraries you thought of are current cannot tell you about the fourth, which is the one
+that did not exist when your corpus was cut. That check comes back clean, and every line of it
+now carries a `verified` label — so a list assembled from memory ends up better dressed than
+an honest guess. Step 2 goes and looks at the slot before any option reaches the user, for
+this reason and only this reason.
+
 **Second: the stack is usually a constraint, not a decision.** "It's a browser game" already
 fixed a great deal. Treating a constraint as though it were chosen inflates the record with
 things nobody decided and buries the two or three real choices inside a wall of
@@ -35,14 +48,28 @@ inevitabilities.
 
 ## When to run this
 
-Whenever the stack is genuinely open, or when a constraint the user could not justify is
-doing damage. **Position in the sequence is not fixed** — run it before `yaait:design` when
-the platform shapes the structure (it usually does), after when the design is genuinely
-technology-agnostic.
+**Before `yaait:design`, on any greenfield TTB.** `design` stops and sends you here when
+`TECH.md` is missing, because the four decisions it treats as its expensive-to-reverse ones
+— decomposition into parts, the sync/async boundary, the persistence model, the concurrency
+model — are largely settled by the stack. `METHODOLOGY.md` §1.
+
+For a **Maintenance** TTB the order does not apply: the stack is already on disk. Run this
+only when a specific layer is genuinely in play — a dependency being replaced, a runtime
+being upgraded — and read the existing stack rather than re-deciding it.
 
 If the stack is fully constrained and the constraints are sound, say so and skip this
-command. Running it anyway produces a document that looks like a decision record and is
-actually a rubber stamp, which is worse than no document.
+command — but say it **out loud**, and let `SPEC.md`'s `Gates recommended` section carry the
+skip. Running it anyway produces a document that looks like a decision record and is actually
+a rubber stamp, which is worse than no document. Skipping it *silently* is worse still:
+`design` cannot tell a stack that was examined and found closed from one nobody looked at,
+and it will assume the second.
+
+**What you settle here that the design has not seen yet is a decision, not a constraint.**
+Running ahead of the design is what makes this command useful and is also its one new failure
+mode: a broker picked off a traffic number arrives in `DESIGN.md` looking inherited, and §9
+holds nobody accountable for constraints. Every choice carries a falsifier (Step 3) for
+exactly this reason, and a design that fires one is the reconcile rule working, not a defect
+in either gate. §4.
 
 ## The rules that are the method
 
@@ -342,8 +369,9 @@ team reads them on their own account, rather than being machinery of the method:
 ├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
     │                 challenges
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
@@ -432,7 +460,15 @@ makes the record honest enough to be useful in six months.
 
 Read `.yaait/SPEC.md`, especially the **Constraints** section and the expected lifetime — a
 weekend tool and a five-year service have different correct answers to every question below.
-Read `.yaait/DESIGN.md` if it exists.
+
+**If `.yaait/DESIGN.md` exists, this is a second pass**, and that changes what the run is for.
+It is one of three things and you should say which: the design fired a falsifier on a choice
+made here; the design settled something this file left under `## Deferred to design`; or the
+TTB is Maintenance and the stack was always on disk. Read the design's `## Constraints on the
+stack` section first — that is the design telling you what it now requires, and it is the
+reason you were re-entered rather than a remark in passing. Where the design contradicts a
+decision recorded here, that is the reconcile rule (§4): name the contradiction and say which
+side is wrong before you change either.
 
 ## Step 1 — Separate constraints from decisions, again
 
@@ -451,7 +487,79 @@ If a constraint is doing real damage, say so **once**, with the specific cost �
 16 ms frame budget means you will fight the GC, and here is roughly what that costs" — and
 then respect it. Relitigating a constraint the user cannot change is not rigour, it is noise.
 
-## Step 2 — Verify every version, do not recall it
+## Step 1a — Proficiency is an input, not a preference
+
+Ask, per candidate ecosystem, where the user actually is: **expert**, **proficient**,
+**novice**. Take the answer at face value — it is a fact about them, not a claim to be
+challenged, and Step 1's rule against relitigating applies with more force here, not less.
+Where they stated it up front and assertively ("expert in C++, proficient in Python, newbie
+in Rust"), it is already answered; do not ask again.
+
+**Why this is not a preference to be weighed against the others.** `yaait:code` will not pass
+an increment until the user can say what the code it touches does. Choose an ecosystem they
+are a novice in and that gate does not merely get harder — it degrades on every increment,
+and it degrades *silently*, because the damage surfaces as a run of `DEBT` entries about
+individual functions rather than as a stack decision anyone can point at. A stack the user
+cannot read turns yaait into the unattended-LLM case the whole method exists to prevent. No
+falsifier will ever fire on that, so it is priced here or it is not priced at all.
+
+**It prices a choice; it does not veto one.** "Novice in Rust" does not forbid Rust. Say what
+the defense burden actually looks like — which idioms they would be approving without holding,
+roughly how much of each review they would be taking on trust — and what would make it worth
+paying: a hard requirement only that ecosystem meets, or a deliberate decision to learn it,
+which is a legitimate goal and gets recorded as one rather than smuggled in as a technical
+argument. Chosen anyway, it is a decision with a falsifier like any other, and `yaait:code`
+will be doing more teaching per increment from here on. Say so now, so it is not a surprise
+in three weeks.
+
+This lands in `TECH.md` under `## Proficiency`, as its own section and **not** folded into
+`## Constraints`. §9 holds nobody accountable for constraints, and this is something the user
+said about themselves; the reader who needs it most is whoever is trying to interpret that run
+of `DEBT` entries six months from now.
+
+## Step 2 — Survey the slot before you offer anything
+
+Step 2a verifies the things you were about to name. Necessary, and not sufficient: it checks
+that a shortlist is current, and **a shortlist recalled from training data cannot be made
+current by verifying it.** So before any option reaches the user, go and look at what occupies
+the slot *now*.
+
+**Which slots.** The ones that shape the design or sit close to a one-way door: language and
+paradigm, runtime, concurrency model, deployment target, data store, transport or message
+broker, UI toolkit. Cheap and reversible slots — test framework, formatter, logger, CLI parser
+— are verified at Step 2a and not surveyed; surveying them is how this step turns into the
+ceremony that gets the command skipped. **Say which you did to each.** `surveyed` and
+`verified` are different claims and the user cannot tell them apart unless you separate them.
+
+**Slots the user has already filled are surveyed too**, at the same threshold. `/yaait:tech
+using C++ and Boost with Qt for the UI, I want ZeroMQ` names four things: transport and UI
+toolkit get surveyed, Boost and the build system get verified. A stated stack is a set of
+decisions arriving pre-made — §1, what an invocation may carry — so it is not exempt from the
+loop, and it also does not need re-deciding. **Their pick stands unless the survey hands you a
+failure mode with a cost.** "There is a newer thing" is not a failure mode. "Its own author
+wrote the successor and the original takes security fixes only" is.
+
+**From live sources.** The registry, the project's release page, its own current
+documentation. Where the tools are unavailable or there is no network, **say the survey did
+not happen** and mark the slot as unsurveyed. Recall presented as a survey is the exact defect
+this command was built against, now wearing the label of the fix.
+
+**Run it in a subagent where the harness allows one**, the same way Step 3a does. What comes
+back is the comparison, not the pages.
+
+### Then ask what discriminates
+
+The survey is what makes a question worth asking: it names the axis that actually separates
+the candidates. Ask about that axis and leave the rest alone — peak throughput and message
+size if that is what split the transports, in-process or cross-host, the latency budget, the
+expected lifetime, who deploys this and onto what.
+
+Ask about **this** TTB in its own units. A generic infrastructure questionnaire is the worst
+version of this step: a question whose answer moves nothing in the comparison is ceremony, and
+it is expensive here because it arrives before the user has seen anything useful. Where
+`SPEC.md` already answers one, read it there and say you did.
+
+## Step 2a — Verify every version, do not recall it
 
 This is the operational heart of the command.
 
@@ -479,6 +587,38 @@ so the user can scan for the weak ones:
 **Any dependency still marked `recalled` when you write `TECH.md` is a defect in this
 command.** If a check is genuinely impossible — no network, a private registry — say so
 explicitly next to the entry rather than letting `recalled` pass silently as fact.
+
+Those three answer *is this choice current*. `surveyed` from Step 2 answers a different
+question — *was anything else considered* — and the two do not substitute for each other. A
+`verified` entry that was never surveyed is a current answer to a question nobody asked
+properly, and that is the more common of the two failures.
+
+## Step 2b — Present the options as an education, not a menu
+
+For every slot the user left empty, and every slot where the survey brought back a real
+competitor to what they named, give them three things together:
+
+- **The options, with pros and cons in the units of this TTB** — not in general. "Faster" is
+  not a con anyone can act on. "Roughly 3× the throughput at your message size, and you give
+  up the C++ binding the client needs" is.
+- **A recommendation, stated as one, with the reasoning behind it.** A comparison table with
+  no recommendation is this command declining to do its job and handing back a homework
+  assignment. You have just done the survey; you are the one holding the material.
+- **An explicit offer to explain any of it before they choose.** Not "let me know if you have
+  questions" — name the ones worth explaining: "if `io_uring` versus a thread pool is not a
+  distinction you want to take on trust, say so and I will lay it out before you pick."
+  Being taught is a path through this gate, not an exit from it; when it happens it gets a
+  `TAUGHT` entry, and then you ask again.
+
+**The failure mode this prevents.** A user picking from a menu of terms they do not hold looks
+exactly like a user deciding — both produce a choice with their name on it. Six months later
+nobody can tell the two apart, and the person maintaining it is the one who picked.
+
+**A choice picked from your menu is `[selected]`, not `[stated]`.** `yaait:spec` already
+carries this mechanism and this command reuses it rather than inventing a second one: record
+what was on the menu and which one you recommended, in the `Selected from` field of the
+decision. Without it, this gate launders its own inventions into the record as the user's
+decisions — the one thing `spec` exists to stop, defeated by moving it a gate over.
 
 ## Step 3 — For every choice: a falsifier and an exit cost
 
@@ -551,11 +691,19 @@ Two failure modes to watch in yourself:
 # TECH — <TTB name>
 
 > Stack decisions. Versions marked `verified` were checked against current documentation in
-> the session that wrote this line; `recalled` means nobody checked.
+> the session that wrote this line; `recalled` means nobody checked. `surveyed` means the
+> live alternatives to this choice were looked at, not just this choice confirmed.
 
-Format: 1
+Format: 2
 Spec: .yaait/SPEC.md
 Verified on: <YYYY-MM-DD>
+
+## Proficiency
+
+| Ecosystem | Level | What it costs here |
+|---|---|---|
+| C++ | expert | — |
+| Rust | novice | every increment's defense; accepted deliberately, see JOURNAL <date> |
 
 ## Constraints (inherited, not chosen)
 
@@ -565,11 +713,16 @@ Verified on: <YYYY-MM-DD>
 
 ## Decisions
 
-| Layer | Choice | Version | Status | Falsifier | Exit cost |
-|---|---|---|---|---|---|
-| Language | Python | 3.12 | verified | if we need a single binary | high |
-| Tests | pytest | 8.x | verified | — | low |
-| Rendering | pygame-ce | 2.5.x | verified | if we need mobile | medium |
+| Layer | Choice | Version | Status | Selected from | Falsifier | Exit cost |
+|---|---|---|---|---|---|---|
+| Language | Python | 3.12 | verified | user stated | if we need a single binary | high |
+| Transport | <choice> | <ver> | surveyed | <what was on the menu, and which you recommended> | <what would make this wrong> | medium |
+| Tests | pytest | 8.x | verified | — | — | low |
+
+## Deferred to design
+
+- **<layer>** — left open because <the design fact that has to exist first>. `yaait:design`
+  settles it and records it under its `## Constraints on the stack`.
 
 ## Exit paths
 
@@ -595,6 +748,19 @@ Verified on: <YYYY-MM-DD>
 
 The **Unverified** section is the honest part. If it is empty, say so; if it is not, it is
 the first thing the user should read.
+
+**`## Deferred to design` is the other one.** This gate runs before the design, so some slots
+genuinely cannot be settled yet — whether a broker is needed at all, what gets serialized,
+where the process boundary falls. Naming them is what keeps the order honest: an empty
+section says every slot was decided, and a reader cannot otherwise tell a slot that was
+deliberately left open from one that was overlooked. Deciding one of these early, to avoid an
+empty-looking document, is the failure this whole ordering was written to prevent.
+
+**`Format: 2`.** A `Format: 1` `TECH.md` has no `## Proficiency`, no `## Deferred to design`
+and no `Selected from` column — so in one of those, a choice the user made and a choice they
+picked off a menu this gate wrote are indistinguishable, and nothing records what was left for
+the design. Do not read those absences as "the user stated all of it" or "nothing was
+deferred". Say you are raising the file to `Format: 2` rather than silently restructuring it.
 
 ## Step 5a — Hand it over, then tour it
 
@@ -673,7 +839,7 @@ Then journal a `DECISION` per real choice with its rejected alternatives, plus `
 Say what is next: `yaait:design` if it has not run and the criteria fire, otherwise
 `yaait:code`. Then stop.
 
-If the verification in Step 2 invalidated something upstream — the design assumed an API
+If the verification in Step 2a invalidated something upstream — the design assumed an API
 that does not exist, the spec assumed a capability the platform lacks — apply the reconcile
 rule now. This is the most common place for it to fire, and finding it here rather than in
 `yaait:code` is this command earning its keep.

@@ -337,8 +337,9 @@ team reads them on their own account, rather than being machinery of the method:
 ├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
     │                 challenges
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
@@ -744,8 +745,8 @@ Code map: none | <tool>, generated YYYY-MM-DD
 
 ## Gates recommended
 
-- `yaait:design` — <recommended | not warranted>, because <which criterion fired>
 - `yaait:tech` — <recommended | not warranted>, because <which criterion fired>
+- `yaait:design` — <recommended | not warranted>, because <which criterion fired>
 ```
 
 **The keys and the tags above are the whole vocabulary.** Requirement fields are
@@ -859,8 +860,10 @@ reads as a rule stated emphatically, and nothing tells the reader which copy is 
 ## yaait
 
 This project is developed under yaait. Its artifacts live in `.yaait/`:
-`SPEC.md` (the thing to build), `DESIGN.md` and `TECH.md` (optional), and an append-only
-`JOURNAL.md` of decisions, approvals, comprehension debt, teaching and challenges.
+`SPEC.md` (the thing to build), `TECH.md` (the stack), `DESIGN.md` (optional), and an
+append-only `JOURNAL.md` of decisions, approvals, comprehension debt, teaching and challenges.
+`tech` runs before `design`, because the stack settles most of what a design cannot cheaply
+reverse.
 
 - **Read `.yaait/SPEC.md` before writing code here.** It records which requirements the
   user actually stated and which were inferred or assumed.
@@ -897,8 +900,12 @@ never be a silent side effect.
 
 ## Step 10 — Recommend what comes next, against criteria
 
-Close by saying whether `yaait:design` and `yaait:tech` are warranted. Use criteria, not
-vibes, and say which criterion fired:
+Close by saying whether `yaait:tech` and `yaait:design` are warranted, **in that order** —
+that is the order they run in (`METHODOLOGY.md` §1), and the tech answer can change the design
+answer. Use criteria, not vibes, and say which criterion fired:
+
+**Recommend `yaait:tech` when** the stack is not already constrained, or when it is
+constrained by something the user could not justify when asked in Step 6.
 
 **Recommend `yaait:design` when any of these hold:**
 - more than about three components that interact;
@@ -913,9 +920,6 @@ vibes, and say which criterion fired:
 obvious decomposition. Say so plainly. Recommending a design phase for a 200-line script is
 exactly the ceremony that gets this methodology abandoned, and the honest recommendation is
 worth more than the thorough one.
-
-**Recommend `yaait:tech` when** the stack is not already constrained, or when it is
-constrained by something the user could not justify when asked in Step 6.
 
 State the recommendation, give the reason in one line, and **write it into `SPEC.md`'s
 `Gates recommended` section** — both the recommendation and the criterion that fired, for

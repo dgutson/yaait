@@ -7,11 +7,66 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-027
+Next ID: R-030
 
 ---
 
 ## Now
+
+### R-028 — The independent checker is never given `TECH.md`
+
+- **Category:** Doctrine
+- **What:** `design` Step 7a spawns the independent checker with `DESIGN.md`, `SPEC.md`,
+  `TECH_DEBT.md` and `DESIGN_GUIDELINE.md`. Not `TECH.md`. Decide whether it belongs in that
+  list, and if so add it in both `design` Step 7a and `references/independent-check.md`'s
+  **What the checker receives**.
+- **Why:** every artifact on that list is there to prevent a false positive — `TECH_DEBT.md`
+  specifically so a boxed shortcut is not flagged on every run for as long as it exists. A
+  structural element that exists *because* the stack requires it — an adapter around a chosen
+  transport, a serialization boundary — has its justification in `TECH.md` and nowhere in
+  `DESIGN.md`, so a checker denied it flags the same element every run. The gap predates the
+  reorder, since `tech` could always run first; what changed is that `TECH.md` is now present
+  on every greenfield design, so an occasional false finding became a systematic one.
+- **The argument to have before editing anything:** the brief says *"Nothing else. No
+  conversation, no summary of what the user asked for"* because each of those carries the
+  author's reasoning, which is the thing under examination. `TECH.md` is a separate gate's
+  artifact, like `SPEC.md` — but that is an argument to be made, not assumed. There is also an
+  altitude question, the same one that applies to `smells.md`: a cross-artifact consistency
+  check is not a property of a dependency graph.
+- **Outcome:** either `TECH.md` is in the checker's inputs with the reasoning recorded, or a
+  decision that it must not be, naming what the checker is supposed to do with a stack-required
+  element instead.
+- **Severity while it stands:** Step 7a's rebuttal mechanism absorbs it — the author holds what
+  the checker was denied — so the cost is noise on every design run, not a wrong design.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-027 — Run the naval TTB under the new gate order, and grade the out-of-order design
+
+- **Category:** Validation
+- **What:** `tech` now runs before `design`, and `design` stops without a `TECH.md`. Exercise
+  that on the naval battle game, in a **fresh session and a separate directory**: run
+  `/yaait:tech` with an assertive stated stack, then `/yaait:design`, and compare the result
+  against `DESIGN-naval.md` — which was produced under the old order and is therefore the
+  control, not a clean artifact. Specifically: do the four Step 1d branch points come out
+  differently once the stack is known, and does `TECH.md` end up with a non-empty
+  `## Deferred to design`?
+- **Why:** the reorder shipped **argued, not measured**. The case is strong — `design`'s own
+  Step 1d names four expensive-to-reverse decisions the stack largely settles — but the only
+  evidence is a reading of the skills, and this repo has already had a rule re-derived wrong
+  twice from a reading. The naval game is the one TTB with a `DESIGN.md` written before its own
+  tech gate, so it is the only before/after that exists.
+- **Outcome:** either a recorded difference the reorder caused, or a finding that it changed
+  nothing — which is evidence against it and should be treated as such rather than explained
+  away.
+- **Watch for:** the failure mode this order introduces — a stack choice arriving in
+  `DESIGN.md` as an apparent inevitability rather than a decision with a falsifier. A design
+  that never questions anything in `TECH.md` is showing the symptom, not succeeding.
+- **Also watch:** whether Step 2's survey turns into the wall of text that gets a gate
+  abandoned. It is the most expensive step added, and ceremony fatigue is the stated failure
+  mode of the whole method.
+- **Blocked-by:** —
+- **Enables:** R-002
 
 ### R-001 — Resolve yaait's position on Clean Code
 
@@ -69,6 +124,12 @@ Next ID: R-027
   anyone remembering to write a report afterwards. The `spec` pass had no such file; its
   evidence exists only as a transcript and a one-off report, which is why the phrasing
   complaint nearly went unrecorded. Run it after each gate from `design` onward.
+- **Order note (2026-08-30):** `design` ran on the naval game *before* `tech`, which is no
+  longer the order the method specifies. `DESIGN-naval.md` is therefore a control for R-027
+  rather than a clean dogfood artifact — its four branch points were settled against a stack
+  nobody had named, and the design emits two constraints back onto `tech` (the shared placement
+  rule at line 26, serialization and transport at line 331) that under the new order would have
+  had a named place to land. Read it as evidence, not as an example.
 - **Progress, `design`:** the gate ran on the same naval battle game and **completed**; it was
   not abandoned mid-flow. It produced five findings. That discharges this item's stated outcome
   of "at least one concrete revision to a SKILL.md driven by it": four of the five are applied —
@@ -227,6 +288,11 @@ Next ID: R-027
   patterns", which cannot fire in C even though the failure it guards against exists there as
   a vtable of one and a registration macro nobody registers with. Error masking's C shape — an
   ignored return code — is absent from the most-measured check in the method.
+- **Now tractable, and more urgent (2026-08-30):** `tech` runs before `design`, so `TECH.md`
+  names the language and paradigm *before* any catalogue is applied. The translation §11 asks
+  for stopped being hypothetical — the gate can read the target dialect off an upstream artifact
+  instead of inferring it. That also raises the cost of not doing it: the reorder was justified
+  partly on §11, so leaving the catalogues OO-only means it bought less than it claimed.
 - **Why:** yaait should work on the Linux kernel. Right now a C project hits a mandatory class
   diagram in Step 5 and a review that reports clean because half its detectors are structurally
   incapable of firing. That second one is the real damage: a detector that cannot fire is not a
@@ -349,6 +415,26 @@ Next ID: R-027
 - **Enables:** —
 
 ## Next
+
+### R-029 — `spec`'s design criterion is a component count that `tech` can change
+
+- **Category:** Doctrine
+- **What:** `spec` Step 10 recommends `design` against criteria, the first being "more than
+  about three components that interact". `tech` now runs between `spec` and `design`, and the
+  stack can move that count — a serverless target or a chosen orchestrator can turn a
+  three-component TTB into a one-module one, or the reverse. Decide what Step 10 does about it:
+  recommend `design` conditionally pending the tech answer, defer the design recommendation to
+  the close of `tech`, or leave the criterion alone because the count is stable enough in
+  practice.
+- **Why:** `spec` now recommends both gates before either has run, and one of them changes the
+  input to the other's criterion. A design recommendation the next gate invalidates leaves
+  `SPEC.md`'s `Gates recommended` section asserting something untrue — and `code` Step 0 reads
+  that section to decide whether a gate was skipped, so a stale recommendation there produces a
+  false skip report in a place built specifically to be trustworthy.
+- **Outcome:** Step 10's handling of the interaction is decided and written, or a recorded
+  decision that no change is needed, with the reason.
+- **Blocked-by:** —
+- **Enables:** —
 
 ### R-026 — A second TTB overwrites the first one's artifacts
 

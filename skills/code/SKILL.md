@@ -330,8 +330,9 @@ team reads them on their own account, rather than being machinery of the method:
 ├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
     │                 challenges
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
@@ -430,8 +431,8 @@ nobody ever mentioned leave exactly the same silence in the record, and only one
 is worth knowing about later.
 
 If there is a spec, **check its `Gates recommended` section against what is actually on
-disk.** Where it recommends `yaait:design` and no `DESIGN.md` exists, or recommends
-`yaait:tech` and no `TECH.md` exists, name the criterion that fired and ask whether to run
+disk.** Where it recommends `yaait:tech` and no `TECH.md` exists, or recommends
+`yaait:design` and no `DESIGN.md` exists, name the criterion that fired and ask whether to run
 that gate before this increment. If the user proceeds without it, append a `DECISION`
 carrying the recommendation, the criterion and the choice — this is the only point at which
 a gate skipped silently in some earlier session becomes visible at all. A spec written

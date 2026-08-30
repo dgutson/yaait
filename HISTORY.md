@@ -2,6 +2,91 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-08-30
+
+### `tech` moves in front of `design`, and stops recalling a shortlist before it verifies one
+
+**Released 0.19.0**, because an installed 0.18.0 copy runs a different sequence: it will run
+`design` with no `TECH.md` and produce a decomposition against a stack nobody named, and its
+`spec` recommends the two gates in the wrong order.
+
+**The order changed, and the argument came from `design`'s own text.** `design` Step 1d caps
+its branch points at four and calls them the expensive-to-reverse ones — decomposition into
+parts, the sync/async boundary, the persistence model, the concurrency model. The stack largely
+settles all four: serverless answers persistence and concurrency before any component is drawn,
+`asyncio` and goroutines make different questions out of "async boundary", Prefect and Airflow
+decompose the same pipeline differently. So the old order had `design` settling those four
+against an unnamed stack and then meeting the stack afterwards. `METHODOLOGY.md` §11 was the
+second reason: it declares the method paradigm-neutral and its catalogues a dialect, and a
+dialect cannot be translated into a paradigm that has not been chosen.
+
+**Greenfield `design` now stops without a `TECH.md`**, the way it already stopped without a
+`SPEC.md`. Maintenance is exempt — the stack is on disk. A user may proceed anyway, but must
+name the stack being designed against and take a `DECISION` entry, because a design written
+silently against an assumed stack is indistinguishable from one written with it known.
+
+**The guard that had to ship with it.** Running `tech` first converts decisions into things
+that *look* inherited, and §9 holds nobody accountable for constraints — so a broker picked off
+a traffic number would arrive in `DESIGN.md` as an inevitability, laundering exactly the
+speculative structure `design` Step 4 exists to catch. The rule is now explicit in three
+places: a stack choice made before the design exists is a decision with a falsifier, and a
+design firing one is the reconcile rule working. `DESIGN.md` gained `## Constraints on the
+stack` (Format 3) and `TECH.md` gained `## Deferred to design` (Format 2) so that traffic has a
+named place to land in both directions — it previously existed and ran through a component's
+prose, where the next `tech` run would not find it.
+
+**Verifying a shortlist cannot fix the shortlist.** The old Step 2 checked that the
+dependencies the model was about to name were current. It could not surface the option that did
+not exist at training time, and everything on the recalled list came back labelled `verified` —
+so a stale list ended up better dressed than an honest guess. New **Step 2** surveys the slot
+from live sources before any option reaches the user, for slots that shape the design or sit
+near a one-way door; cheap reversible slots are verified and not surveyed, and the two claims
+are labelled differently because they answer different questions. Slots the user already filled
+are surveyed at the same threshold, and their pick stands unless the survey produces a failure
+mode with a cost — "there is a newer thing" explicitly is not one. **The questions come after
+the survey, not before**, because the survey is what names the axis that discriminates.
+
+**Options are presented as an education (Step 2b).** Pros and cons in this TTB's units, a
+recommendation stated as one with its reasoning, and a named offer to explain any of it before
+choosing. The provenance mechanism is `spec`'s, reused rather than reinvented: a choice picked
+off a menu this gate wrote is `[selected]`, recorded in a `Selected from` field — otherwise
+`tech` launders its own inventions into the record as the user's decisions, which is the single
+thing `spec` was built to stop, defeated by moving it one gate over.
+
+**Proficiency became an input, not a preference (Step 1a).** Graded per ecosystem, taken at
+face value, never tested. The reason it is not just another preference: `yaait:code` will not
+pass an increment until the user can say what the code it touches does, so an ecosystem they
+are a novice in degrades the method's load-bearing gate on every increment — and it degrades
+silently, surfacing as a run of `DEBT` entries about individual functions rather than as a
+stack decision anyone can point at. It prices a choice rather than vetoing one, and it lives in
+its own `## Proficiency` section rather than under `## Constraints`, since §9 holds nobody
+accountable for constraints and this is something the user said about themselves.
+
+**One collision, caught in the same pass.** `spec` Step 10 may record `tech` as *not
+warranted* when the stack is fully constrained — and a hard stop in `design` would then demand
+a gate the upstream artifact had already declined on stated criteria, every run. `design`
+Step 0 now checks `Gates recommended` before stopping and reads the stack from `SPEC.md`'s
+`Constraints` section in that case. Where those constraints turn out not to fix the language,
+runtime and deployment target, that is the reconcile rule firing on the spec, and `tech` is
+offered on that basis rather than on a missing file.
+
+**Five edits were reverted out of this change for failing one test: did the reorder make the
+old text false?** Four of them did not, and one of those had also introduced an error. The
+`smells.md` "Hallucinated API" tell was rewritten into a `TECH.md` cross-check — not required,
+at the wrong altitude for a file whose smells are properties of a dependency graph, and wrong
+for a Maintenance TTB, where the absence of `TECH.md` does not make an external name recalled.
+`plugin.json`'s description had its gate list reordered, which is an enumeration rather than an
+order claim, in a file 0.18.0 had deliberately left alone. `code` Step 0 and `spec` Step 10 each
+gained a new authored rule beside their forced order flip. Two of the five turned out to be real
+defects and were filed rather than folded in: **R-028** — the independent checker is never given
+`TECH.md`, a gap that predates the reorder and that tech-first makes systematic — and **R-029** —
+`spec`'s design criterion is a component count `tech` can change, which can leave `Gates
+recommended` asserting something `code` Step 0 then reads as a skip.
+
+**Not measured.** The reorder shipped argued, not measured; **R-027** was filed to run the
+naval TTB under the new order against `DESIGN-naval.md` as the control, and to watch whether
+the survey step becomes the wall of text that gets a gate abandoned.
+
 ## 2026-08-29
 
 ### The defense stops being an exam: the user reviews the artifact before it reviews them

@@ -18,8 +18,8 @@ the gate's closing defense is that loop's last step at artifact scale.
 | Gate | The question it settles | What it writes |
 |---|---|---|
 | `spec` | What are we building, and how would we know the spec is wrong? | `.yaait/SPEC.md`, and a rules block appended to the project's standing-instruction file |
-| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a structure diagram (§11) and a sequence diagram, plus a state diagram whenever anything has a lifecycle |
 | `tech` | What is it built on, and what is the exit cost of each choice? | `.yaait/TECH.md` |
+| `design` | How is it structured, and what does the structure forbid? | `.yaait/DESIGN.md`, carrying a structure diagram (§11) and a sequence diagram, plus a state diagram whenever anything has a lifecycle |
 | `code` | Does this increment work, and can you defend the code it changes? | source and tests; a `TECH_DEBT.md` receipt or a new item when the increment meets or takes on debt; a `ROADMAP.md` item when a feature is harder because of debt already there |
 | `stest` | Does the whole thing do what the spec said? | a verdict naming what was *not* tested and **who observed what** |
 | `debt` | What have the accepted compromises actually cost? | an analysis; a `ROADMAP.md` item when debt has recurred enough to be a product problem |
@@ -35,10 +35,10 @@ command is invoked — and it must say so out loud, because a file that shapes e
 session should never be a silent side effect. `code`, `stest` and `debt` all write
 `TECH_DEBT.md` at the project root.
 
-`spec`, `design` and `tech` also write `EXPERIMENTS.md` whenever a decision was settled by
+`spec`, `tech` and `design` also write `EXPERIMENTS.md` whenever a decision was settled by
 measurement rather than by argument (§6).
 
-`spec` → `design` → `tech` → `code`, once per increment, then `stest`, then `debt`. Re-enterable
+`spec` → `tech` → `design` → `code`, once per increment, then `stest`, then `debt`. Re-enterable
 at any point, because the reconcile rule (§4) can send you back to any earlier artifact.
 
 yaait governs one relationship: the one between the human and the machine that generated the
@@ -46,10 +46,30 @@ code. It stops where normal engineering practice takes over. Peer review, CI, QA
 are unchanged by it and are not replaced by it — what changes is that the person arriving at
 review can answer for what they are presenting, however it was produced.
 
-`design` is recommended by `spec` against stated criteria. `tech` is invocable at any point.
-`stest` becomes answerable once the last increment from `DESIGN.md` is complete. `debt` is
-triggered from `code` and `stest`, and is also invocable directly for the questions managers
-ask. Nothing here is mandatory except honesty about which gates were skipped.
+`tech` runs **before** `design`, and on a greenfield TTB `design` will not run without it.
+The stack settles the four decisions `design` itself treats as the expensive-to-reverse ones
+— decomposition into parts, the sync/async boundary, the persistence model, the concurrency
+model. Serverless answers persistence and concurrency before anyone draws a component;
+goroutines and `asyncio` do not mean the same thing by an async boundary; Prefect and Airflow
+decompose the same pipeline differently. Designing first means settling those four against a
+stack nobody has named, and then discovering the stack disagrees — which is the expensive
+direction, because the four are exactly the ones that cannot be edited afterwards. It also
+leaves §11 unenforceable: the catalogues `design` reads from are written in a dialect, and a
+dialect cannot be translated into a paradigm that has not been chosen yet. A **Maintenance**
+TTB is exempt — the stack is already on disk (§7), and `design`'s job there is the impact
+analysis.
+
+**A stack chosen before the design exists is a decision, never an inherited constraint.**
+That is the failure mode this order introduces, and it is the mirror of the one it fixes: a
+broker picked from a traffic number arrives in `DESIGN.md` looking like an inevitability, and
+§9 holds nobody accountable for constraints. So every choice `tech` makes ahead of the design
+carries a falsifier, and `design` firing one is the reconcile rule (§4) working rather than a
+defect in either gate.
+
+`design` is recommended by `spec` against stated criteria. `stest` becomes answerable once the
+last increment from `DESIGN.md` is complete. `debt` is triggered from `code` and `stest`, and
+is also invocable directly for the questions managers ask. Nothing here is mandatory except
+honesty about which gates were skipped.
 
 ### What an invocation may carry
 
@@ -1018,8 +1038,9 @@ reason `ROADMAP.md` sits at the root.
 ├── CODING_GUIDELINE.md    optional: standing house style (§12)
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB (§1)
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     └── JOURNAL.md    append-only record of decisions, approvals, debt and challenges
 ```
 

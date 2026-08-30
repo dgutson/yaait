@@ -18,7 +18,7 @@ re-derived in three separate sessions and got the same rule wrong twice, in oppo
 and both errors reached `ROADMAP.md` as findings; one of them stood for two releases. This repo has
 no `EXPERIMENTS.md` — `HISTORY.md` carries what a spike established.
 
-The plugin exposes six method gates — `spec`, `design`, `tech`, `code`, `stest`, `debt` —
+The plugin exposes six method gates — `spec`, `tech`, `design`, `code`, `stest`, `debt` —
 invoked as `/yaait:<name>`. There is also one **instrument**, `feedback`, which is not a gate:
 it builds nothing and captures friction into `.yaait/FEEDBACK.md` for later forensic analysis.
 It is provisional, serves the first dogfood, and deliberately does not carry the shared rules
@@ -39,7 +39,7 @@ six hashes must match. The list is spelled out rather than globbed, because `ski
 carries no shared block by design and a glob reports it as divergence:
 
 ```bash
-for f in skills/{spec,design,tech,code,stest,debt}/SKILL.md; do
+for f in skills/{spec,tech,design,code,stest,debt}/SKILL.md; do
   printf '%s  %s\n' "$(sed -n '/^## The rules that are the method/,/^## Step 0/p' "$f" \
     | sed '$d' | md5sum | cut -c1-32)" "$f"
 done
@@ -77,7 +77,7 @@ which must not be given the design conversation), and `code/references/aposd-vs-
 smells are properties of a dependency graph, review criteria are properties of a diff.
 
 **Artifacts are written into the user's project, never into this plugin.** `.yaait/SPEC.md`,
-`DESIGN.md`, `TECH.md`, `JOURNAL.md`, `FEEDBACK.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md`, an
+`TECH.md`, `DESIGN.md`, `JOURNAL.md`, `FEEDBACK.md`, plus `TECH_DEBT.md`, `EXPERIMENTS.md`, an
 `experiments/` directory for kept apparatus, and the optional `DESIGN_GUIDELINE.md` /
 `CODING_GUIDELINE.md` at the project root. Never create those here; dogfooding happens in a
 fresh session and a separate directory (ROADMAP R-002).
@@ -94,6 +94,19 @@ fresh session and a separate directory (ROADMAP R-002).
   and carries none of it: the block's challenge protocol and defense would damage that
   command's record, since a user's account of their own friction is not a claim to be
   contested. Do not "fix" its missing block.
+- **`tech` runs before `design`, and that order is restated in a dozen places.**
+  `METHODOLOGY.md` §1 (the gate table, the arrow chain, the `EXPERIMENTS.md` writer list and
+  the rule paragraph) and its §8 artifact tree; `README.md`'s commands table and artifact tree;
+  the `tech` and `design` frontmatter descriptions; `tech`'s "When to run this"; `design`
+  Step 0 and Step 1d; `spec` Step 10, its `Gates recommended` template, and the rules block
+  `spec` writes into the user's own project; `code` Step 0; and the artifact tree inside the
+  shared block. Changing the order in one of them fails nowhere — it produces a method that
+  runs a different sequence depending on which document the session happened to read. The rule
+  itself: greenfield `design` stops without a `TECH.md`; Maintenance is exempt because the
+  stack is on disk. The
+  guard that goes with it: a stack choice made before the design exists is a **decision with a
+  falsifier**, never an inherited constraint, or tech-first becomes a way to launder structure
+  past §9.
 - **Cross-file references are by section number.** Skills cite `METHODOLOGY.md` §2, §3, §7,
   §8 and §10; `ROADMAP.md` cites `review.md` §5. Renumbering a section silently invalidates
   references in files you did not open — and worse, a reference can survive the renumber and

@@ -40,8 +40,8 @@ does it.
 | Command | What it does |
 |---|---|
 | `/yaait:spec` | Discuss the thing to build (the **TTB**). Every requirement tagged `[stated]`, `[selected]` (chosen from options the gate offered), `[inferred]` or `[assumed]`, so invented requirements are visible. Forces non-goals, falsifiable acceptance criteria, and the bets the spec is making. |
-| `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it, re-checked by a subagent that has not seen the conversation. Optional; `spec` recommends it against stated criteria. |
-| `/yaait:tech` | The stack, with every version **verified** against current docs rather than recalled, plus a falsifier and an exit cost per choice. Optional, and invocable at any point. |
+| `/yaait:tech` | The stack. **Surveyed from live sources before any option reaches you** — verifying a shortlist you recalled cannot surface the option the shortlist never had — then every version **verified** against current docs, with a falsifier and an exit cost per choice. Options come with pros, cons, a recommendation and an offer to explain any of it first. Your own stack and proficiency ("expert in C++, newbie in Rust") are assertive input, priced rather than tested. Runs **before** `design`. |
+| `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it, re-checked by a subagent that has not seen the conversation. Runs after `tech`, and stops if there is no `TECH.md`; `spec` recommends it against stated criteria. |
 | `/yaait:code` | One increment at a time, with tests. Enforces the hardest rule: **defend the code you are about to modify, before you modify it.** |
 | `/yaait:stest` | System test traced clause by clause against the spec. **You observe the critical path yourself**, and the report must say what was *not* tested. |
 | `/yaait:debt` | Reads the accumulated receipts in `TECH_DEBT.md` and answers what an increment cannot: which debt is actually costing money, which is dormant and should be closed, and which has recurred often enough to have become a *product* problem needing a roadmap item. Triggered from `:code` and `:stest`, and invocable directly for the questions managers ask. |
@@ -127,8 +127,9 @@ In your project, not in this plugin:
 └── .yaait/
     ├── SPEC.md           the TTB: kind (greenfield/maintenance), requirements with
     │                     provenance, non-goals, acceptance criteria
+    ├── TECH.md           the stack, verified versions, falsifiers, exit paths; required
+    │                     before DESIGN.md on a greenfield TTB
     ├── DESIGN.md         optional: components, invariants, diagrams
-    ├── TECH.md           optional: the stack, verified versions, falsifiers, exit paths
     └── JOURNAL.md        append-only: DECISION, APPROVAL, DEBT, TAUGHT, CHALLENGE
 ```
 

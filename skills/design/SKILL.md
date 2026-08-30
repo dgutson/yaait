@@ -8,7 +8,9 @@ description: >
   against emergent design (structure that never arrives, debt that never gets repaid) and
   against LLM over-engineering (false abstraction, gold plating, speculative generality,
   symmetry-driven design, pattern-name-driven design), which a subagent that has not seen the
-  conversation re-checks once the design is written. Use whenever the user runs
+  conversation re-checks once the design is written. Runs AFTER /yaait:tech on a greenfield
+  TTB and stops if .yaait/TECH.md is missing, because the stack settles the paradigm and most
+  of what this gate treats as expensive to reverse. Use whenever the user runs
   /yaait:design, after /yaait:spec recommends a design phase, or when they say things like
   "how should this be structured", "let's design this", "draw me the classes", "what
   components do we need", "sequence diagram for this flow". Also suggest it before writing
@@ -339,8 +341,9 @@ team reads them on their own account, rather than being machinery of the method:
 ├── experiments/      only apparatus worth keeping, named by experiment ID
 └── .yaait/
     ├── SPEC.md       the TTB: kind, requirements, non-goals, acceptance criteria
+    ├── TECH.md       the stack, with verified versions and falsifiers; required before
+    │                 DESIGN.md on a greenfield TTB
     ├── DESIGN.md     optional: components, invariants, diagrams
-    ├── TECH.md       optional: the stack, with verified versions and falsifiers
     ├── JOURNAL.md    append-only: decisions, approvals, comprehension debt, teaching,
     │                 challenges
     └── FEEDBACK.md   append-only: friction with the method itself, written only by
@@ -435,12 +438,50 @@ options `spec` composed, so the `Selected from:` line is worth reading before yo
 structure on it. A spec at `Format: 1` has no `[selected]` tag at all, so there the
 menu-authored requirements are indistinguishable from the stated ones.
 
-Read `.yaait/TECH.md` if it exists. Read `.yaait/DESIGN.md` if it exists — you are amending,
-not replacing, and the reconcile rule applies. A design at `Format: 1` has no `## Parts`, no
+**Read `.yaait/TECH.md`. On a greenfield TTB it is a prerequisite, not an input** — if it is
+absent, say so and offer to run `yaait:tech` first rather than proceeding. What is at stake is
+Step 1d: decomposition, the sync/async boundary, the persistence model and the concurrency
+model are the four things this gate calls expensive to reverse, and the stack largely settles
+all four. Designing them against a stack nobody has named means deciding them twice, and the
+second time is after they are load-bearing. `METHODOLOGY.md` §1.
+
+Three exceptions, and say which one applies.
+
+- A **Maintenance** TTB needs no `TECH.md` — the stack is on disk; read it off the code and
+  say that is what you did.
+- **`SPEC.md` recorded `yaait:tech` as not warranted.** Check `Gates recommended` before you
+  stop, because `spec` is allowed to reach that answer when the stack is fully constrained,
+  and the constraints are then in `SPEC.md`'s own `Constraints` section. Read the stack from
+  there, name it, and continue — demanding a gate the upstream artifact already declined on
+  stated criteria is the ceremony that gets this method abandoned. If those constraints do
+  **not** in fact fix the language, runtime and deployment target, that is the reconcile rule
+  firing on `SPEC.md`: say so, and offer `yaait:tech` on that basis rather than on the mere
+  absence of a file.
+- **The user decides to proceed anyway.** Name the stack you are designing against, say
+  plainly that the decomposition rests on it, and append a `DECISION` recording that the gate
+  was offered and declined.
+
+What you may not do is proceed *silently* against an assumed stack, because the resulting
+`DESIGN.md` is indistinguishable from one written with the stack known.
+
+Where `TECH.md` exists, read its `## Deferred to design` section before anything else. Those
+are the slots `tech` deliberately left for this gate, and they are this design's inputs in the
+most literal sense — settle them here and record them under `## Constraints on the stack`.
+Its `## Decisions` are decisions with falsifiers, not inherited constraints (`METHODOLOGY.md`
+§9): if the structure you arrive at contradicts one, you have fired its falsifier, which is
+the reconcile rule (§4) working. Name it and say which side is wrong. Do not quietly design
+around it, and do not treat it as unchallengeable because it arrived first.
+
+Read `.yaait/DESIGN.md` if it exists — you are amending, not replacing, and the reconcile
+rule applies. A design at `Format: 1` has no `## Parts`, no
 `## Decisions` and no `## Requirement coverage`, so its components are flat and its structural
 choices were recorded only as `DECISION` entries in `JOURNAL.md`. Read the journal for them
-rather than concluding none were made, and say that you are raising the file to `Format: 2`
-rather than silently restructuring it.
+rather than concluding none were made. `Format: 1` and `Format: 2` both predate
+`## Constraints on the stack`, and both predate `tech` running before this gate — so a design
+in either was written against a stack that was assumed, chosen alongside it, or chosen after
+it, and the file does not say which. Anything it requires of the stack is loose in its
+component prose; go and find it rather than assuming the design asked for nothing. Say that
+you are raising the file to `Format: 3` rather than silently restructuring it.
 
 Read `DESIGN_GUIDELINE.md` at the project root if it exists. It holds standing structural
 decisions this project has already made, and a design that quietly contradicts one is a
@@ -588,13 +629,28 @@ The map is on screen; now run the full loop on the decisions that fork the desig
 the four kinds below**, and skip any this TTB does not have. This step front-loads what is
 expensive to reverse; it does not front-load everything.
 
+**Read `TECH.md` against all four before you ask anything.** The stack has already moved some
+of them, and asking a question the upstream artifact answered wastes the user's turn and ends
+with two documents answering it differently.
+
 - **Decomposition into parts** — one process, a client and a server, or more? Every other
-  decision inherits from this one.
+  decision inherits from this one. A serverless target or a chosen orchestrator has largely
+  answered it; a single binary with no stated deployment target has not.
 - **The sync versus async boundary** — where a call becomes a message. Moving it later rewrites
-  every caller across it.
+  every caller across it. The runtime and the transport decide what a message is here at all:
+  `asyncio`, goroutines and a thread pool make three different questions out of this one.
 - **The persistence model** — what survives a restart, and what a restart is allowed to lose.
+  A chosen data store settles most of it. A store sitting in `## Deferred to design` settles
+  none of it, and is yours.
 - **The concurrency model** — what runs at once and what serializes. Retrofitting this means
-  re-deriving every invariant in the design.
+  re-deriving every invariant in the design. The language fixes which shapes are available;
+  which of them this TTB actually uses is still a decision, and a real one.
+
+For each, say which of three it is: **settled by `TECH.md`** — cite it and move on; **deferred
+to here**, because it sits in that file's `## Deferred to design` — run the full loop on it and
+record the answer under `## Constraints on the stack`; or **still open**, because the stack does
+not bear on it — run the full loop. A branch point settled upstream and a branch point nobody
+looked at leave the same silence otherwise, and only one of them is fine.
 
 **Do not ask an elaboration question here.** Which components exist, what each owns, whether an
 abstraction is justified, which data structure — those are Steps 2 through 4c, where they are
@@ -843,7 +899,7 @@ otherwise tell whether the method failed or the model did.
 > Pre-coding blueprint. Kept true: if the code contradicts this, one of them changes
 > deliberately and the change is journalled.
 
-Format: 2
+Format: 3
 Spec: .yaait/SPEC.md
 Produced by: <the model that ran this gate, and its effort level if you know it>
 
@@ -945,6 +1001,14 @@ The message and call *shapes*. Which serialization technology carries them is `y
 |---|---|---|
 | Extract Function | <file:function> | <what it buys> |
 
+## Constraints on the stack
+
+- **Settled here** — <the slot TECH.md deferred>: <the decision, and what forced it>.
+- **Required of the stack** — <what the stack must now be able to do, and which design
+  element breaks if it cannot>.
+- **Falsifier fired** — <the TECH.md decision this design contradicts, and which side is
+  wrong>. Re-enter `yaait:tech`.
+
 ## Deliberately not abstracted
 
 - <the thing you were tempted to generalize and did not, and why>
@@ -958,7 +1022,7 @@ The message and call *shapes*. Which serialization technology carries them is `y
 - <spec requirements this design does not cover, and where they are handled instead>
 ````
 
-Four sections carry weight out of proportion to their length, and each fails in a specific way
+Five sections carry weight out of proportion to their length, and each fails in a specific way
 if written carelessly.
 
 **`## Parts` and the nesting under them** answer "what runs where" from the headings alone. A
@@ -979,6 +1043,13 @@ nothing-to-record from nobody-looked.`
 merely consistent with it. `Requirements not addressed here` is its negative counterpart and
 neither works alone: without the map, nothing catches a requirement that was silently dropped
 instead of deliberately deferred.
+
+**`## Constraints on the stack`** is the return channel to the gate that ran before this one.
+`tech` decided the stack without having seen a design, so some of what it recorded is a bet
+and some slots it deliberately left open — and this design is the first thing able to settle
+either. Without this section that traffic goes into a component's prose, where the next
+`yaait:tech` run will not find it. An empty section is a real answer: it says the design needed
+nothing of the stack that the stack did not already offer.
 
 **`## Deliberately not abstracted`** is not decoration. It is the record that the simple choice
 was made on purpose rather than overlooked, and it is what stops a later session from "fixing"
