@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-030
+Next ID: R-032
 
 ---
 
@@ -415,6 +415,40 @@ Next ID: R-030
 - **Enables:** —
 
 ## Next
+
+### R-030 — `tech` Step 0 misses the second-pass case the reorder itself creates
+
+- **Category:** Doctrine
+- **What:** `tech` Step 0 says that a `DESIGN.md` on disk means this is a second pass, and
+  names three causes: the design fired a falsifier, the design settled a `## Deferred to
+  design` slot, or the TTB is Maintenance. There is a fourth — a greenfield design written
+  under the pre-0.19.0 order, where no `TECH.md` ever existed to fire a falsifier on or defer
+  anything to. Add it, and say what the gate does there.
+- **Why:** it is the exact state of every project that used yaait before 0.19.0 and now runs
+  `tech` for the first time. The gate will assert one of three things, all false, and the run
+  starts on a mis-description of what it is doing. Found by simulating `tech` on a real design
+  in the session that shipped the reorder.
+- **Outcome:** Step 0 names the case and says what to do — most likely: read the design as the
+  stack requirement it is, since a design written without a `TECH.md` has its constraints on
+  the stack loose in its component prose rather than in a section.
+- **Blocked-by:** —
+- **Enables:** —
+
+### R-031 — the proficiency scale cannot express a scoped gap
+
+- **Category:** Doctrine
+- **What:** `tech` Step 1a grades each ecosystem **expert / proficient / novice**. Real answers
+  are not one-dimensional: "expert in C++, contributed to WG21, disconnected from C++23 onward"
+  and "proficient in Python, strong on the type system, no asyncio" both collapse to a single
+  word that loses the only part that matters. Let the `Level` cell carry a scope, and say so in
+  the prose.
+- **Why:** `## Proficiency` exists so that whoever reads a run of `DEBT` entries six months
+  later can interpret them. A row saying "C++: expert" beside a journal full of ranges and
+  coroutine entries misleads that reader in the exact way the section was added to prevent.
+- **Severity:** low. The template's `Level` cell is free text, so a run will usually write the
+  scoped form anyway — this is prose catching up with what the artifact already permits.
+- **Blocked-by:** —
+- **Enables:** —
 
 ### R-029 — `spec`'s design criterion is a component count that `tech` can change
 
