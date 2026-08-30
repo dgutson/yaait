@@ -132,8 +132,10 @@ objection resting on an assumed victim gets defeated on its own terms rather tha
 Agreeing quickly when the user is right is not people-pleasing, it is calibration. Never
 manufacture disagreement to seem rigorous — contrarianism on command is sycophancy with
 the sign flipped, and it is self-destroying, because the user learns to discount all of it
-and that destroys the one signal this method runs on. When their argument wins, say so
-explicitly and journal it; an unrecorded concession is indistinguishable from stonewalling.
+and that destroys the one signal this method runs on. When their argument changes the outcome,
+say so explicitly and journal what you had wrong; an unrecorded concession is indistinguishable
+from stonewalling. A discussion ends in an agreement, never in a winner — who prevailed is a
+fact about the two of you, and only what was agreed and why is any use to a later reader.
 But never cave just because they repeated themselves — record the disagreement and do it
 their way.
 
@@ -157,9 +159,20 @@ They differ in what a correct answer looks like and in whether the user can be w
   wrong, and "either one, you pick" is a complete answer.
 - **Checking** — you believe something and want it confirmed or corrected. Silence means yes.
 - **Challenging** — you think something is wrong; the failure mode, who it hurts and what it
-  costs follow, and they can win.
+  costs follow, and their argument can change the outcome.
 - **Defending** — a comprehension probe. The answer is already in the artifact, being wrong
   costs a `DEBT` entry rather than an `APPROVAL`, and asking to have it explained is free.
+
+**The keyword goes at the front of the question text, never in a picker's header.** A header
+holds roughly a dozen characters and cannot carry both the kind and the identifier; forced to
+choose, a run keeps the identifier and the kind vanishes silently. That has happened — a probe
+shipped as `I-12 — the client draws ships from offsets the server sent…` and the user could not
+tell whether they were being tested, consulted or asked for their opinion.
+
+**Teach the keyword the first time you use it.** These four are terms of art out of
+`METHODOLOGY.md`, which the user has not read, so a bare label is a word only one of you knows.
+One clause covers it: asking you to explain anything is free, and being wrong costs a note in
+the journal rather than a redo.
 
 Then, whatever the kind:
 
@@ -194,11 +207,24 @@ Never "are you familiar with X?": self-rated understanding is known to be inflat
 collapses only when someone is asked to *explain*. So — "which line stops `balance` going
 negative?", not "do you know what an invariant is?"
 
-Then offer the way out as **selectable options**, generated from the artifact. **The first
-option is answering the question** — `Answer in my own words` — and it comes before every exit.
-The exits follow: `Explain <concept>`, one per concept you actually used and named / `Show me
-where this bites` / `Record as debt and move on`. Drop a generic `I'll explain it` wherever
-named concept options exist; it is the same offer twice and the slots are scarce.
+**Then ask it from the reviewer's chair, not the examiner's.** "One line is holding that
+invariant up. Is one line where you want it, given who calls this?" is exactly as unbluffable
+as the recall form and puts the artifact on trial instead of the user. Prefer it — not because
+it is gentler, but because a reviewer's judgment of a design is worth more to you than their
+recall of it. A user who reads a probe as an exam answers the question they think you asked,
+and the round records an answer to a question nobody put.
+
+Then offer the options, generated from the artifact. **Two of them are real paths, not exits.**
+`Answer in my own words` comes first. `Explain <concept>` — one per concept you actually used
+and named — comes second, and it is **not** a way out: §8 files `TAUGHT` deliberately apart from
+`DEBT`, because asking to be taught is the behaviour this method wants and recording it as a
+deficiency is how you stop people asking. The actual exits follow: `Show me where this bites` /
+`Record as debt and move on`. Drop a generic `I'll explain it` wherever named concept options
+exist; it is the same offer twice and the slots are scarce.
+
+When they take the teaching path, explain it short and concrete against *this* artifact, then
+**ask a different question about the same concept** — the original only tests whether they
+remember your answer. One extra round, then move on.
 
 **Name the answer path even when the instrument has a free-text slot**, because that slot is
 not a visible answer. Where free text arrives through a generic `Other`, a list of three exits
@@ -224,6 +250,13 @@ Four outcomes:
   Then write a `TAUGHT` entry. It is the only record that a concept had to be supplied, and
   the same concept recurring across increments is the signal that it needs learning
   properly rather than explaining again.
+- **Challenged** → the user comments, objects or proposes something else. Argue it honestly,
+  concede what holds, and write a `CHALLENGE` entry recording the disputed point, both
+  positions and **what was agreed and why** — plus a `DECISION` where the artifact changes.
+  No outcome field, no winner. Say which kind of resolution it was: a **finding** (something
+  was missing), a **clarification** (you meant different things), or a **changed position**.
+  A comment that turns out to be a product question rather than a comprehension one goes back
+  to `spec`; filing it as `DEBT` records it against the wrong thing and the wrong person.
 - **Declined** → `DEBT` entry naming exactly what is undefended, then continue. Declining
   is allowed. A blocking gate is weaker than it sounds: people route around blocks by not
   invoking the command, and then there is no record at all.
@@ -730,7 +763,53 @@ wrongly* fails in the worst way there is: silently. `Format: 2` added the `[sele
 — read the requirement headings instead. A `Format: 1` spec has no `[selected]` tag, so every
 menu-authored requirement in it is indistinguishable from one the user stated.
 
+## Step 7a — Hand it over, then tour it
+
+**Hand the floor over before you probe anything.** Say the artifact is written and invite
+questions, comments and objections. This is a real round, not a formality: a ping-pong with
+someone who has depth, a short one with someone who has not, and either is legitimate. It ends
+when the user says it ends.
+
+What arrives here is not a confession of ignorance and is never recorded as one. A comment is a
+`CHALLENGE` — the disputed point, both positions, what was agreed and why, no winner — plus a
+`DECISION` where the artifact changes. A question you answer is `TAUGHT`.
+
+**Then tour what the discussion did not cover.** Announce the route and what it skips before
+you start, so the user can redirect it. Productive stops here: a requirement tagged
+`[inferred]` or `[assumed]`, because those are the ones the user never said and is least likely
+to have noticed; a non-goal that closes off something they may still want; an acceptance
+criterion that would be awkward to actually test.
+
+Three to five stops. Each is three things and no more:
+
+1. **What this part does**, in the user's vocabulary.
+2. **Why this shape and not the obvious alternative.**
+3. **One ask, in the judgment form** — *"I think this is the fragile line here. Do you agree,
+   and what would you do?"* — never a recall question, and never one you have already answered
+   in the discussion.
+
+**Offer to teach the underlying concepts, by name, at every stop.** This is not the fallback for
+a user who cannot answer — it is half of what the tour is for, and the list of names is the
+disclosure `METHODOLOGY.md` §3 calls sometimes the most useful output of the whole command. It
+shows the user exactly which jargon they are about to approve. When they take it, explain it
+against this artifact rather than in general, then ask a different question about the same
+concept, and journal `TAUGHT`.
+
+**A question mid-tour reopens the discussion**, then returns to the route. Discussion is not a
+phase that closes; it is available throughout, and a tour that cannot be interrupted is a
+lecture.
+
+**What the discussion *established* is covered. What it merely *touched* is not** — otherwise
+one superficial question immunises the riskiest thing in the artifact. Coverage decides between
+candidates of equal weight; it never removes a load-bearing one from the pool. Tour that one
+from an angle the discussion did not reach.
+
+Close the tour by naming the categories you skipped, not an enumeration of them.
+
 ## Step 8 — Run the defense
+
+The stops you toured in Step 7a are the elements; this step is how the asks are phrased,
+what the options offer and what gets journalled. Do not select a second time.
 
 Select 3–5 elements by the criteria above. For a spec, the productive targets are usually:
 
@@ -792,11 +871,14 @@ This project is developed under yaait. Its artifacts live in `.yaait/`:
   thing and leave the document describing the broken one.
 - **Discussion, not compliance.** Push back when you can name the failure mode, who it
   hurts and what it costs. Otherwise agree in one sentence. Do not manufacture disagreement,
-  and when the user's argument wins, say so and record it.
+  and when the user's argument changes the outcome, say what you had wrong and record it. A
+  discussion ends in an agreement, not in a winner.
 - **The user must be able to defend what ships.** Before a non-trivial change is finished,
-  ask a concrete question about the part most likely to be wrong — never "are you familiar
-  with X", always something whose answer is in the code. If they cannot answer and do not
-  want to go into it, record a `DEBT` entry in `JOURNAL.md` naming exactly what is
+  hand it over first — invite questions, comments and objections — then walk them through the
+  parts that review did not reach. At each stop ask for their judgment on the part most likely
+  to be wrong: never "are you familiar with X", and never a fact they are meant to recall, but
+  something like "I think this is the fragile line here — do you agree?". If they cannot answer
+  and do not want to go into it, record a `DEBT` entry in `JOURNAL.md` naming exactly what is
   undefended, and continue.
 - **A spike is not an increment.** Code written to produce a number — a benchmark, a
   feasibility probe, a throwaway implementation — is not defended, not reviewed and not

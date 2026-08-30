@@ -288,8 +288,8 @@ premise most likely to be wrong is the one about somebody else's values.
   apart: state both positions plainly, say which you would bet on and why, and let the user
   choose. Then record the choice and who made it. This is a working method, not a debating
   society, and an unresolved argument blocks the work.
-- **Concede visibly.** When the user's argument wins, say so explicitly — *"you're right,
-  and here's what I got wrong"* — and journal it. An unrecorded concession looks
+- **Concede visibly.** When the user's argument changes the outcome, say so explicitly —
+  *"you're right, and here's what I got wrong"* — and journal it. An unrecorded concession looks
   identical to stonewalling from the user's side, and teaches them that arguing with you is
   futile. Recording your losses is also what makes your challenges credible: it is the
   evidence they were not theater.
@@ -311,14 +311,25 @@ actually wrote.
 
 ---
 
-## 3. The defense
+## 3. The review
 
 ### What it is
 
-After producing an artifact, you select a few load-bearing pieces of it and ask the user a
-question about each that they can only answer if they actually understand it. That is the
-defense. It is the only gate in yaait that cannot be automated, and it is the reason the
-methodology exists.
+After producing an artifact you hand it to the user and they review it — questions, comments,
+objections, in their own order. Then you walk them through the parts that review did not cover,
+a tour rather than an interrogation, and at each stop you ask for their judgment about the
+artifact rather than for a fact about it. That is the review. It is the only gate in yaait that
+cannot be automated, and it is the reason the methodology exists.
+
+Two passes, and the order is the point: **the user reviews your work, then the user reviews
+their own.** They arrive at the second pass already holding the artifact, which is what makes it
+theirs rather than something handed to them for approval.
+
+The tour is not a courtesy. In the run this was designed from, the reviewer found a hole in the
+structure diagrams that every one of the author's chosen stops had walked past — an author does
+not ask questions about what they failed to draw. The handover catches what the author cannot
+see; the asks catch what the reviewer cannot see. Neither substitutes for the other, and
+dropping either is how this gate stops working.
 
 ### Why it is a question and not a checklist
 
@@ -345,6 +356,24 @@ artifact.** They cannot be answered by nodding, they cannot be answered from voc
 and — this matters — a person who *does* understand answers them in one sentence, so the
 gate is nearly free for the case where everything is fine.
 
+### Ask for the reviewer's judgment, not for the answer you already have
+
+The right-hand column above is unbluffable and it still reads as an exam, because the asker
+plainly knows the answer. That is the second reframe, and it costs nothing: ask the same
+question from the reviewer's chair.
+
+| Recall | Judgment |
+|---|---|
+| "What breaks when a hardcoded client copy differs from the server's?" | "The client keeps its own copy of that rule. I think it is the most fragile line here. Do you agree, and what would you do about it?" |
+| "Which component would you change to add a second storage backend?" | "Everything that writes goes through `Store` today. Is that a boundary you would keep, or one you would expect to move first?" |
+| "Which line stops `balance` from going negative?" | "One line is holding that invariant up. Is one line where you want it, given who calls this?" |
+
+Both columns are unbluffable — a wrong model surfaces just as fast on the right. The difference
+is who is being examined. On the left, the user; on the right, the artifact, which is the only
+thing that should ever be on trial here. Prefer the right column, and never on the grounds that
+it is gentler: prefer it because the reviewer's opinion of a design is worth more to you than
+their recall of it.
+
 ### Say what kind of ask this is
 
 A defense question, a request to decide something, a request to confirm something and an
@@ -356,8 +385,15 @@ how much effort the answer deserves — in whether the user can be wrong at all:
 |---|---|---|
 | **Deciding** | a choice; whatever they say becomes the artifact | no |
 | **Checking** | yes, or a correction; silence means yes | no |
-| **Challenging** | a counter-argument, or agreement that it changes | no — they can win |
-| **Defending** | an explanation of something already in the artifact | yes: `DEBT`, not `APPROVAL` |
+| **Challenging** | a counter-argument, or agreement that it changes | no — their argument can change the outcome |
+| **Defending** | a judgment about something already in the artifact | yes: `DEBT`, not `APPROVAL` |
+
+**A discussion ends in an agreement, not in a winner.** The row above is addressed to you, and
+it says one operational thing: the user's argument can change what ships, so do not run a
+discussion whose conclusion you have already fixed. When it does change something, say what you
+had wrong and record it (§2's *agree is a write*). What never gets recorded is who prevailed —
+that is a fact about the two of you, where "what was agreed and why" is a fact about the
+artifact, and only the second is any use to the person who reads the journal in a year.
 
 Only the last one carries a cost for being wrong, and only the last one has a designed escape
 hatch. A user who reads a `Defending` question as a `Challenging` one will answer it with a
@@ -371,7 +407,22 @@ contradicting each other, and that contradiction is catchable while writing. Thi
 rule is a keyword rather than a principle about clarity: the principles in "Delivering it"
 below are the ones that drift, and a keyword either is there or is not.
 
-Four rules hold whatever the kind:
+**The keyword goes at the front of the question text, never in a picker's header.** A picker
+header is roughly a dozen characters and cannot hold both the kind and the identifier; asked to
+choose, a run keeps the identifier and the kind disappears without anyone noticing. This has
+happened: a defense shipped reading `I-12 — the client draws ships from offsets the server
+sent…`, and the user could not tell whether they were being tested, consulted, or asked for
+feedback. The rule was stated in three places and none of them said which field carries it.
+
+**Teach the keyword the first time you use it.** `Deciding`, `Checking`, `Challenging` and
+`Defending` are terms of art out of this document, which the user has not read — so a bare
+label is a word whose meaning only one of you has. One clause on first use is enough: *asking
+me to explain any of this is free, and being wrong costs a note in the journal rather than a
+redo.* Evidence that this is not hypothetical: the author of this method has used "challenge"
+to mean the defense. If the vocabulary slips for the person who wrote it, the label alone was
+never going to carry it.
+
+These rules hold whatever the kind:
 
 - **One question per ask, and it is the last sentence.** The quote, the file and the stake come
   first. A question in the middle of a paragraph gets skimmed past.
@@ -388,13 +439,31 @@ Four rules hold whatever the kind:
   navigate defend more than five they cannot, and the split is what makes answers arrive
   misaligned with the questions.
 
-### Selecting what to defend
+### Selecting the stops
 
 Pick **3 to 5** elements. Not all of them. The number is a hard constraint, because the
 thing most likely to kill this methodology is not bad advice — it is tedium. A defense
 with fifteen questions gets skipped, and a skipped gate protects nothing.
 
-Choose by these criteria, in order:
+**First filter: what the handover did not already cover.** The discussion is a coverage map.
+If the user interrogated the store boundary and got a real answer, touring it again probes
+their memory of your last message, which is the same mistake §3's *Taught* outcome names. Tour
+the other side of the artifact.
+
+**The guard that keeps this from becoming a deflection.** What the discussion *established* is
+covered; what it merely *touched* is not. Otherwise a single superficial question immunises the
+riskiest element in the artifact, and the coverage rule becomes a way of steering the tour away
+from exactly what criterion 3 below exists to catch. Coverage is a tiebreaker among the
+criteria, never a replacement for them: a load-bearing element stays in the pool and gets
+toured from an angle the discussion did not reach.
+
+**Include the diagrams as a candidate stop.** They are the part an author is least able to
+audit, because a diagram that omits something looks exactly like a diagram that is complete.
+The run this was designed from lost a whole read path that way — no box for the type crossing
+the network, and the two methods enforcing the design's most expensive requirement missing from
+the class that owned them. Three prose stops walked past all of it.
+
+Then choose by these criteria, in order:
 
 1. **Expensive to reverse.** A schema, a public interface, a persisted format, a
    concurrency decision, anything that will have callers.
@@ -411,17 +480,41 @@ demonstrated it).
 
 ### Running it
 
-Ask the questions, then offer the way out as **choices**, generated from the artifact:
+**Hand the floor over first, and mean it.** Before any ask, say the artifact is written and
+invite questions, comments and objections. This is a real round: a ping-pong with someone who
+has depth, a short one with someone who has not, and either is a legitimate outcome. It ends
+when the user says it ends, not when you have collected enough.
+
+What arrives here is not a confession of ignorance and must never be recorded as one. A comment
+is a `CHALLENGE`, plus a `DECISION` where it changes the artifact. A question you answer is
+`TAUGHT`. Before this rule existed, a user's own questions were the one input to a gate with no
+journal home at all — the entry appeared only when *you* volunteered an explanation.
+
+**Then tour what the discussion did not cover.** Announce the route and what it skips before
+starting, so the user can redirect it. Each stop is three things: what this part does, why this
+shape and not the obvious alternative, and one ask in the judgment form above. A question
+mid-tour reopens the discussion and then returns to the route — discussion is not a phase that
+closes, it is available throughout.
+
+Then offer the choices, generated from the artifact:
 
 ```
-Answer in my own words                  ← first, always: this is the one that is not an exit
-Explain <the specific concept>          ← one option per concept you actually used
-Show me where this bites
-Record as debt and move on
+Answer in my own words                  ← first, always: a real path
+Explain <the specific concept>          ← also a real path, one per concept you used
+Show me where this bites                ← exit
+Record as debt and move on              ← exit
 ```
 
-**The answer path is named first, and it is named.** Every other option is a way out, and a
-list that shows only ways out tells the user that answering is the unlisted option. Where the
+**Two of these are paths and two are exits, and the split is not where people put it.** Asking
+to be taught is not declining. §8 files `TAUGHT` deliberately apart from `DEBT` on exactly this
+ground — *asking to be taught is the behaviour the method wants, and recording it as a
+deficiency reinstates the cost the option list exists to remove; people stop asking, and the
+record goes quiet for the wrong reason.* A gate that treats learning as its failure branch is
+the school it was written to stop being. Teaching is half of what a tour is for; it is the
+reason principle 13 says the machine is how a junior becomes a senior.
+
+**The answer path is named first, and it is named.** A list that shows only ways out tells the
+user that answering is the unlisted option. Where the
 instrument routes free text through a generic `Other`, that is exactly what happens: three
 exits above an unlabelled slot reads as four ways to avoid the question, and a user who could
 have answered takes an exit instead. Then the `DEBT` entry records comprehension debt that was
@@ -440,7 +533,7 @@ options by name. Two reasons, both load-bearing:
   they are about to approve. Sometimes that list is the most useful output of the whole
   command.
 
-### The four outcomes
+### The outcomes
 
 **Defended** — the answer is right, or right enough that the user clearly has the model in
 their head. Say so briefly and move on. Do not interrogate a correct answer.
@@ -472,6 +565,23 @@ not a gate, and a gate that becomes a course gets abandoned. Then write a `TAUGH
 (§8). Nothing else records that the concept had to be supplied, and without that record
 the same concept can be re-explained indefinitely with no one noticing.
 
+**Challenged** — the user comments, objects, or proposes something different. This is the
+outcome the interrogation format could not produce at all, and under a handover it is the
+common one. Argue it honestly, concede what holds, and write a `CHALLENGE` entry recording the
+disputed point, both positions, **what was agreed and the reasoning that settled it** — plus a
+`DECISION` where the artifact changes. There is no outcome field and no winner.
+
+Say what kind of resolution it was, because they are not the same and a later reader needs to
+tell them apart: a **finding** (the reviewer was right and something was missing), a
+**clarification** (the two of you meant different things), or a **changed position** (one of you
+argued the other out of a view). One real run produced four items filed as challenges of which
+exactly one was a disagreement; scoring them as wins and losses erased that distinction.
+
+**Not everything raised here is comprehension debt.** A comment that turns out to be a product
+question — whether losing your match to a four-second network blip is the game anyone wants —
+goes back to `spec`. Filing it as `DEBT` records it against the wrong thing and against the
+wrong person.
+
 **Declined** — the user does not want to go into it now. This is allowed, and treating it as
 a failure is what would make the whole gate unenforceable. Write a `DEBT` entry naming
 *exactly* what is undefended — the file, the decision, the concept — and continue.
@@ -499,10 +609,11 @@ Write it as fact, not apology. "Did not probe the concurrency or the error paths
 
 ### Expect it to produce new material, not just answers
 
-The defense is the first point at which the user engages with something concrete rather than
+The handover is the first point at which the user engages with something concrete rather than
 with a description of it, so it is also where they think of things: a requirement nobody
 mentioned, a constraint that reframes the artifact, an audience you did not know about. Two of
-those can be worth more than every answer in the round.
+those can be worth more than every answer in the round, and giving them the floor first is what
+makes room for it — an interrogation only ever collects what the interrogator thought to ask.
 
 §2's "the user has the last word, and verification is not terminal" covers *objections* after
 verify. This is the neighbouring case of *additions*, and it needs saying separately because
@@ -563,6 +674,12 @@ the actionable thing, and stop.
   not about a person.
 - Not a way to shift responsibility. If the user defends an artifact and it is still wrong,
   that is a failure of your review, not a technicality you can point at later.
+- **Not an exam, and the register is load-bearing.** A user reported the interrogation form as
+  feeling like being tested by a machine, and stopped being able to tell a comprehension probe
+  from a request for their opinion. That is not a tone complaint to be absorbed politely: a
+  person who reads a probe as a challenge answers with a counter-proposal, and the round records
+  an answer to a question nobody asked. You are two people building one thing, and the artifact
+  is what is on trial.
 
 ---
 

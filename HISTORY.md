@@ -2,6 +2,80 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-08-29
+
+### The defense stops being an exam: the user reviews the artifact before it reviews them
+
+**Released 0.18.0**, because every gate now behaves differently for an installed copy.
+
+**What went wrong.** A live `design` run asked, through the picker, *"`I-12` — the client draws
+ships from offsets the server sent. What goes wrong the first time a hardcoded client copy
+differs from the server's?"* The user could not tell whether they were being tested, consulted,
+or asked for feedback — which is verbatim the failure §3 predicts for an ask whose kind is not
+declared. Two causes, and the second was the larger one.
+
+**The keyword evaporated at the instrument.** The rule to open every ask with `Deciding` /
+`Checking` / `Challenging` / `Defending` was stated in three places, including five worked
+examples in `design` Step 8, and still did not ship. A picker header holds about a dozen
+characters and cannot carry both the kind and the identifier; the run kept the identifier. No
+document had ever said which field carries the label. It now says: the front of the question
+text, never the header. And the four keywords are taught on first use, because they are terms of
+art out of `METHODOLOGY.md` that no user has read — the author of this method used "challenge" to
+mean the defense during the session that produced this change.
+
+**The larger cause was the format.** *"It feels really awful to be put to the test by a
+machine."* The question arrived cold, and all four options were about the user's deficiency
+rather than about the artifact. So §3 is now **The review**, and it is two passes: the gate hands
+the floor over first — questions, comments, objections — and only then tours the parts that
+review did not reach. Each stop is what this part does, why this shape and not the obvious
+alternative, and one ask in the **judgment** form (*"I think this is the fragile line here, do you
+agree?"*) rather than the recall form. Both are unbluffable. Only one puts the user on trial
+instead of the artifact.
+
+**The epistemics are unchanged and deliberately so.** §3's finding that self-assessment does not
+work is kept intact, and the defense still always runs. "No questions" cannot distinguish an
+expert from someone who nodded along, and a tour that ends in "any questions?" is the rate-your-
+own-understanding instrument §3 exists to replace. What the handover buys is selection input and
+a record, never an exemption — and what the discussion merely *touched* does not count as
+covered, or one superficial question immunises the riskiest thing in the artifact.
+
+**Simulated on the naval design before a line was edited, and the simulation earned it.** The
+reviewer found a hole in the structure diagrams — no box for the type crossing the network, both
+projection methods missing from the class that owned them, the whole client read path undrawn —
+that all three of the model's chosen stops had walked past. An author does not ask questions
+about what they failed to draw. `design`'s tour step now names the diagrams as a candidate stop
+for exactly that reason.
+
+**And learning stops being the failure branch.** §3 listed `Explain <concept>` among the
+"exits", one line under a heading that called the whole list "the way out", while §8 had always
+said the opposite — `TAUGHT` is filed apart from `DEBT` precisely because asking to be taught is
+the behaviour the method wants. §3 now names two real paths (answer, or be taught) and two exits
+(show me, record as debt), the tour steps offer the concepts at every stop rather than as a
+fallback, and the README says it outright. The contradiction had stood in two sections of the
+same document, and the section that was wrong is the one users meet.
+
+**Win and loss come out of the vocabulary.** A `CHALLENGE` entry records the disputed point, both
+positions, and what was agreed and why; there is no outcome field and no winner. It also says
+which kind of resolution it was — a finding, a clarification, or a changed position — because the
+simulation produced four items filed as challenges of which exactly one was a disagreement, and
+scoring them erased that. The anti-sycophancy instruction underneath was **kept and reworded, not
+deleted**: the user's argument can change the outcome, and when it does, say what you had wrong.
+Removing the scoreboard while losing that would have traded one defect for a worse one.
+
+**Scope.** The handover-and-tour step is `spec` 7a, `design` 7c, `tech` 5a, `code` 5a — four
+gates, not six. `stest` already makes the user watch the critical path themselves and `debt`
+produces an argument rather than something they will maintain, and both already ask judgment
+questions. So this is not a shared-block rule; the block carries only the keyword placement, the
+judgment reframe, the new `Challenged` outcome and the vocabulary strike, identically in all six.
+
+**What is not established.** Whether any of this reads better to the person answering. One user,
+one session, no measurement — the same standing caveat every other claim about this method
+carries. The negative control to run first is to say nothing at the handover: the tour must still
+produce an ask you can be wrong about, or the reframe has cost the unknown-unknown detector.
+
+**Also filed:** R-026, that a second TTB in one project silently overwrites the first one's
+`SPEC.md`.
+
 ## 2026-08-28
 
 ### Runs are stable; models are not — and two roadmap items were built on a mis-measurement

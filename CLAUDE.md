@@ -85,7 +85,7 @@ fresh session and a separate directory (ROADMAP R-002).
 ## Invariants that are easy to break
 
 - **The shared rules block is byte-identical in all six gate `SKILL.md` files** — everything
-  from `## The rules that are the method` through the end of `## Where things go` (~330 lines,
+  from `## The rules that are the method` through the end of `## Where things go` (~380 lines,
   covering the loop, question routing, the discussion protocol, how to mark what kind of ask
   something is, the defense, the reconcile rule and the artifact layout). A rule changed in one
   gate must be changed in all six, identically, in one commit. Skills are loaded one at a time,

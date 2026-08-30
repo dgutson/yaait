@@ -56,23 +56,63 @@ Nothing is mandatory except honesty about which gates you skipped.
 
 ## What it feels like
 
-Three things will be unfamiliar.
+**You review it before it reviews you.** When a gate finishes an artifact it hands you the
+floor first — questions, comments, "this is wrong and here is why" — and only then walks you
+through the parts your review did not reach. That order is the method. In the run this was
+designed from, the reviewer found a hole in the structure diagrams that every stop the model
+had picked walked straight past; an author does not ask questions about what they failed to
+draw. The handover catches what the author cannot see. The tour catches what the reviewer
+cannot see. Neither one substitutes for the other.
+
+```mermaid
+flowchart TD
+    A[Gate writes the artifact] --> B[You get the floor first]
+    B --> C[Discussion]
+    C -->|you disagree| G[Argue it out and record what you agreed]
+    G --> C
+    C --> D[Tour of what the discussion did not cover]
+    D -->|a question reopens it| C
+    D --> E[One ask per stop about the artifact]
+    E -->|teach me this| H[It explains and then asks a different one]
+    H --> E
+    E --> F[Journal and close]
+```
+
+**The tour is not a lecture, and the asks are not an exam.** Each stop is three things: what
+this part does, why this shape and not the obvious alternative, and one question — *"I think
+that is the most fragile line here. Do you agree, and what would you do about it?"* You are
+being asked for a reviewer's judgment about the artifact, not for a fact you are supposed to
+have memorised. That form is just as hard to bluff as an interrogation and puts the design on
+trial instead of you. Interrupt any stop and it goes back to arguing.
 
 **It argues with you.** Not always — only when it can name the failure mode, who it hurts and
 what it costs. If it cannot fill in all three, it agrees in one sentence and moves on. When
-you win the argument, it says so and writes it down, including what it had got wrong.
+your argument changes the outcome it says so and writes down what it had wrong. A discussion
+ends in an agreement, not in a winner: what gets recorded is the disputed point, both
+positions and what you settled on, never who prevailed.
 
-**It asks you questions you cannot bluff.** Never "are you familiar with RAII?" — people
-systematically overrate their own understanding, and the illusion only collapses when they
-try to *explain*. So instead: "where is the lock released if that throws?" A specific
-question with a checkable answer that exists in the artifact.
+**Asking to be taught is a real answer, not a way out.** Every stop offers you the concepts it
+leaned on, by name: *Answer in my own words* / *Explain &lt;concept&gt;* / *Show me where this
+bites* / *Record as debt and move on*. Clicking "Explain RAII" costs nothing; typing "I don't
+know what RAII is" is a confession, and the button exists precisely to remove that tax. It
+explains against *your* artifact rather than in general, then asks you something else about the
+same idea — and logs `TAUGHT`, which is filed apart from debt on purpose, because a method that
+records learning as a deficiency teaches people to stop asking. That list of names is also a
+disclosure: it is exactly the jargon you are about to approve.
 
-**When you cannot answer, that is fine.** You get buttons: *I'll explain it* / *Explain
-&lt;concept&gt;* / *Show me where this bites* / *Record as debt and move on*. Clicking
-"Explain RAII" costs nothing; typing "I don't know what RAII is" is a confession, and the
-button exists precisely to remove that tax. Declining is allowed too — it logs a `DEBT` entry
-naming exactly what is undefended. A gate that blocks gets routed around, and then there is
-no record at all.
+**And when you would rather not, that is fine.** Declining costs nothing but a `DEBT` entry
+naming what went undefended. A gate that blocks gets routed around, and then there is no record
+at all.
+
+Everything that happens in the round lands in `JOURNAL.md`:
+
+| What you did | What gets written |
+|---|---|
+| Engaged with an ask | `APPROVAL` |
+| Commented, objected, or proposed something else | `CHALLENGE` — both positions and what was agreed; `DECISION` if the artifact changed |
+| Asked to have a concept explained | `TAUGHT` |
+| Got it wrong | The correction, then `DEBT` — never an approval |
+| Passed | `DEBT` naming exactly what is undefended |
 
 ## What it produces
 

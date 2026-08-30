@@ -7,7 +7,7 @@
 > entries are no longer present in this file.
 
 Format: 1
-Next ID: R-026
+Next ID: R-027
 
 ---
 
@@ -349,6 +349,36 @@ Next ID: R-026
 - **Enables:** —
 
 ## Next
+
+### R-026 — A second TTB overwrites the first one's artifacts
+
+- **Category:** Method
+- **What:** Give each TTB its own `SPEC.md`, `DESIGN.md` and `TECH.md` in a subdirectory of
+  `.yaait/` named from the spec, and teach every gate's Step 0 which one to read. Leave
+  `JOURNAL.md`, `TECH_DEBT.md` and `EXPERIMENTS.md` where they are, at project scope.
+- **Why:** `METHODOLOGY.md` §8 draws one flat `.yaait/` holding exactly one of each artifact,
+  and `HISTORY.md` already records that **every change after the first is a Maintenance TTB**.
+  So the second `/yaait:spec` in a project silently overwrites the greenfield spec — the one
+  document recording which requirements were stated and which the model invented. Nothing warns
+  anyone, and the loss is invisible until someone goes looking for a requirement that used to
+  be there. This is not the brownfield on-ramp (R-006): that command *analyses* an existing
+  codebase, this is about a project that has already run yaait once and is running it again.
+- **The split is the part to get right, and getting it wrong is worse than the bug.** Per-TTB:
+  `SPEC.md`, `DESIGN.md`, `TECH.md`. Project-wide and never fragmented: `JOURNAL.md`,
+  `TECH_DEBT.md`, `EXPERIMENTS.md`. The journal is append-only and is the record the whole
+  method runs on; splitting it per session destroys the cross-TTB reading §8 says `TAUGHT` and
+  `DEBT` exist to support — which concepts a project keeps demanding is a question you can only
+  answer by reading across TTBs.
+- **Open, and to be settled by the work rather than assumed now:** what the greenfield
+  artifacts become once TTB #2 exists — moved into a subdirectory of their own, or left in
+  place as the root the others inherit from — and how `Step 0 — Read the upstream artifacts`
+  picks which `SPEC.md` it is reading. Name the subdirectory from the spec, not from a session
+  id: a directory listing should say what the work was.
+- **Outcome:** running `/yaait:spec` twice in one project leaves both specs readable, and every
+  gate reads the right one without being told.
+- **Blocked-by:** —
+- **Enables:** —
+
 
 ### R-012 — The independent check on a diff, and what "needless verbosity" is
 
