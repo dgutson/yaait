@@ -33,23 +33,37 @@ startup-lock option that had not existed before, plus an option to go and check 
 documentation rather than guess. The walk-through was interruptible, which is the whole point of
 that rule.
 
-**One finding, recorded as R-032.** Four of eight stops offered no `Explain <concept>` option,
-reproducibly on the same two stops. A four-slot picker cannot hold both a real fork's branches
-and a teaching offer, and nothing in the shared block says which yields. What gets dropped is
-the option the doctrine calls half of what the walk-through is for.
+**Two findings, recorded together as R-032**, because one gap produces both: Step 6 specifies
+what options must *say* and never which asks must *carry* them.
+
+Four of eight stops offered no `Explain <concept>` option, reproducibly on the same two. A
+four-slot picker cannot hold both a real fork's branches and a teaching offer, and nothing says
+which yields; the teaching offer is what goes.
+
+**And then Daniel drove the round himself and found the worse half.** He chose
+`Explain preventDefault`. The explanation arrived, and with it the follow-up question Step 6
+mandates — *"put a different question about the same concept back to them"* — **as bare prose
+with no options at all**, in the same message as the close. The payload file confirms it: two
+`AskUserQuestion` calls for the whole session, both of them ones this session drove, none after
+his answers. The options exist because choosing *"Explain X"* costs nothing while typing
+*"I don't know what X is"* is a confession in writing. The user who has just taken the teaching
+path is the one who most needs that, and it is exactly there that it is withdrawn.
 
 **What this run does not settle, and cannot.** A session driving its own picker is
 self-answering. This measured the instrument, not how the round lands on a person. Whether it
 still reads as an exam is Daniel's judgment and nobody else's, and no gate has yet been run
 under 0.20.x with a human in front of it.
 
-**Two grader defects, both caught before anything was filed.** The first demanded the fixed
-option set unconditionally, though the block makes it the fallback for stops with no fork — it
-would have reported a false FAIL on a compliant run. The second counted captured lines, so a
-compliant four-line stop wrapped at 120 columns was called eleven lines; the fix takes the pane
-width as an argument and refuses to infer it, because inferring it from the longest line turned
-a genuine six-line stop into a PASS. Both are the failure R-022 was checked in to prevent, and
-both happened anyway while writing its sibling.
+**Grader defects, all caught before anything was filed, and all the failure R-022 exists to
+prevent — happening again while writing R-022's sibling.** It demanded the forkless option set
+on forked stops, which would have been a false FAIL on a compliant run. It counted lines in a
+terminal capture, so a compliant four-line stop wrapped at 120 columns came out as eleven; the
+first fix was a pane-width argument and a de-wrap heuristic, which then inferred the width and
+turned a genuine six-line stop into a PASS. Daniel's objection to that machinery was correct and
+the whole of it is gone: the input was simply wrong, and the transcript holds the same prose
+with real newlines. The new `R7` needed three attempts for the same reason — the turn boundary
+is neither the transcript entry nor the spoken message, because a picker answer arrives as a
+`tool_result`; a turn ends when the user *acts*.
 
 ### The four-line cap said three lines six lines further down
 
