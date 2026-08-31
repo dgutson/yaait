@@ -34,6 +34,25 @@ claude plugin marketplace add /home/daniel/src/yaait
 claude plugin install yaait@yaait-marketplace
 ```
 
+**Those two lines are a one-time step, and after them the clone *is* the runtime.** The
+marketplace is a `directory` source, so the plugin root resolves to the working tree and every
+session reads it live. Consequences, each of which has already cost a session time:
+
+- **`git pull` is the entire update procedure.** `claude plugin update` changes no behaviour.
+- **`claude plugin list` reports the version from `installed_plugins.json`**, which is refreshed
+  only by an explicit update and is therefore stale one commit after any release. It said
+  `0.3.0` while the clone ran `0.20.0`.
+- **`claude plugin details <plugin>` reads the live clone and is the command that tells the
+  truth** — version *and* skill inventory. Run it before trusting any test result, on the box
+  the test ran on. It is how you establish which bytes actually executed.
+- **Never read `~/.claude/plugins/cache/` to find out what a gate says.** Nothing loads it. It
+  holds whatever the last explicit install copied, which for this repo was rules from four
+  releases back, and a grep there answers the wrong question convincingly.
+- **`claude plugin update` copies the whole working tree, `.gitignore` and all.** It picked up
+  the 15 MB `.pptx` and a `HANDOFF.md` containing a plaintext password. If you run it to make
+  `list` honest, delete the cache directory afterwards; deleting it breaks nothing, because
+  nothing reads it.
+
 Check the shared rules block is still byte-identical across the six gates (see below) — all
 six hashes must match. The list is spelled out rather than globbed, because `skills/feedback/`
 carries no shared block by design and a glob reports it as divergence:
