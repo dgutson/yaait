@@ -4,6 +4,31 @@
 
 ## 2026-08-31
 
+### The four-line cap said three lines six lines further down
+
+**Released 0.20.1**, because an installed 0.20.0 copy carries a rule set that cannot be
+satisfied — the same defect `f74eb81` was written to remove, surviving in the paragraph below
+the one it edited.
+
+`f74eb81` raised the delivery cap to *"Four lines per stop, hard"* and enumerated the four
+things a stop is made of. Six lines below it, in the same `### Deliver it without a wall of
+text` section, the closing clause of the one-clause-per-sentence bullet still read *"Three lines
+is a budget, not a target"*. The bullet immediately above already states what that costs: a rule
+set that cannot be satisfied makes the author pick which rule to break silently, and the cap is
+the one that goes. Found by reading Step 6 before testing it — a run that overran would have
+been uninterpretable, because nobody could say whether the model broke the cap or followed the
+other sentence.
+
+Fixed in all six gates in one commit; the shared rules block stays byte-identical.
+
+**Also, the marketplace listing still described the method 0.20.0 replaced.** 0.20.0 rewrote
+`plugin.json`'s description and left `.claude-plugin/marketplace.json` alone, so the blurb
+anyone reads before installing said yaait *"puts the gate on the person, not the artifact"* and
+that *"every artifact is defended or logged as undefended"* — the exact framing, and the exact
+word, that release removed. It now mirrors `plugin.json`: every decision the machine made goes
+in front of a human, and nothing passes until someone has ruled on it or the record says nobody
+did. Two descriptions exist for the same plugin and only one of them was on anybody's checklist.
+
 ### The gate stops examining the user and starts showing them the decisions
 
 **Released 0.20.0**, because an installed older copy behaves differently in every gate: it

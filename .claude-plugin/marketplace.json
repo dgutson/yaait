@@ -9,7 +9,7 @@
     {
       "name": "yaait",
       "source": ".",
-      "description": "Yet Another AI Thing — a development methodology for building software with an LLM without generating technical debt nobody can pay. An unattended LLM is a debt reactor, so yaait puts the gate on the person, not the artifact: the LLM argues with you, teaches you enough to argue back, and every artifact is defended or logged as undefended."
+      "description": "Yet Another AI Thing — a development methodology for building software with an LLM without generating technical debt nobody can pay. An unattended LLM is a debt reactor, so yaait puts every decision the machine made in front of a human: it challenges you, teaches you enough to challenge it back, and nothing passes until someone has ruled on it or the record says nobody did."
     }
   ]
 }

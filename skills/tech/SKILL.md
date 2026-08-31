@@ -373,7 +373,7 @@ of the mechanism.
   lines breaks, and what does the design instruct you to do then?" is two questions joined by
   `and`, which the one-question rule above already forbade. It happens anyway because the cap
   rewards compression, and compression is what produces subordinate clauses and rare verbs.
-  **Density is not simplicity.** Three lines is a budget, not a target: split the sentence
+  **Density is not simplicity.** Four lines is a budget, not a target: split the sentence
   rather than shortening it.
 - **Write literally. No metaphor, no idiom, no figure of speech.** Not "the reflex
   incantation", "load-bearing", "on trial", "the sign flipped". Say the mechanism instead: "the
