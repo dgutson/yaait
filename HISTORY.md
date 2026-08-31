@@ -4,6 +4,53 @@
 
 ## 2026-08-31
 
+### The review round has now been driven through a real picker, and the 0.18.0 bug is gone
+
+**First interactive run of a 0.20.x gate.** `tech` Step 6 against the naval battle `TECH.md`, in
+a copy directory on the second machine, driven over tmux 3.4 with a `PreToolUse` hook on
+`AskUserQuestion` capturing untruncated payloads. Opus 5 at xhigh effort, pane 120x40, plugin
+confirmed at 0.20.1 by `claude plugin details` before the run. Apparatus and full criteria in
+`experiments/R-032-review-round-render/`.
+
+**The 0.18.0 failure does not recur.** All eight asks across two picker calls opened
+`Reviewing — <anchor>.` in the *question text*, and every picker header carried the anchor alone
+— `versions`, `workers`, `keydown`, `X-002`. The keyword survived to the rendered screen in
+every case. That was the bug: a header holding about a dozen characters, keeping the identifier
+and dropping the kind, leaving the user unable to tell whether they were being tested, consulted
+or asked for an opinion.
+
+**Also confirmed, from the transcript rather than the screen:** the floor was handed over before
+anything was asked; the keyword was taught on first use, with the clause that asking for an
+explanation is free and nothing is a test; the route and what it skips were announced up front
+and offered for redirection; the single highest-cost stop was named, and so was the stop the
+gate was least sure of; the four-line cap held exactly, one line per thing a stop is made of;
+and `Record as debt and move on` appeared nowhere.
+
+**A question typed mid-round did what §3 requires.** Asked why uvicorn could not simply refuse a
+worker count, the gate answered — *"uvicorn cannot refuse a worker count it has no way to
+judge, but our server can"* — and then returned to the route with the stop **improved**: a
+startup-lock option that had not existed before, plus an option to go and check the
+documentation rather than guess. The walk-through was interruptible, which is the whole point of
+that rule.
+
+**One finding, recorded as R-032.** Four of eight stops offered no `Explain <concept>` option,
+reproducibly on the same two stops. A four-slot picker cannot hold both a real fork's branches
+and a teaching offer, and nothing in the shared block says which yields. What gets dropped is
+the option the doctrine calls half of what the walk-through is for.
+
+**What this run does not settle, and cannot.** A session driving its own picker is
+self-answering. This measured the instrument, not how the round lands on a person. Whether it
+still reads as an exam is Daniel's judgment and nobody else's, and no gate has yet been run
+under 0.20.x with a human in front of it.
+
+**Two grader defects, both caught before anything was filed.** The first demanded the fixed
+option set unconditionally, though the block makes it the fallback for stops with no fork — it
+would have reported a false FAIL on a compliant run. The second counted captured lines, so a
+compliant four-line stop wrapped at 120 columns was called eleven lines; the fix takes the pane
+width as an argument and refuses to infer it, because inferring it from the longest line turned
+a genuine six-line stop into a PASS. Both are the failure R-022 was checked in to prevent, and
+both happened anyway while writing its sibling.
+
 ### The four-line cap said three lines six lines further down
 
 **Released 0.20.1**, because an installed 0.20.0 copy carries a rule set that cannot be

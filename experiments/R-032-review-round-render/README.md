@@ -50,6 +50,33 @@ means nothing without the width it was observed at.
   capture with it measures a rule that document did not consistently state.
 - **`n/a` is not a pass.** It means the input could not answer the question.
 
+## Corpus, and what it must produce
+
+Any change to this script must keep these. `<w>` is the pane width, and it is not optional.
+
+| capture | expected |
+|---|---|
+| 0.20.1 `tech` Step 6, Opus 5 xhigh, 120x40, both picker calls | all PASS except **R4b FAIL 4/8** (`workers`, `X-002`) |
+| synthetic compliant round | all PASS |
+| synthetic round with the 0.18.0 signature and every forbidden wording | R1, R2, R3, R4b, R5, R6 all FAIL separately |
+| empty payload file | `P0 FAIL`, and every payload-dependent rule `n/a` rather than PASS |
+
+## Two ways this script was already wrong
+
+Both were caught before anything was filed, and both are the failure R-022 exists to prevent —
+happening again while writing R-022's sibling.
+
+- **R4 demanded the fixed option set unconditionally.** The block makes `Give my view` /
+  `Explain <concept>` / `Show me what it costs` / `Keep what you wrote` the fallback for a stop
+  with **no fork**; where a fork exists, its branches *are* the options. The first version would
+  have reported a false FAIL on a fully compliant run. It is now `R4a`, and fork-aware.
+- **R6 counted captured lines, which counts wrapping.** A compliant four-line stop wrapped at
+  120 columns was reported as eleven lines. The fix de-wraps — but only against a pane width
+  **supplied as argument 4**. Inferring the width from the longest line is not a safe fallback:
+  on prose that is not wrapped, the longest line is just the longest sentence, and joining on it
+  merged independent lines and turned a genuine six-line stop into a PASS. With no width given,
+  R6 now says so in its evidence line instead of pretending.
+
 ## What it deliberately does not grade
 
 Judgment, which belongs in prose: whether the stops arrived spread out or as one block of four

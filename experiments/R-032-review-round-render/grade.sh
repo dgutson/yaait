@@ -12,8 +12,8 @@
 # keyword was taught on first use, whether a mid-round question reopened the discussion,
 # and whether the round reads as an exam. Those go in prose.
 
-PAY="$1"; SCR="$2"; TAG="$3"
-[ -z "$PAY" ] && { echo "usage: $0 <payloads.jsonl> <screen.txt> <label>"; exit 2; }
+PAY="$1"; SCR="$2"; TAG="$3"; W="${4:-0}"
+[ -z "$PAY" ] && { echo "usage: $0 <payloads.jsonl> <screen.txt> <label> <pane_width>"; exit 2; }
 echo "===== $TAG ====="
 echo "payloads: $PAY    screen: $SCR"
 
@@ -27,10 +27,11 @@ else
   echo "P0 picker-used              PASS   $(grep -c . "$PAY") AskUserQuestion call(s) captured"
 fi
 
-python3 - "$PAY" "$SCR" <<'PYEOF'
+python3 - "$PAY" "$SCR" "$W" <<'PYEOF'
 import json, sys, re, os
 
 pay_path, scr_path = sys.argv[1], sys.argv[2]
+pane_w = int(sys.argv[3]) if len(sys.argv) > 3 else 0
 KINDS = ("Reviewing", "Deciding", "Checking", "Challenging")
 
 qs = []
@@ -105,27 +106,44 @@ if m:
 else:
     emit("R3 no-record-as-debt", "PASS", "absent from options and screen")
 
-# ---- R4  the option set Step 6 prescribes ----------------------------------------
+# ---- R4a  option shape: fork branches, or the fixed set -------------------------
+# "Where the stop has a real fork, the branches of that fork ARE the options. Where it
+# does not:" then the fixed four. An earlier version of this script demanded the fixed
+# set unconditionally and would have reported a false FAIL on a compliant run.
+FIXED = ("give my view", "show me what it costs", "keep what you wrote")
+explains = [l for l in labels if l.lower().startswith("explain")]
+
 if not qs:
-    emit("R4 option-wording", "n/a", "no payload to check")
+    emit("R4a option-shape", "n/a", "no payload to check")
+    emit("R4b explain-every-stop", "n/a", "no payload to check")
 else:
-    want = {"give my view": "Give my view",
-            "show me what it costs": "Show me what it costs",
-            "keep what you wrote": "Keep what you wrote — your call"}
-    low = [l.lower() for l in labels]
-    missing = [v for k, v in want.items() if not any(k in l for l in low)]
-    explains = [l for l in labels if l.lower().startswith("explain")]
-    parts = []
-    parts.append(f"{len(explains)} Explain-<concept> option(s)" if explains
-                 else "NO Explain-<concept> option")
-    if missing:
-        emit("R4 option-wording", "FAIL", f"missing {missing}; {parts[0]}")
-    elif not explains:
-        emit("R4 option-wording", "FAIL",
-             "the three fixed options are present but no 'Explain <concept>' — "
-             "that is the option whose point is that choosing costs nothing")
+    shortfall, detail = [], []
+    for q in qs:
+        ls = [o.get("label", "") for o in (q.get("options") or [])]
+        low = [l.lower() for l in ls]
+        branch = [l for l in ls if not l.lower().startswith("explain")
+                  and not any(f in l.lower() for f in FIXED)]
+        kind = "fork" if len(branch) >= 2 else "forkless"
+        detail.append(f"{q.get('header','?')}={kind}/{len(ls)}")
+        if kind == "forkless":
+            miss = [f for f in FIXED if not any(f in l for l in low)]
+            if miss:
+                shortfall.append((q.get("header", "?"), miss))
+    if shortfall:
+        emit("R4a option-shape", "FAIL", f"forkless stop(s) missing fixed options: {shortfall}")
     else:
-        emit("R4 option-wording", "PASS", f"all three fixed options present; {parts[0]}: {explains}")
+        emit("R4a option-shape", "PASS",
+             f"{' '.join(detail)} — where a fork exists its branches are the options")
+
+    # ---- R4b  "Offer to teach the underlying concepts, by name, at every stop." ----
+    none_ = [q.get("header", "?") for q in qs
+             if not any(o.get("label", "").lower().startswith("explain")
+                        for o in (q.get("options") or []))]
+    if none_:
+        emit("R4b explain-every-stop", "FAIL",
+             f"{len(none_)}/{len(qs)} stops offer no 'Explain <concept>': {none_}")
+    else:
+        emit("R4b explain-every-stop", "PASS", f"all {len(qs)} stops name a concept: {explains}")
 
 # ---- R5  no generic "I'll explain it" beside named concepts ----------------------
 # "Drop a generic 'I'll explain it' wherever named concept options exist."
@@ -144,6 +162,26 @@ else:
 if not screen:
     emit("R6 four-line-cap", "n/a", "no screen capture supplied")
 else:
+    # De-wrap first. A tmux capture is hard-wrapped at the pane width, so counting
+    # captured lines counts wrapping, not the four things a stop is made of. R-022's
+    # recorded history is a per-line window reporting a false FAIL for exactly this
+    # reason, and the first version of this check repeated it: it called a compliant
+    # four-line stop an eleven-line one.
+    # The pane width must be SUPPLIED, never inferred from the longest line: on prose
+    # that is not actually wrapped, max-line-length is just the longest sentence, and
+    # joining on it silently merges independent lines. That inference turned a genuine
+    # six-line stop into a PASS while this script was being written.
+    if pane_w > 0:
+        raw = screen.splitlines()
+        unwrapped = []
+        for l in raw:
+            if (unwrapped and l.strip() and unwrapped[-1].strip()
+                    and len(unwrapped[-1].rstrip()) >= pane_w - 3):
+                unwrapped[-1] = unwrapped[-1].rstrip() + " " + l.strip()
+            else:
+                unwrapped.append(l)
+        screen = "\n".join(unwrapped)
+
     stops = re.split(r"(?m)^(?=\s*(?:[-*]\s*)?\*{0,2}(?:%s)\b)" % "|".join(KINDS), screen)
     stops = [s for s in stops if re.match(r"\s*(?:[-*]\s*)?\*{0,2}(?:%s)\b" % "|".join(KINDS), s)]
     if not stops:
@@ -157,9 +195,12 @@ else:
             n = len(body[:cut])
             if n > 4:
                 over.append((body[0].strip()[:48], n))
+        warn = "" if pane_w > 0 else \
+            "  [NO PANE WIDTH GIVEN — these are raw captured lines, so wrapped prose " \
+            "over-counts; re-run with the width as argument 4 before filing this]"
         if over:
             emit("R6 four-line-cap", "FAIL",
-                 f"{len(over)}/{len(stops)} stops over four lines: {over}")
+                 f"{len(over)}/{len(stops)} stops over four lines: {over}{warn}")
         else:
             emit("R6 four-line-cap", "PASS", f"all {len(stops)} stops within four lines")
 

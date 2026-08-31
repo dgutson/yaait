@@ -13,6 +13,39 @@ Next ID: R-033
 
 ## Now
 
+### R-032 — `Explain <concept>` loses its slot to fork branches, and the doctrine never says which yields
+
+- **Category:** Doctrine
+- **What:** Step 6 says **"Offer to teach the underlying concepts, by name, at every stop"** and
+  lists `Explain <concept>` as an option that is *"**not** a way out"*. It also says *"where the
+  stop has a real fork, the branches of that fork **are** the options"*. A picker holds four
+  options. When a stop has three branches, or two branches plus `Show me what it costs`, those
+  two rules compete for the same slots and nothing in the shared block says which one gives way.
+  Decide, and write the resolution into all six gates.
+- **Why:** measured, not argued. In the first interactive run of the 0.20.1 review round
+  (`experiments/R-032-review-round-render/`), **four of eight stops offered no `Explain` option
+  at all** — `workers` and `X-002`, in both picker calls, reproducibly. The concepts were there
+  to name: loopback versus LAN, worker processes not sharing memory, `WEB_CONCURRENCY`. The
+  slots went to fork branches and to a measurement-routing option instead.
+- **Why it matters more than a missing option:** the thing that gets dropped is the one the
+  doctrine calls *half of what the walk-through is for*, and the one whose entire purpose is
+  that choosing it costs nothing while typing *"I don't know what that means"* is a confession
+  in writing. A user who cannot see `Explain loopback` and does not want to admit that has one
+  remaining exit: accept what was written. That is the failure the 0.20.0 rewrite exists to
+  prevent, arriving through the instrument rather than through the wording.
+- **The argument to have before editing anything:** it may be right that a real fork outranks a
+  teaching offer — a user who understands the fork does not need the concept named. But that has
+  to be decided rather than left to whichever rule the model happens to satisfy first, because
+  the observed behaviour is that `Explain` is always what goes. Note also that
+  `Show me what it costs` appeared on fork stops although the block lists it under the forkless
+  case, so the two option sets are already being mixed in practice.
+- **Outcome:** either a stated precedence in the shared block (with the failure mode named), or
+  a mechanism that keeps the teaching offer without spending a slot — naming the concepts in the
+  stop's prose is already required, so the option may be redundant, and that is a legitimate
+  answer if it is written down.
+- **Blocked-by:** —
+- **Enables:** —
+
 ### R-028 — The independent checker is never given `TECH.md`
 
 - **Category:** Doctrine
