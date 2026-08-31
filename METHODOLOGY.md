@@ -675,12 +675,14 @@ not the whole job — the delivery is.
   it. Quote the line, name the file.
 - **Attach the stake in one clause** — "because this is what a caller relies on", "because this
   ships to customers". Answering should feel worth it.
-- **Three lines per stop, hard** — where it is, what it costs if wrong, the call. A stop that will
-  not fit in three is too big for one call: split it, or choose another. This replaces an earlier
-  instruction to keep the whole round "scannable in about fifteen seconds", which could not be
-  satisfied alongside the rules above it and could not be checked by anyone. A rule set that
-  cannot be satisfied is worse than a loose one, because the author has to pick which rule to
-  break silently, and the one that gets broken is the cap.
+- **Four lines per stop, hard** — what it does, why this shape, what it costs if wrong, the
+  call: one line per thing the stop is made of. A stop that will not fit in four is too big for
+  one call: split it, or choose another. This replaces an earlier instruction to keep the whole
+  round "scannable in about fifteen seconds", which could not be satisfied alongside the rules
+  above it and could not be checked by anyone. A rule set that cannot be satisfied is worse than
+  a loose one, because the author has to pick which rule to break silently, and the one that gets
+  broken is the cap. That happened again in the first live run under 0.20.0: the cap still said
+  three lines and listed three of the four things a stop carries, and every stop overran it.
 - **One clause per sentence, and the question is a plain interrogative.** "Which of those two
   lines breaks, and what does the design itself instruct you to do at that point?" is two
   questions joined by `and`, and the one-question rule above already forbade it. It happened

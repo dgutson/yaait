@@ -331,9 +331,12 @@ of the mechanism.
   to re-open the artifact to parse the question.
 - **Attach the stake in one clause**: "because a caller relies on this". Answering should
   feel worth it.
-- **Three lines per stop, hard** — where it is, what it costs if wrong, the call. A stop that
-  will not fit is too big for one call: split it or choose another. This is the cap that binds,
-  and it replaces a stopwatch nobody could check.
+- **Four lines per stop, hard** — what it does, why this shape, what it costs if wrong, the
+  call. One per thing the stop is made of. A stop that will not fit is too big for one call:
+  split it or choose another. This is the cap that binds, and it replaces a stopwatch nobody
+  could check. It was three lines until 0.20.0, listing three of the four things a stop
+  carries, and a live run broke it at every stop — a cap that cannot be met makes the author
+  choose which rule to break silently, and the cap is the one that goes.
 - **One clause per sentence, and the question is a plain interrogative.** "Which of those two
   lines breaks, and what does the design instruct you to do then?" is two questions joined by
   `and`, which the one-question rule above already forbade. It happens anyway because the cap

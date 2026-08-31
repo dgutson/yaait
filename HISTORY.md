@@ -108,9 +108,19 @@ into one; `code` Step 1; `MANIFESTO.md`; `COMPARISON.md`; `README.md`; `CLAUDE.m
 `plugin.json`'s description, which claimed yaait "gates the person rather than the artifact";
 and the three reference files that named the old machinery.
 
+**Exercised headless on the naval `TECH.md`, and it found one defect.** A `claude -p` run of
+Step 6 alone, against the existing artifact, produced a round with no `Defending`, the keyword
+taught on first use, one message rather than two, every stop stating what it costs and ending in
+a call, the least-certain stop present and labelled as such, and the close handing the asking
+back. It broke one rule at every stop: the delivery cap still said **three lines** and listed
+three of the four things a stop now carries. Raised to four, one line per thing. This is the
+second time that bullet's own warning — a rule set that cannot be satisfied makes the author
+break the cap silently — has described the cap itself.
+
 **Not done, and worth saying.** Nobody has run a gate under these rules with a human in front of
-it. The only test that counts is whether the next `yaait:tech` or `yaait:design` still reads as
-an exam, and that has to be asked rather than inferred. `~/CLAUDE.md` in the user's home
+it. A headless run has no picker and no person, so it measures the shape of the message and
+nothing about how it lands. The only test that counts is whether the next `yaait:tech` or
+`yaait:design` still reads as an exam, and that has to be asked rather than inferred. `~/CLAUDE.md` in the user's home
 directory still carries the old shape — *"ask a concrete question about the part most likely to
 be wrong"* — and was left alone because it is outside this repository.
 
