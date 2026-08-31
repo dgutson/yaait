@@ -93,7 +93,7 @@ because a crash gets fixed and a wrong answer gets stored.
 
 Legitimate swallows exist — a best-effort cache warm, a cleanup path in a destructor. They
 are legitimate *when the comment says why*, which makes this the clearest case in the file
-where a comment is load-bearing rather than noise.
+where a comment is doing real work rather than adding noise.
 
 ### 2.4 Reimplementing what exists (reuse down 35%)
 
@@ -145,8 +145,8 @@ small increment.
 - **Dead code** — unreachable, unused, or commented out. Delete it. Version control is the
   archive; commented-out code is how Lava Flow starts.
 - **Import from `experiments/`** — always a finding, never a judgment call. That directory
-  holds apparatus that produced a number: not defended, not smell-reviewed, not tested, by
-  design (`METHODOLOGY.md` §6). The moment product code imports from it, it has become
+  holds apparatus that produced a number: it went through no gate, no smell review and no
+  tests, by design (`METHODOLOGY.md` §6). The moment product code imports from it, it has become
   production code that skipped every gate. *Fix:* move what is needed into the increment
   properly, through `yaait:code`, and leave the apparatus alone.
 - **Defensive redundancy** — the same condition validated at three levels. Reads as
@@ -196,9 +196,9 @@ the same shape as Poltergeist, Middle Man and Lasagna Code, all of which
 the boundary?
 
 **Q2 — Comments.** Clean Code holds that a comment is a failure to express yourself in code.
-yaait holds that the human must be able to defend this code in six months. Code can express
-*what* and *how*; it cannot express *why this and not the obvious alternative*, which is
-precisely what a defense asks for. The `JOURNAL.md` captures some of it, but a journal entry
+yaait holds that the human must be able to account for this code in six months. Code can
+express *what* and *how*; it cannot express *why this and not the obvious alternative*, which
+is precisely what a review stop asks for. The `JOURNAL.md` captures some of it, but a journal entry
 is not in the reader's field of view when they are about to change the line. Where does the
 *why* live?
 

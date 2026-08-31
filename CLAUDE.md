@@ -67,7 +67,7 @@ explaining what an already-installed older copy would get wrong (see commit `0fe
 
 **Six skills, one shape.** Each `skills/<name>/SKILL.md` is: frontmatter description →
 why this command exists → the shared rules block → numbered `Step N` sections ending in a
-defense and a close. Deep reference material that would bloat the context lives in
+review and a close. Deep reference material that would bloat the context lives in
 `skills/<name>/references/` and is read on demand: `code/references/review.md` (code-level
 review), `design/references/smells.md` (architectural smells), `design/references/mermaid.md`,
 `design/references/independent-check.md` (the brief for the subagent `design` Step 7a spawns,
@@ -85,13 +85,13 @@ fresh session and a separate directory (ROADMAP R-002).
 ## Invariants that are easy to break
 
 - **The shared rules block is byte-identical in all six gate `SKILL.md` files** — everything
-  from `## The rules that are the method` through the end of `## Where things go` (~380 lines,
+  from `## The rules that are the method` through the end of `## Where things go` (~435 lines,
   covering the loop, question routing, the discussion protocol, how to mark what kind of ask
-  something is, the defense, the reconcile rule and the artifact layout). A rule changed in one
+  something is, the review round, the reconcile rule and the artifact layout). A rule changed in one
   gate must be changed in all six, identically, in one commit. Skills are loaded one at a time,
   so divergence is invisible at runtime and shows up as the method quietly behaving differently
   depending on which gate you entered through. **`skills/feedback/` is excluded on purpose**
-  and carries none of it: the block's challenge protocol and defense would damage that
+  and carries none of it: the block's challenge protocol and review round would damage that
   command's record, since a user's account of their own friction is not a claim to be
   contested. Do not "fix" its missing block.
 - **`tech` runs before `design`, and that order is restated in a dozen places.**

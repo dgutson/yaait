@@ -2,6 +2,119 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-08-31
+
+### The gate stops examining the user and starts showing them the decisions
+
+**Released 0.20.0**, because an installed older copy behaves differently in every gate: it
+labels asks `Defending`, runs the walk-through and the questions as two separate rounds, and
+writes `DEBT` entries that record a named person's wrong answer.
+
+**Third arrival of the same complaint, and the first structural fix.** *"i still feel
+uncomfortable under test with the questions... it is not only a writing style but a
+metholodology of yaait issue"* — given unprompted as the invocation of `yaait:tech` on the naval
+TTB, and recorded verbatim in that project's `FEEDBACK.md`. 0.12.0 answered the same complaint
+with a label on every ask; 0.18.0 answered it by handing the floor over first and preferring the
+judgment form. Both were wording changes and both were followed by the complaint coming back.
+
+**Why the tour did not fix it.** 0.18.0 added the walk-through *before* the defense rather than
+*instead of* it. In the naval run the same four items were served twice: once as tour prose,
+then again as a picker of four asks each opening with the word **Defending**, under the line
+"answer the first one if you answer only one". The walk-through became the material to be
+studied before the test. `METHODOLOGY.md` said so itself — *"the stops you toured in Step 5a are
+the elements; this step is how the asks are phrased"* — which is a walk-through followed by a
+test on the walk-through, written down as the design.
+
+**Four causes, none of them writing style.**
+
+- `Defending` was the one ask kind whose defining property was *the user can be wrong*. §3's own
+  table said so. Four of them arriving together is a test paper.
+- The outcomes graded the person. *Answered wrongly* wrote a `DEBT` entry into the project
+  journal naming a human's wrong answer — a record about a person in a file about code.
+- **Every worked example in all six gates was still in the recall form the doctrine tells you to
+  avoid**: *"Which line stops the board being left half-updated?"*, *"What breaks if someone runs
+  `pip install -U`?"*. 0.18.0 added the judgment reframe and rewrote no examples. `HISTORY.md`'s
+  own 0.12.0 entry had already named this: *"a rule that loses to its own neighbouring example
+  will keep losing."* It lost again, to the same mechanism, two releases later.
+- §13 says the author is not the auditor, and the gate that wrote the artifact was auditing the
+  human's understanding of it.
+
+**What replaced it.** One step rather than two: the stops *are* the asks, and no element is
+walked through and then asked about again. `Defending` became **`Reviewing`** — you already
+chose, the artifact already says so, you are showing the work so it can be overruled — and no
+ask kind now carries a cost to the user for being wrong. Each stop is four things: what this
+part does, why this shape and not the obvious alternative, **what it costs if it is wrong**
+stated outright, and the call put to the user. The last exit option stopped reading *record as
+debt and move on* and now reads *keep what you wrote — your call*, because the old wording asked
+the user to volunteer that they were the source of a debt they did not create.
+
+**The unbluffability is unchanged, which is the part that had to survive.** §3's finding that
+self-assessment does not work is kept intact. A stop still never closes with "any questions?"
+Someone who does not have the model cannot choose between the options either, and will say so or
+ask — so the same signal arrives by a route that costs nothing to admit, and the fact the recall
+question withheld is handed over instead, which is the disclosure the round exists for.
+
+**The record survives, re-based.** `DEBT` no longer means *a person did not understand this*. It
+means *the gate decided this, put it to a human, and no human ruled on it* — which is more use
+to whoever reads the journal in a year, because it says whose decision it was. `APPROVAL` now
+carries the user's own reason rather than a mark. The *answered wrongly* outcome is deleted
+outright: a reason that does not match the mechanism gets corrected in the moment, the way a
+colleague would, and nothing is written about the person. **This supersedes part of R-009**,
+which asked for that outcome to be added — R-009 now says not to reinstate it, and records that
+its A1 and A3 findings were addressed here instead.
+
+**Evidence that deleting it lost nothing.** The naval run's own `FEEDBACK.md` records the gate
+unable to tell whether *"processes don't share memory"* was a misread question or a misread
+mechanism. The outcome that existed to catch exactly that case did not catch it, and the exam
+framing is what made correcting him awkward.
+
+**Two additions that put the gate on the hook.** Every walk-through now includes whatever the
+gate is least sure of, said to be there for that reason, and closes by asking the user what they
+want to look at. In the naval run all three of the gate's errors — a whole slot never surveyed,
+a mechanism documented in a table and never written as a sentence, and one ask that belonged to
+a different gate — were found by the user asking how something worked. None of the gate's own
+chosen stops found any of them.
+
+**A plain-language rule, and a sweep to go with it.** *"no methaphors like this please, it turns
+the text hard to understand for me, non-native English speakers. Speak straight, explain
+yourself."* The delivery rules now forbid metaphor, idiom and figure of speech, with the named
+failure: a reader whose first language is not English spends their effort decoding the sentence
+instead of judging the artifact, and the entry then records an unruled decision when what
+happened is an unparseable question. It extends the existing rule about untaught words —
+"isomorphic" — from single words to sentences. Because a rule that contradicts its neighbours
+loses, every live use of "load-bearing", "on trial", "sycophancy with the sign flipped" and "the
+reflex incantation" was removed from the shipped prose in the same pass; the only occurrences
+left are inside the rule, quoting what not to write.
+
+**`code` Step 1 was rebuilt rather than deleted.** *Defend the code you are about to modify* is
+now *Understand the code you are about to modify*, and it is split by who holds the answer: the
+gate reads the code and states what it does as a `Checking` ask, and asks the user only for what
+the code cannot say — why it is this way, what broke once, who depends on it. The rule itself is
+untouched, because it is the one place where the user genuinely holds something the gate does
+not. Asking them to recite behaviour the gate could have read was the examination; asking about
+intent and history is not.
+
+**`MANIFESTO.md` was rewritten too, on the argument that leaving it would re-derive the exam.**
+Principle 3 was *"Defending is not reciting. It is answering a question you were not prepared
+for"* and is now about what gets examined being the decision rather than the person. The
+accountability clause said the human must be able to defend the commit *"under questioning"*; it
+now says they must be able to defend it to a colleague, a reviewer, or whoever is reading it
+during an incident — a statement about the condition the human has to be in, not about a test a
+machine administers. Principle 4 keeps its meaning and loses the word "undefended".
+
+**Reached:** `METHODOLOGY.md` §1, §2, §3 (rewritten end to end), §7, §8 and §13; the shared
+rules block in all six gates, byte-identical; the review step in all six gates, merged from two
+into one; `code` Step 1; `MANIFESTO.md`; `COMPARISON.md`; `README.md`; `CLAUDE.md`;
+`plugin.json`'s description, which claimed yaait "gates the person rather than the artifact";
+and the three reference files that named the old machinery.
+
+**Not done, and worth saying.** Nobody has run a gate under these rules with a human in front of
+it. The only test that counts is whether the next `yaait:tech` or `yaait:design` still reads as
+an exam, and that has to be asked rather than inferred. `~/CLAUDE.md` in the user's home
+directory still carries the old shape — *"ask a concrete question about the part most likely to
+be wrong"* — and was left alone because it is outside this repository.
+
+
 ## 2026-08-30
 
 ### `tech` moves in front of `design`, and stops recalling a shortlist before it verifies one

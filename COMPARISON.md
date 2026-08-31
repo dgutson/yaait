@@ -17,7 +17,7 @@ understanding — which cannot be generated, only built. So yaait is what you ge
 take waterfall's **gates**, drop
 waterfall's **commitments**, keep Agile's **iteration**, drop Agile's **assumption that
 whoever wrote the code understands it**, and make the binding constraint an explicit
-gate: *can the human defend this?*
+gate: *has a human ruled on this, and can they account for it afterwards?*
 
 ## Every methodology is arithmetic
 
@@ -304,9 +304,9 @@ whose servicing cost exceeds what the team can produce.
 |---|---|---|
 | Unit of planning | the sprint (time) | the artifact (spec, design, increment) |
 | Design | emerges | precedes, explicitly; every abstraction names its second concrete variant |
-| Debt control | "prioritize refactoring" | a gate that will not pass an undefended abstraction |
-| Metrics | velocity, burndown | defended vs. undefended artifacts; recorded comprehension debt |
-| Done means | acceptance criteria met | acceptance criteria met **and** someone can defend it, or the record says they cannot |
+| Debt control | "prioritize refactoring" | a gate that puts every abstraction it added in front of a human |
+| Metrics | velocity, burndown | decisions ruled on vs. decisions nobody ruled on; concepts that had to be taught |
+| Done means | acceptance criteria met | acceptance criteria met **and** a named person ruled on the decisions, or the record says nobody did |
 | Review inspects | the process | the artifacts |
 | Feedback on structure | the retrospective, eventually | the reconcile rule, immediately |
 
@@ -326,9 +326,9 @@ The difference is what the spec is *for*.
 
 | | Spec-driven development | yaait |
 |---|---|---|
-| The spec is authoritative for | **the machine** — it is the generator's input | **the human** — it is what you will be examined on |
-| Optimizes | agent throughput; reducing rework from misunderstanding | human defensibility; reducing shipped code nobody understands |
-| Human role | author and approver of the spec | author, approver, **and defendant** |
+| The spec is authoritative for | **the machine** — it is the generator's input | **the human** — it is the set of decisions you are accountable for |
+| Optimizes | agent throughput; reducing rework from misunderstanding | human accountability; reducing shipped code nobody understands |
+| Human role | author and approver of the spec | author, approver, **and the one who rules on what the machine chose** |
 | Approval means | "proceed" | "I can answer questions about this" — or an explicit logged exception |
 | Disagreement | not modelled | a first-class artifact, including who conceded |
 | Success looks like | the implementation matches the spec | the implementation matches the spec **and** a named person can explain why it is built this way |
@@ -336,7 +336,7 @@ The difference is what the spec is *for*.
 
 The two are **complementary, not competing.** Spec Kit will give you better spec mechanics
 than yaait's `spec` command does, and yaait is happy to run on top of it: point
-`yaait:code` at a Spec Kit spec and the defense, the reconcile rule and the journal all
+`yaait:code` at a Spec Kit spec and the review, the reconcile rule and the journal all
 work unchanged.
 
 What spec-driven development does not have is a mechanism that fails when the human does

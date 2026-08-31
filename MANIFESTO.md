@@ -55,8 +55,10 @@ to be the person who accepted the cost.
 2. **Understanding is how the debt is prevented.** Code nobody understood cannot be changed
    safely, so every future change pays for the comprehension nobody did. Working software
    nobody can account for is not delivery, it is borrowing.
-3. **Defending is not reciting.** It is answering a question you were not prepared for.
-4. **Undefended is allowed. Undefended and unrecorded is not.**
+3. **What gets examined is the decision, not the person.** A machine that wrote the work is
+   in no position to test whether you understood it. It is in every position to show you what
+   it chose, say what that choice costs if it is wrong, and ask you to rule.
+4. **A decision nobody checked is allowed. One nobody checked and nobody wrote down is not.**
 5. **Ignorance is a state, not a verdict.** Not knowing is one conversation from knowing.
    Pretending is not.
 6. **The machine arms you as well as challenges you.** A challenge you cannot answer is not a
@@ -76,13 +78,17 @@ to be the person who accepted the cost.
 
 ## The accountability clause
 
-The human whose name is on the commit must be able to defend it under questioning.
+The human whose name is on the commit must be able to defend it — to a colleague, to a
+reviewer, to whoever is reading it at three in the morning during an incident.
 
-Or the record must say they could not.
+Or the record must say nobody ever ruled on it.
 
-How the code was generated changes nothing about this. It is the same accountability the
-author carries into peer review — yaait does not replace that review, it makes the person
-arriving at it able to answer.
+That is a statement about the condition the human has to be in, not about a test a machine
+administers. yaait's job is to put them in that condition: show every decision, say what it
+costs if it is wrong, teach the concepts it rests on, and record who ruled on it. How the code
+was generated changes nothing. It is the same accountability the author carries into peer
+review — yaait does not replace that review, it makes the person arriving at it able to
+answer.
 
 Nothing else is accountability. Everything else is attribution.
 

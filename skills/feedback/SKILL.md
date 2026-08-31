@@ -42,8 +42,8 @@ something to say.
 
 ## The rules that make this file worth reading
 
-This command deliberately does **not** carry yaait's shared rules block. No loop, no defense,
-no challenge protocol. Four rules replace it, and they exist because the ordinary ones would
+This command deliberately does **not** carry yaait's shared rules block. No loop, no review
+round, no challenge protocol. Four rules replace it, and they exist because the ordinary ones would
 actively damage the record here.
 
 **The user's account is not contestable.** Their experience of the gate is theirs, and by the
@@ -58,9 +58,10 @@ The gate that just ran is the party under audit; its framing is exactly what wou
 the report, and the anchoring is not hypothetical — a user shown the gate's analysis first will
 answer inside it. `METHODOLOGY.md` §13 is the same principle applied to design review.
 
-**Record events, never verdicts.** "Step 5a fired and settled a disagreement in one turn" is an
-event and belongs in the file. "The measure-don't-argue rule works well" is a verdict on the
-method, delivered by the party that just executed it, and it is worth nothing. In particular:
+**Record events, never verdicts.** "The review step fired and settled a disagreement in one
+turn" is an event and belongs in the file. "The measure-don't-argue rule works well" is a
+verdict on the method, delivered by the party that just executed it, and it is worth nothing.
+In particular:
 **do not write a section about what went well unless the user says what went well.** A
 self-authored list of the method's strengths is the least trustworthy content this file can
 carry, and its presence is what makes a reader discount the rest.
@@ -127,8 +128,8 @@ something difficult feels like, and recording it as a methodology defect would s
 readers chasing a fix for the wrong thing. Ask which it was; do not decide it for them.
 
 **Never ask whether the gate was good, useful, or helpful.** Those questions measure
-politeness. Every prompt above asks about an event instead, which is the same reason the
-defense asks for an explanation rather than a self-rating — `METHODOLOGY.md` §3.
+politeness. Every prompt above asks about an event instead, which is the same reason a review
+stop asks the user to rule on something rather than to rate themselves — `METHODOLOGY.md` §3.
 
 If they decline a prompt, or answer none of them, that is recorded as declined. It is not left
 blank: a blank looks identical to never having asked.

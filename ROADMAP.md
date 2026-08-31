@@ -340,12 +340,17 @@ Next ID: R-032
   accountability clause's escape hatch is unreachable (A1), that Principle 8 is false as
   written (A2) and that Principle 4 is violated by construction (A3). A front door that
   contradicts itself is worse than a plain one.
-- **Outcome:** every Part A finding is either applied or answered in writing, and the two
-  changes the audit names as cheapest-and-highest-value are done: restore the one-line "not
-  measured" declaration lost in commit `e35654f`, and add a fourth defense outcome —
-  *attempted and wrong* → `DEBT`, not `APPROVAL`. Consequent edits reach `METHODOLOGY.md`
-  §3, the shared rules block in all six skills, and `COMPARISON.md`'s "defended vs.
-  undefended" line.
+- **Outcome:** every Part A finding is either applied or answered in writing, and the cheapest
+  and highest-value change the audit names is done: restore the one-line "not measured"
+  declaration lost in commit `e35654f`.
+- **Superseded in part by 0.20.0.** This item also asked for a fourth defense outcome,
+  *attempted and wrong* → `DEBT` rather than `APPROVAL`. 0.20.0 deleted that whole outcome
+  instead, because writing a person's wrong answer into the project journal is a record about
+  a person in a file about code, and because the mechanism did not detect what it claimed to.
+  Do not reinstate it. A1 and A3, which that change was serving, were addressed by the same
+  release: the accountability clause now states the condition the human must be in rather than
+  a test a machine runs, and Principle 4 is worded against the record rather than against the
+  reader. What remains open here is the rest of Part A and all of Part B.
 - **Blocked-by:** —
 - **Enables:** —
 

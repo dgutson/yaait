@@ -42,7 +42,7 @@ does it.
 | `/yaait:spec` | Discuss the thing to build (the **TTB**). Every requirement tagged `[stated]`, `[selected]` (chosen from options the gate offered), `[inferred]` or `[assumed]`, so invented requirements are visible. Forces non-goals, falsifiable acceptance criteria, and the bets the spec is making. |
 | `/yaait:tech` | The stack. **Surveyed from live sources before any option reaches you** — verifying a shortlist you recalled cannot surface the option the shortlist never had — then every version **verified** against current docs, with a falsifier and an exit cost per choice. Options come with pros, cons, a recommendation and an offer to explain any of it first. Your own stack and proficiency ("expert in C++, newbie in Rust") are assertive input, priced rather than tested. Runs **before** `design`. |
 | `/yaait:design` | The blueprint, before the code. Components, invariants, what the design **forbids**, mermaid diagrams — where **every abstraction must justify itself** by naming the second concrete variant that needs it, re-checked by a subagent that has not seen the conversation. Runs after `tech`, and stops if there is no `TECH.md`; `spec` recommends it against stated criteria. |
-| `/yaait:code` | One increment at a time, with tests. Enforces the hardest rule: **defend the code you are about to modify, before you modify it.** |
+| `/yaait:code` | One increment at a time, with tests. Enforces the hardest rule: **establish what the code you are about to modify does today, before you modify it.** |
 | `/yaait:stest` | System test traced clause by clause against the spec. **You observe the critical path yourself**, and the report must say what was *not* tested. |
 | `/yaait:debt` | Reads the accumulated receipts in `TECH_DEBT.md` and answers what an increment cannot: which debt is actually costing money, which is dormant and should be closed, and which has recurred often enough to have become a *product* problem needing a roadmap item. Triggered from `:code` and `:stest`, and invocable directly for the questions managers ask. |
 
@@ -56,13 +56,13 @@ Nothing is mandatory except honesty about which gates you skipped.
 
 ## What it feels like
 
-**You review it before it reviews you.** When a gate finishes an artifact it hands you the
-floor first — questions, comments, "this is wrong and here is why" — and only then walks you
-through the parts your review did not reach. That order is the method. In the run this was
-designed from, the reviewer found a hole in the structure diagrams that every stop the model
-had picked walked straight past; an author does not ask questions about what they failed to
-draw. The handover catches what the author cannot see. The tour catches what the reviewer
-cannot see. Neither one substitutes for the other.
+**You review the work; the work is what gets examined.** When a gate finishes an artifact it
+hands you the floor first — questions, comments, "this is wrong and here is why" — and only
+then walks you through the parts your review did not reach. That order is the method. In the
+run this was designed from, the reviewer found a hole in the structure diagrams that every
+stop the model had picked went straight past; an author does not ask about what they failed to
+draw. The handover catches what the author cannot see. The walk-through catches what the
+reviewer cannot see. Neither one replaces the other.
 
 ```mermaid
 flowchart TD
@@ -70,20 +70,22 @@ flowchart TD
     B --> C[Discussion]
     C -->|you disagree| G[Argue it out and record what you agreed]
     G --> C
-    C --> D[Tour of what the discussion did not cover]
+    C --> D[Walk-through of what the discussion did not cover]
     D -->|a question reopens it| C
-    D --> E[One ask per stop about the artifact]
+    D --> E[Each stop: what it costs if wrong, then the call is yours]
     E -->|teach me this| H[It explains and then asks a different one]
     H --> E
     E --> F[Journal and close]
 ```
 
-**The tour is not a lecture, and the asks are not an exam.** Each stop is three things: what
-this part does, why this shape and not the obvious alternative, and one question — *"I think
-that is the most fragile line here. Do you agree, and what would you do about it?"* You are
-being asked for a reviewer's judgment about the artifact, not for a fact you are supposed to
-have memorised. That form is just as hard to bluff as an interrogation and puts the design on
-trial instead of you. Interrupt any stop and it goes back to arguing.
+**It is not a lecture, and it is not an exam.** Each stop is four things: what this part does,
+why this shape and not the obvious alternative, what it costs if that choice is wrong, and the
+call — *"this line is the only thing stopping the board being left half-written, and nothing
+tests it. Add a test, or leave it?"* You are never asked to recite a fact the tool already
+holds. It wrote the artifact; asking you to say it back would be examining the wrong party.
+What it needs from you is the decision, and someone without the model cannot make that
+decision either — so nothing is lost by asking the useful version. Interrupt any stop and it
+goes back to arguing.
 
 **It argues with you.** Not always — only when it can name the failure mode, who it hurts and
 what it costs. If it cannot fill in all three, it agrees in one sentence and moves on. When
@@ -92,8 +94,8 @@ ends in an agreement, not in a winner: what gets recorded is the disputed point,
 positions and what you settled on, never who prevailed.
 
 **Asking to be taught is a real answer, not a way out.** Every stop offers you the concepts it
-leaned on, by name: *Answer in my own words* / *Explain &lt;concept&gt;* / *Show me where this
-bites* / *Record as debt and move on*. Clicking "Explain RAII" costs nothing; typing "I don't
+leaned on, by name: *Give my view* / *Explain &lt;concept&gt;* / *Show me what it costs* /
+*Keep what you wrote — your call*. Clicking "Explain RAII" costs nothing; typing "I don't
 know what RAII is" is a confession, and the button exists precisely to remove that tax. It
 explains against *your* artifact rather than in general, then asks you something else about the
 same idea — and logs `TAUGHT`, which is filed apart from debt on purpose, because a method that
@@ -101,18 +103,18 @@ records learning as a deficiency teaches people to stop asking. That list of nam
 disclosure: it is exactly the jargon you are about to approve.
 
 **And when you would rather not, that is fine.** Declining costs nothing but a `DEBT` entry
-naming what went undefended. A gate that blocks gets routed around, and then there is no record
-at all.
+naming the decision nobody ruled on — a note about the choice, not about you. A gate that
+blocks gets routed around, and then there is no record at all.
 
 Everything that happens in the round lands in `JOURNAL.md`:
 
 | What you did | What gets written |
 |---|---|
-| Engaged with an ask | `APPROVAL` |
+| Ruled on a call | `APPROVAL` with your reason; `DECISION` if the artifact changed |
 | Commented, objected, or proposed something else | `CHALLENGE` — both positions and what was agreed; `DECISION` if the artifact changed |
 | Asked to have a concept explained | `TAUGHT` |
-| Got it wrong | The correction, then `DEBT` — never an approval |
-| Passed | `DEBT` naming exactly what is undefended |
+| Gave a reason that did not match how the thing works | The correction, in the moment. Nothing is written about you |
+| Had no view | `DEBT` naming the decision nobody ruled on |
 
 ## What it produces
 

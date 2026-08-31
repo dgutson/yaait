@@ -108,7 +108,7 @@ Considered 14 elements. 2 findings.
 ```
 
 Then close by naming what was **not** examined, as categories rather than instances — the
-same rule every defense in this method closes with. A checker that reports only what it
+same rule every review in this method closes with. A checker that reports only what it
 looked at implies it looked at everything.
 
 ## What the calling session does with this

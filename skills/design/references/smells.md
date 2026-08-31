@@ -105,7 +105,8 @@ comprehension gate unpassable later.
 nothing extends.
 
 *Test:* for every element, name the spec requirement it serves. Anything that cannot be
-traced to one is on trial. This is the smell you are most likely to introduce yourself.
+traced to one is what this smell asks you to look at. It is the one you are most likely to
+introduce yourself.
 
 ### Needless repetition
 **The same idea expressed more than once**, so a change has to be made in several places
