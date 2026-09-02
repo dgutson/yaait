@@ -32,7 +32,10 @@ Two writes land outside `.yaait/`. `spec` appends a rules block to the project's
 standing-instruction file — `CLAUDE.md`, `AGENTS.md`, or whatever the tool reads — creating it
 if absent, so later sessions honour the reconcile rule even when no yaait
 command is invoked — and it must say so out loud, because a file that shapes every future
-session should never be a silent side effect. `code`, `stest` and `debt` all write
+session should never be a silent side effect. It names the target path and asks before
+writing, and refuses any directory that is an ancestor of unrelated projects: those files are
+inherited downward, so a block one level too high silently conscripts every sibling project
+into a methodology nobody chose there. `code`, `stest` and `debt` all write
 `TECH_DEBT.md` at the project root.
 
 `spec`, `tech` and `design` also write `EXPERIMENTS.md` whenever a decision was settled by
@@ -67,9 +70,15 @@ carries a falsifier, and `design` firing one is the reconcile rule (§4) working
 defect in either gate.
 
 `design` is recommended by `spec` against stated criteria. `stest` becomes answerable once the
-last increment from `DESIGN.md` is complete. `debt` is triggered from `code` and `stest`, and
+last increment from `DESIGN.md` is complete. `debt` is recommended by `code` and `stest`, and
 is also invocable directly for the questions managers ask. Nothing here is mandatory except
 honesty about which gates were skipped.
+
+Every one of those is a recommendation made **to the user, inside a gate they already
+invoked**. No gate starts itself, and no gate starts another. yaait runs when someone types
+`/yaait:<name>` and at no other time — a method that decides on its own that a project is
+under it has already broken the one thing it claims to protect, which is that a human ruled on
+the decision.
 
 ### What an invocation may carry
 

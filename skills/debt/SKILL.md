@@ -5,13 +5,12 @@ description: >
   cannot: which debt is actually costing something, which items have gone quiet and should be
   closed as won't-fix, and which have recurred often enough to stop being a code-quality
   issue and become a product problem needing a ROADMAP item. Runs the sweep in a subagent so
-  the whole file's history does not land in the conversation. Use whenever the user runs
-  /yaait:debt, when /yaait:code has filed several receipts on one item, or at the end of a
-  cycle from /yaait:stest. Use it especially for the questions a manager actually asks —
-  "why does this keep failing at customer sites", "why is this area always slow to change",
-  "why did that estimate double", "what would it cost to make this maintainable" — because
-  the receipts in TECH_DEBT.md are the only evidence that answers them with dates rather than
-  opinion. Also use it when someone asks whether a refactor is worth funding.
+  the whole file's history does not land in the conversation. Answers the questions a manager
+  actually asks — "why does this keep failing at customer sites", "why is this area always
+  slow to change", "why did that estimate double", "what would it cost to make this
+  maintainable", "is this refactor worth funding" — because the receipts in TECH_DEBT.md are
+  the only evidence that answers them with dates rather than opinion.
+disable-model-invocation: true
 ---
 
 # yaait:debt — what the debt is actually costing

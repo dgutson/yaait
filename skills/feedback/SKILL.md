@@ -6,14 +6,9 @@ description: >
   moments the user was annoyed — into an append-only .yaait/FEEDBACK.md that a later session
   reads forensically. Asks the user first and records their words verbatim before offering any
   account of its own, because the gate that just ran is the party under audit and its own
-  summary is the least trustworthy thing in the file. Captures; it does not diagnose. Use
-  whenever the user runs /yaait:feedback, or says anything like "that was confusing", "I could
-  not tell what you were asking", "that was frustrating", "let me give you feedback on that",
-  "write down what went wrong there". Also offer it unprompted when a gate has just finished
-  and something visibly went wrong in it — the user answered a question that was not asked, a
-  question came back unanswered, the same ground was covered twice, or they said they could not
-  follow what was being asked. Do not offer it routinely after every gate; a report nobody
-  wanted is the ceremony this instrument exists to detect.
+  summary is the least trustworthy thing in the file. Captures; it does not diagnose. This is
+  an instrument, not a gate: it builds nothing and rules on nothing.
+disable-model-invocation: true
 ---
 
 # yaait:feedback — capture the friction while it is still true

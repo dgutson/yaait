@@ -2,6 +2,57 @@
 
 > Completed roadmap items and finished passes of work, newest first.
 
+## 2026-09-02
+
+### yaait is opt-in now, because it had quietly stopped being
+
+**Reported from the field: the gates were starting themselves.** Beginning any project on the
+author's machine produced yaait behaviour nobody had asked for. Two independent causes, and
+fixing either alone would have left the symptom in place.
+
+**The one that did most of the damage was not in this repository.** A `## yaait` rules block
+sat at `/home/daniel/CLAUDE.md`. Those files are inherited by every subdirectory, so a copy at
+a home directory is loaded in *every* project beneath it — it opened "This project is developed
+under yaait" and told each session to read `.yaait/SPEC.md` before writing code. It was
+orphaned (no `.yaait/` anywhere near it) and stale, predating the tech-before-design rule, and
+it had been shaping unrelated sessions for months. Deleted.
+
+**It got there because `spec` Step 9 never established which file "the project's `CLAUDE.md`"
+was.** The step now takes the git repository root, refuses any directory that is an ancestor of
+unrelated projects (a home directory, `~/src`, `~/work`), names the exact path and asks before
+writing — and the block it installs now opens by naming the project it governs, so a misplaced
+copy tells its next reader to delete it.
+
+**The second cause was that the descriptions were doing exactly what they were designed to
+do.** All seven advertised the gates on ordinary engineering phrasing with no yaait marker in
+it — "I want to build X", "now code it", "which framework", "what database" — and three
+instructed proactive self-invocation outright (`spec`'s "Also suggest it when someone is about
+to have you write code…", `design`'s three-interacting-components clause, `feedback`'s "Also
+offer it unprompted"). Starting a project hit several at once.
+
+**Fixed with a mechanism rather than better wording**, since the descriptions already said "Use
+whenever the user runs /yaait:spec" and that plainly did not hold. All seven skills now carry
+`disable-model-invocation: true`: the user can type `/yaait:<name>`, the model cannot invoke
+them, and they do not appear in its skill listing at all. Verified against Claude Code 2.1.258
+before the change, using an installed skill that already carried the flag and was absent from
+the session's listing while every other plugin's skills appeared. Nothing broke, because no
+gate ever invoked another programmatically — the cross-gate references are all prose
+recommendations made to a user who is already inside a gate.
+
+**The descriptions were rewritten as what they now are**: help text in the `/` menu. Every
+trigger-phrase list and every "also suggest it unprompted" clause is gone; what each gate
+produces and refuses to let pass stayed.
+
+**ROADMAP R-004 was rewritten rather than left standing, because the field falsified its
+premise.** It had assumed Claude *under*triggers skills and proposed measuring the descriptions
+as triggers. The observed failure was the opposite, and severe enough to make the plugin
+unusable across a machine. There is no trigger left to optimize; what survives is that the menu
+entries are hand-written and unread by anyone but their author.
+
+Released as 0.21.0. `README.md` and `METHODOLOGY.md` §1 now state the opt-in guarantee and the
+ancestor-directory refusal; `METHODOLOGY.md` and `README.md` also stopped saying `debt` is
+"triggered from" `code` and `stest`, which is no longer true of any gate.
+
 ## 2026-08-31
 
 ### The review round has now been driven through a real picker, and the 0.18.0 bug is gone

@@ -592,17 +592,23 @@ Next ID: R-033
 - **Blocked-by:** —
 - **Enables:** —
 
-### R-004 — Optimize the five skill descriptions for triggering
+### R-004 — Check the seven skill descriptions as menu entries, not as triggers
 
 - **Category:** Packaging
-- **What:** Run the skill-creator description optimizer, or `claude plugin eval`, over the
-  five frontmatter descriptions with a realistic should-trigger / should-not-trigger set.
-  Pay particular attention to `spec` versus `design` and to `code` versus plain coding
-  requests.
-- **Why:** The descriptions are the only mechanism that decides whether a skill is consulted,
-  they were hand-written rather than measured, and Claude undertriggers skills by default.
-  A methodology nobody invokes is not a methodology.
-- **Outcome:** Descriptions replaced by measured ones, with the before/after scores recorded.
+- **What:** Read the seven frontmatter descriptions as what they now are: the help text a
+  human sees in the `/` menu when choosing a gate. Check each one answers "what does this
+  produce and what will it not let past" in its first two lines, and that `spec` versus
+  `design`, and `code` versus `stest`, are told apart by someone who has not read
+  `METHODOLOGY.md`. This is an editing pass with a reader in mind, not a measurement.
+- **Why:** This item previously assumed the opposite problem — that Claude undertriggers
+  skills, and that a methodology nobody invokes is not a methodology — and proposed measuring
+  the descriptions as triggers. That premise was falsified in the field: the descriptions
+  overtriggered badly enough that yaait started itself in unrelated projects across a whole
+  machine, and 0.21.0 disabled model invocation entirely. Nothing decides whether a gate runs
+  except the user typing the command, so there is no trigger left to optimize. What survives
+  is that the descriptions are still hand-written and still unread by anyone but their author.
+- **Outcome:** Seven descriptions that a first-time user can choose between, or a recorded
+  finding that they already are.
 - **Blocked-by:** R-002
 - **Enables:** —
 

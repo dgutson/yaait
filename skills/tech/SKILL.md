@@ -13,12 +13,10 @@ description: >
   and the reasoning behind it, and offers to teach any of it before you choose. Separates
   inherited constraints from real decisions, since you are only accountable for the latter,
   and takes your own stated stack and proficiency ("expert in C++, proficient in Python,
-  newbie in Rust") as assertive input to be priced rather than tested. Use whenever the user
-  runs /yaait:tech, or says things like "what should we build this in", "which framework",
-  "pick a test library", "what database", "is this dependency still maintained", "should we
-  use X or Y", "build it in C++ with Qt and ZeroMQ". Runs BEFORE yaait:design on a greenfield
-  TTB, because the stack settles the paradigm and the four branch points design would
-  otherwise decide against a stack nobody has named.
+  newbie in Rust") as assertive input to be priced rather than tested. Runs BEFORE
+  /yaait:design on a greenfield TTB, because the stack settles the paradigm and the four
+  branch points design would otherwise decide against a stack nobody has named.
+disable-model-invocation: true
 ---
 
 # yaait:tech — the stack, verified rather than recalled

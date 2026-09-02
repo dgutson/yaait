@@ -10,13 +10,8 @@ description: >
   symmetry-driven design, pattern-name-driven design), which a subagent that has not seen the
   conversation re-checks once the design is written. Runs AFTER /yaait:tech on a greenfield
   TTB and stops if .yaait/TECH.md is missing, because the stack settles the paradigm and most
-  of what this gate treats as expensive to reverse. Use whenever the user runs
-  /yaait:design, after /yaait:spec recommends a design phase, or when they say things like
-  "how should this be structured", "let's design this", "draw me the classes", "what
-  components do we need", "sequence diagram for this flow". Also suggest it before writing
-  code for anything with more than about three interacting components, a state machine,
-  concurrency, or a persisted format — those are where a wrong decomposition is expensive
-  to undo and cheap to prevent.
+  of what this gate treats as expensive to reverse.
+disable-model-invocation: true
 ---
 
 # yaait:design — the blueprint, before the code

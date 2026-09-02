@@ -5,14 +5,12 @@ description: >
   then review it with the user before it is accepted. Enforces yaait's hardest
   rule: if the increment touches existing code, the user must be able to say what that code
   does BEFORE it changes, which is what stops "I don't understand this, I'll just add a
-  flag" from generating debt. Traces the increment back to SPEC.md and DESIGN.md and applies
+  flag" from generating debt — which is also what makes it the gate for changes to existing
+  and legacy code. Traces the increment back to SPEC.md and DESIGN.md and applies
   the reconcile rule in both directions when they disagree with reality. Reviews against
   code-level smells and the patterns measured to have grown under AI assistance —
-  duplication, copy-paste, error masking, reimplementing what already exists. Use whenever
-  the user runs /yaait:code, or says things like "let's implement this", "write the next
-  piece", "build the board class", "add tests for this", "now code it". Also use it for
-  changes to existing or legacy code under yaait, which is where the understand-before-you-modify
-  rule does the most work.
+  duplication, copy-paste, error masking, reimplementing what already exists.
+disable-model-invocation: true
 ---
 
 # yaait:code — one increment, reviewed

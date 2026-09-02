@@ -136,9 +136,17 @@ fresh session and a separate directory (ROADMAP R-002).
 - **Renaming a root document breaks every installed copy**, because skills reference these
   paths at runtime. `DOCTRINE.md` → `METHODOLOGY.md` is the whole reason 0.3.0 exists. A
   rename needs a version bump and a note about what the old copy now points at.
-- **Frontmatter descriptions are the only trigger mechanism.** They are what decides whether a
-  skill is ever consulted; treat them as functional, not as blurb. They are hand-written and
-  unmeasured (R-004).
+- **yaait is opt-in, and the switch that makes it so is one line of frontmatter.** Every
+  skill carries `disable-model-invocation: true`, which means the user can type `/yaait:<name>`
+  and the model cannot invoke it — the skill does not even appear in the model's skill listing.
+  Never remove that line to "make the method easier to reach". Without it the descriptions are
+  the trigger, they fire on ordinary engineering phrasing ("now code it", "which framework"),
+  and yaait starts asserting itself in projects that never adopted it. That is what happened,
+  and it is the reason 0.21.0 exists.
+- **The descriptions are user-facing help, not triggers.** With invocation disabled they are
+  read by a human choosing from the `/` menu. Say what the gate produces and what it refuses to
+  let pass; do not reintroduce "use whenever the user says …" phrase lists or any "also suggest
+  it unprompted" clause. They are hand-written and unmeasured (R-004).
 - **`skills/code/references/review.md` is PROVISIONAL**, pending the Clean Code discussion
   tracked as R-001. Its §5 is an open agenda, not a gap to be tidied — do not settle those
   questions in passing, and keep the banner until R-001 lands.

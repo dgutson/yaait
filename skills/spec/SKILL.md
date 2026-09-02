@@ -8,13 +8,10 @@ description: >
   rather than transcribing what the user said: pushes back on requirements that cannot be
   tested, forces non-goals and acceptance criteria, names the bets the spec rests on instead of
   asking anyone to predict the future, separates inherited constraints from real decisions, and
-  finishes by recommending whether a design or tech phase is warranted against stated
-  criteria. Use whenever the user runs /yaait:spec, starts a new project or feature under
-  yaait, or says anything like "let's spec this out", "what should this do", "I want to
-  build X", "write the requirements", "let's start a new TTB". Also suggest it when someone
-  is about to have you write code for something whose requirements have only ever existed
-  in a chat message — that is precisely the case where invented requirements ship
-  undetected.
+  finishes by recommending whether a tech or design phase is warranted against stated
+  criteria. Installs yaait's standing rules in the project's CLAUDE.md, after confirming which
+  file that is.
+disable-model-invocation: true
 ---
 
 # yaait:spec — establish the thing to build
@@ -899,9 +896,24 @@ one nobody ruled on, `CHALLENGE` for anything you argued about.
 
 The spec only stays true if later sessions know it exists. It lives in the project's
 `CLAUDE.md`, so it loads in every future session — including sessions that never invoke this
-plugin.
+plugin. That reach is exactly why the file has to be the right one.
 
-**Read that file first and look for a `## yaait` heading.** A Maintenance TTB runs this gate
+**Establish which file that is, and say the path out loud before you write it.**
+`CLAUDE.md` is inherited by every subdirectory, so a block installed one level too high tells
+every sibling project it is developed under yaait, and nothing inside those projects reveals
+where the instruction came from. That is not a hypothetical: a copy left at a home directory
+made yaait assert itself in every unrelated project on the machine, for months, and the block
+it was asserting pointed at a `.yaait/` that did not exist.
+
+- **Take the git repository root** as the target. Never infer it from the working directory
+  alone — a session can start anywhere inside a tree, or outside one.
+- **Refuse an ancestor of unrelated projects.** A home directory, or any directory that holds
+  several repositories (`~/src`, `~/work`, `~/projects`), is never the answer. If the root you
+  found is one of those, stop and ask which project this spec governs.
+- **Ask before writing**, naming the exact path. This gate is opt-in; so is the standing rule
+  it leaves behind.
+
+**Then read that file and look for a `## yaait` heading.** A Maintenance TTB runs this gate
 in a project that already has the block, and an append that does not check installs the
 standing rules a second time. Duplicated instructions are not inert: a rule stated twice
 reads as a rule stated emphatically, and nothing tells the reader which copy is current.
@@ -913,6 +925,9 @@ reads as a rule stated emphatically, and nothing tells the reader which copy is 
 
 ```markdown
 ## yaait
+
+This block governs `<project name>` only, and lives at its root. If you are reading it from a
+directory that is not that project, it was installed in the wrong place — delete it.
 
 This project is developed under yaait. Its artifacts live in `.yaait/`:
 `SPEC.md` (the thing to build), `TECH.md` (the stack), `DESIGN.md` (optional), and an
@@ -951,8 +966,12 @@ reverse.
 - Append to `JOURNAL.md`; never edit or delete an entry.
 ```
 
-Say explicitly that you edited `CLAUDE.md`. A file that shapes every future session should
-never be a silent side effect.
+Fill in `<project name>` before writing; a scoping line that still says `<project name>`
+scopes nothing.
+
+Say explicitly that you edited `CLAUDE.md`, and give the path again. A file that shapes every
+future session should never be a silent side effect — not when you write it, and not
+afterwards.
 
 ## Step 10 — Recommend what comes next, against criteria
 

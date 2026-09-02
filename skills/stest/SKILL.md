@@ -6,12 +6,8 @@ description: >
   NOT tested. The user observes the critical path themselves rather than being told it
   passed, because a final gate where the LLM grades its own homework leaves the human
   accountable for something they never witnessed. Any acceptance criterion that turns out to
-  be untestable is treated as a spec defect and sent back to /yaait:spec. Use whenever the
-  user runs /yaait:stest, or says things like "does the whole thing work", "let's test it end
-  to end", "system test", "integration test", "are we done", "did we build what we said".
-  Also suggest it once the last increment from DESIGN.md is complete — that is the moment the
-  question "does this actually satisfy the spec" becomes answerable and nobody thinks to ask
-  it.
+  be untestable is treated as a spec defect and sent back to /yaait:spec.
+disable-model-invocation: true
 ---
 
 # yaait:stest — does it do what we said it would

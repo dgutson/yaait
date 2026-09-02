@@ -1,7 +1,7 @@
 {
   "name": "yaait",
   "description": "Yet Another AI Thing — a development methodology in six commands (spec, design, tech, code, stest, debt) for building software with an LLM without accumulating debt nobody can pay. An unattended LLM is a technical-debt reactor; yaait puts every decision the machine made in front of a human: it challenges you, teaches you enough to challenge it back, and lets nothing pass until someone has ruled on it or the record says nobody did.",
-  "version": "0.20.1",
+  "version": "0.21.0",
   "author": {
     "name": "Daniel Gutson"
   },
